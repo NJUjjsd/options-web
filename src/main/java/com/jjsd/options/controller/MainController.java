@@ -1,4 +1,4 @@
-package com.jjsd.options;
+package com.jjsd.options.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
