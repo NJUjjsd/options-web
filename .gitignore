@@ -22,3 +22,14 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+# dependencies
+/node_modules
+
+# production
+/dist
+
+# misc
+.DS_Store
+npm-debug.log*
+/src/main/resources/front-end/node_modules/
