@@ -15,6 +15,7 @@
 .content {
   flex: 1;
   display: flex;
+  background-color: #30343a;
 }
 
 .main {
@@ -22,9 +23,18 @@
   flex: 1 0 auto;
 }
 .footer {
+  font-size: 20px;
   text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .menu {
   float: right;
+  font-size: 30px;
+  background-color: #2A2D32;
+}
+
+.header {
+  background-color: #2A2D32;
 }
 

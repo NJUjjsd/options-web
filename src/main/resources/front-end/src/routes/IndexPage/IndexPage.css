@@ -1,29 +1,40 @@
 
-.normal {
-  font-family: Georgia, sans-serif;
-  margin-top: 3em;
-  text-align: center;
+.content {
+  background-color: #30343a;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: normal;
-  letter-spacing: -1px;
+  -webkit-text-fill-color: #ffffff;
+  text-align: center;
+  margin-top: 8%;
+  font-size: 60px;
 }
 
-.welcome {
-  height: 328px;
-  background: url(../../assets/yay.jpg) no-repeat center 0;
-  background-size: 388px 328px;
+.subtitle {
+  -webkit-text-fill-color: #ffffff;
+  text-align: center;
+  margin-top: 1%;
+  font-size: 30px;
 }
 
-.list {
-  font-size: 1.2em;
-  margin-top: 1.8em;
-  list-style: none;
-  line-height: 1.5em;
+.real_time_news {
+  height: 182px;
+  background: url("../../assets/real_time_news.svg") no-repeat center;
+  background-size: 182px 182px;
 }
 
-.list code {
-  background: #f7f7f7;
+.latest_market {
+  height: 182px;
+  background: url("../../assets/latest_market.svg") no-repeat center;
+  background-size: 182px 182px;
+}
+
+.start_invest {
+  height: 182px;
+  background: url("../../assets/start_invest.svg") no-repeat center;
+  background-size: 182px 182px;
+}
+
+.row {
+  margin-top: 8%;
 }

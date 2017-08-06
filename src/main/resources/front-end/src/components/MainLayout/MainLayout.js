@@ -10,7 +10,7 @@ const { Header, Footer } = Layout;
 function MainLayout({ children }) {
   return (
     <Layout className={styles.normal}>
-      <Header>
+      <Header className={styles.header}>
         <div className={styles.logo} />
         <Menu
           className={styles.menu}
@@ -30,7 +30,7 @@ function MainLayout({ children }) {
         </div>
       </div>
       <Footer className={styles.footer}>
-        Options ©2017 Created by Nju JJSD
+        Options ©2017 Created by NJU JJSD
       </Footer>
     </Layout>
   );
