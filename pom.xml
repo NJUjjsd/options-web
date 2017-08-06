@@ -33,7 +33,7 @@
 		</dependency>
 
 
-		<!-- 数据库配置-->
+		<!-- mysql数据库配置-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -90,6 +90,25 @@
 			<artifactId>spring-test</artifactId>
 			<version>4.3.5.RELEASE</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!--java爬虫框架-->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
+		<!--mongodb数据库配置-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver</artifactId>
+			<version>3.4.2</version>
 		</dependency>
 
 	</dependencies>
