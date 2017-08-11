@@ -3,21 +3,30 @@ package com.jjsd.options.util;
 import com.jjsd.options.entity.News;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by zhujing on 2017/8/5.
  */
+@Component
 public class CrawlerUtil {
 
 
-    private static final Map<String, String> stockCode;
+    public static final Map<String, String> stockCode;
+
+    public static final List<String> type;
 
     static{
+
         stockCode=new HashMap<>();
+        type=new ArrayList<>();
 
         stockCode.put("600000","浦发银行");
         stockCode.put("600016","民生银行");
@@ -74,6 +83,10 @@ public class CrawlerUtil {
         stockCode.put("601988","中国银行");
         stockCode.put("601989","中国重工");
 
+        type.add("新闻");
+        type.add("公告");
+        type.add("研报");
+
     }
 
 //    http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllBulletin/stockid/600000.phtml
@@ -82,45 +95,11 @@ public class CrawlerUtil {
 
 //    http://app.finance.ifeng.com/info/news_gsxw.php?code=sh600000
 
-//    http://app.finance.ifeng.com/info/news_gsxw.php?code=sh600000
+//    http://app.finance.ifeng.com/data/fund/jjgg.php?symbol=510050
 
+
+//http://finance.qq.com/fund/jjyw/list.htm
     public static void main(String[] args) {
-        Document doc=null;
-        try {
-
-//            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllNewsStock/symbol/sh600000.phtml").get();
-            doc = Jsoup.connect("http://finance.sina.com.cn/stock/s/2017-08-03/doc-ifyitamv4569554.shtml").get();
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//        新浪个股资讯list
-//        Element element=doc.select("div.datelist").first();
-//        Element ul=element.getElementsByTag("ul").first();
-//        Elements detail=ul.getElementsByTag("a");
-//        Iterator iterator=detail.iterator();
-//        while (iterator.hasNext()){
-//            Element e= (Element) iterator.next();
-//            System.out.println(e.text()+" "+e.attr("href"));
-//        }
-
-//        新浪公司公告detail
-//        Element element=doc.select("div#content").first();
-//        System.out.println(element.getElementsByTag("pre").first().text());
-
-
-//        新浪个股资讯detail
-//        Element element=doc.select("div.left").first();
-//        Elements elements=element.getElementsByTag("p");
-//        Iterator iterator=elements.iterator();
-//        while (iterator.hasNext()){
-//            Element e= (Element) iterator.next();
-//            System.out.println(e.text());
-//        }
-
 
 
 
@@ -128,35 +107,429 @@ public class CrawlerUtil {
     }
 
     //新浪个股新闻
-    private List<News> getNFromSina(String code){
-        return null;
+    public static List<News> getNFromSina(String code){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        List<News> list=new ArrayList<>();
+        Document doc=null;
+        Elements detail=null;
+        try {
+            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllNewsStock/symbol/sh"+code+".phtml").get();
+            Element element=doc.select("div.datelist").first();
+            Element ul=element.getElementsByTag("ul").first();
+            detail=ul.getElementsByTag("a");
+
+            Iterator iterator=detail.iterator();
+            while (iterator.hasNext()){
+
+                News news=new News();
+                Element e= (Element) iterator.next();
+                String title=e.text();
+                String url=e.attr("href");
+
+
+                if(url.indexOf("2017")<0){
+                    continue;
+                }
+                String time=url.substring(url.indexOf("2017"),url.indexOf("2017")+10);
+
+                if (time.compareTo("2017-07-00")<0){
+                    continue;
+                }
+                news.setTitle(title);
+                news.setTop(kewordCheck(title));
+                news.setUrl(url);
+                news.setCode(stockCode.get(code)+code);
+                news.setType("新闻");
+                news.setReadNum(0);
+                news.setDate( sdf.parse(time));
+
+                list.add(news);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        Iterator it=list.iterator();
+        while (it.hasNext()){
+            News news= (News) it.next();
+            String text="";
+            Document doc1=null;
+            Elements elements=null;
+            try {
+                doc1 = Jsoup.connect(news.getUrl()).get();
+                Element element1=doc1.select("div.left").first();
+                elements=element1.getElementsByTag("p");
+
+                Iterator iterator1=elements.iterator();
+                while (iterator1.hasNext()){
+                    Element e= (Element) iterator1.next();
+                    text+=e.text()+"\r\n";
+                }
+
+                news.setText(text.split("进入【新浪财经股吧】讨论")[0]);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(news.getUrl());
+                continue;
+            }
+
+        }
+        return list;
+
+
 
     }
 
     //新浪个股公告
-    private List<News> getRFromSina(String code){
-        return null;
+    public static List<News> getRFromSina(String code){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        List<News> list=new ArrayList<>();
+        Document doc=null;
+        Elements detail=null;
+        try {
+            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllBulletin/stockid/"+code+".phtml").get();
+            Element element=doc.select("div.datelist").first();
+            Element ul=element.getElementsByTag("ul").first();
+            detail=ul.getElementsByTag("a");
+            Iterator iterator=detail.iterator();
+            while (iterator.hasNext()){
+
+                News news=new News();
+                Element e= (Element) iterator.next();
+                String title=e.text();
+                String url="http://vip.stock.finance.sina.com.cn"+e.attr("href");
+
+
+                news.setTitle(title);
+                news.setTop(kewordCheck(title));
+                news.setUrl(url);
+                news.setCode(stockCode.get(code)+code);
+                news.setType("公告");
+                news.setReadNum(0);
+
+                list.add(news);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Iterator it=list.iterator();
+        while (it.hasNext()){
+            News news= (News) it.next();
+            String text="";
+            String time="";
+            Document doc1=null;
+            Element element1=null;
+            Element element2=null;
+
+            try {
+                doc1 = Jsoup.connect(news.getUrl()).get();
+                element1=doc1.select("div#content").first().getElementsByTag("pre").first();
+                element2=doc1.select("[style=text-align:center;height:12px;]").first();
+
+                text=element1.text();
+                time=element2.text().substring(element2.text().indexOf(":")+1);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(news.getUrl());
+                continue;
+            }
+
+            news.setText(text);
+            if(time.compareTo("2017-07-00")<0){
+                it.remove();
+                continue;
+            }else {
+                try {
+                    news.setDate(sdf.parse(time));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return list;
 
     }
 
     //新浪个股研报
-    private List<News> getAFromSina(String code){
-        return null;
+    public static List<News> getAFromSina(String code){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        List<News> list=new ArrayList<>();
+        Document doc=null;
+        Elements detail=null;
+        try {
+            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/q/go.php/vReport_List/kind/search/index.phtml?symbol="+code+"&t1=all").get();
+            detail=doc.select("td.tal.f14");
+
+            Iterator iterator=detail.iterator();
+            while (iterator.hasNext()){
+                Element e= (Element) iterator.next();
+                String time=e.nextElementSibling().nextElementSibling().text();
+
+                e=e.getElementsByTag("a").first();
+                String title=e.attr("title");
+                String url=e.attr("href");
+                if(time.compareTo("2017-07-00")<0){
+                    continue;
+                }
+
+                News news=new News();
+                news.setTitle(title);
+                news.setTop(kewordCheck(title));
+                news.setUrl(url);
+                news.setCode(stockCode.get(code)+code);
+                news.setType("研报");
+                news.setReadNum(0);
+                news.setDate( sdf.parse(time));
+                list.add(news);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Iterator it=list.iterator();
+        while (it.hasNext()){
+            News news= (News) it.next();
+            String text="";
+            Document doc1=null;
+            Elements elements=null;
+            try {
+                doc1 = Jsoup.connect(news.getUrl()).get();
+                Element element1=doc1.select("div.blk_container").first().getElementsByTag("p").first();
+                text=element1.text().replace(" ","\r\n");
+                news.setText(text);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(news.getUrl());
+                continue;
+            }
+
+
+        }
+        return list;
 
     }
-
 
     //凤凰个股新闻
-    private List<News> getNFromIfeng(String code){
-        return null;
+    public static List<News> getNFromIfeng(String code){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        List<News> list=new ArrayList<>();
+        Document doc=null;
+        Elements detail=null;
+        try {
+            doc = Jsoup.connect("http://app.finance.ifeng.com/info/news_gsxw.php?code=sh"+code).get();
+            detail=doc.select("span#title");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Iterator iterator=detail.iterator();
+        while (iterator.hasNext()){
+            Element e= (Element) iterator.next();
+            Elements elements=e.getElementsByTag("a");
+            String time=elements.first().attr("name");
+            String url=elements.last().attr("href");
+            String title=elements.last().text();
+            if(time.length()<10||time.compareTo("2017-07-00")<0){
+                continue;
+            }
+
+            News news=new News();
+            news.setTitle(title);
+            news.setTop(kewordCheck(title));
+            news.setUrl(url);
+            news.setCode(stockCode.get(code)+code);
+            news.setType("新闻");
+            news.setReadNum(0);
+            try {
+                news.setDate( sdf.parse(time));
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+                continue;
+            }
+            list.add(news);
+
+        }
+
+        Iterator it=list.iterator();
+        while (it.hasNext()){
+            News news= (News) it.next();
+            String text="";
+            Document doc1=null;
+            Elements elements=null;
+            try {
+                doc1 = Jsoup.connect(news.getUrl()).get();
+                Element element1=doc1.select("div#main_content").first();
+                elements=element1.getElementsByTag("p");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(news.getUrl());
+                continue;
+            }
+
+            Iterator iterator1=elements.iterator();
+            while (iterator1.hasNext()){
+                Element e= (Element) iterator1.next();
+                text+=e.text()+"\\n";
+            }
+            news.setText(text);
+
+        }
+        return list;
+
     }
 
-    //东方财富网个股研报
-    private List<News> getAFromEastmoney(String code){
-        return  null;
+    //上证50etf公告
+    public static List<News> getROfEFromHexun(){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        List<News> list=new ArrayList<>();
+        Document doc=null;
+        Elements detail=null;
+        try {
+            doc = Jsoup.connect("http://jingzhi.funds.hexun.com/fundsreport/list.aspx?fundcode=510050").userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+            detail=doc.select("div#newsList").first().getElementsByTag("ul").first().getElementsByTag("li");
+            Iterator iterator=detail.iterator();
+            while (iterator.hasNext()){
+                Element element= (Element) iterator.next();
+
+                String time=element.getElementsByTag("span").first().text().substring(1,11);
+                String title=element.getElementsByTag("a").first().text();
+                String url=element.getElementsByTag("a").first().attr("href");
+
+                if(time.compareTo("2017-07-00")<0){
+                    continue;
+                }
+
+                News news=new News();
+                news.setTitle(title);
+                news.setTop(kewordCheck(title));
+                news.setUrl(url);
+                news.setCode("上证50ETF510050");
+                news.setType("公告");
+                news.setReadNum(0);
+                news.setDate(sdf.parse(time));
+                list.add(news);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Iterator it=list.iterator();
+        while (it.hasNext()){
+            News news= (News) it.next();
+            String text="";
+            Document doc1=null;
+            Elements elements=null;
+            try {
+                doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+                Element element1=doc1.select("div#mainright").first().getElementsByTag("div").first().getElementsByTag("pre").first();
+                text=element1.text();
+                news.setText(text);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(news.getUrl());
+                continue;
+            }
+
+
+        }
+        return list;
+    }
+
+    //基金要闻
+    public static List<News> getNofEFromTencent(){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        List<News> list=new ArrayList<>();
+        Document doc=null;
+        try {
+            doc = Jsoup.connect("http://finance.qq.com/fund/jjyw/list.htm").userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+
+            Elements elements=doc.select("div#tablelsw").first().getElementsByTag("table").first().getElementsByTag("tbody").first().getElementsByTag("tr");
+
+            Iterator iterator=elements.iterator();
+            while (iterator.hasNext()){
+                Element element= (Element) iterator.next();
+
+                String title=element.getElementsByTag("td").first().getElementsByTag("a").first().text();
+                String url="http://finance.qq.com/"+element.getElementsByTag("td").first().getElementsByTag("a").first().attr("href");
+                String time=sdf.format(new Date()).substring(0,4)+"-"+element.getElementsByTag("td").last().text().substring(1,6);
+                if(time.compareTo("2017-07-00")<0){
+                    continue;
+                }
+
+
+                News news=new News();
+                news.setTitle(title);
+                news.setTop(kewordCheck(title));
+                news.setUrl(url);
+                news.setCode("上证50ETF510050");
+                news.setType("新闻");
+                news.setReadNum(0);
+                news.setDate(sdf.parse(time));
+                list.add(news);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Iterator it=list.iterator();
+        while (it.hasNext()){
+            News news= (News) it.next();
+            String text="";
+            Document doc1=null;
+            try {
+                doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+                Element element1=doc1.select("div#Cnt-Main-Article-QQ").first();
+                text=element1.text().replace(" ","\r\n");
+                news.setText(text);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(news.getUrl());
+                continue;
+            }
+        }
+        return list;
+
+
     }
 
 
+    private static boolean kewordCheck(String text){
+        String [] keyword={
+                "停牌",
+                "复牌",
+                "重组",
+                "合并",
+                "破产"
+        };
+        for (int i = 0; i <keyword.length; i++) {
+            if(text.indexOf(keyword[i])>0){
+                return true;
+            }
 
+        }
+        return false;
+    }
+
+
+    private static boolean timeCheck(String time){
+        return false;
+    }
+
+    @Scheduled(cron="0 0/30 8-16 * * ?")
+    private void update(){
+
+    }
 
 }
