@@ -83,28 +83,15 @@ public class CrawlerUtil {
         stockCode.put("601988","中国银行");
         stockCode.put("601989","中国重工");
 
+
+        stockCode.put("510050","上证50ETF");
+
         type.add("新闻");
         type.add("公告");
         type.add("研报");
 
     }
 
-//    http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllBulletin/stockid/600000.phtml
-//    http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllNewsStock/symbol/sh600000.phtml
-//    http://vip.stock.finance.sina.com.cn/q/go.php/vReport_List/kind/search/index.phtml?symbol=600000&t1=all
-
-//    http://app.finance.ifeng.com/info/news_gsxw.php?code=sh600000
-
-//    http://app.finance.ifeng.com/data/fund/jjgg.php?symbol=510050
-
-
-//http://finance.qq.com/fund/jjyw/list.htm
-    public static void main(String[] args) {
-
-
-
-
-    }
 
     //新浪个股新闻
     public static List<News> getNFromSina(String code){
@@ -527,6 +514,9 @@ public class CrawlerUtil {
         return false;
     }
 
+    /**
+     * 定时任务
+     */
     @Scheduled(cron="0 0/30 8-16 * * ?")
     private void update(){
 

@@ -13,9 +13,29 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NewsRepository extends MongoRepository<News, String> {
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     News findById(String id);
 
 
+    /**
+     *
+     * @param code
+     * @param type
+     * @param pageable
+     * @return
+     */
     Page<News> findByCodeAndType(String code,String type, Pageable pageable);
+
+    /**
+     *
+     * @param title
+     * @param pageable
+     * @return
+     */
+    Page<News> findByTitleLike(String title,Pageable pageable);
 
 }

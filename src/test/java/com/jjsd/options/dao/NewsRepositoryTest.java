@@ -1,20 +1,16 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.entity.News;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Iterator;
-
 /**
- * Created by zhujing on 2017/8/5.
+ * Created by zhujing on 2017/8/11.
  */
 
 @RunWith(SpringRunner.class)
@@ -24,37 +20,29 @@ public class NewsRepositoryTest {
     @Autowired
     private NewsRepository newsRepository;
 
+
     @Test
+    public void findById() throws Exception {
+        Assert.assertEquals(newsRepository.findById("5989905c5243010bdf3d56df").getTitle(),"中国建筑:上半年新签合同额快速增长,基建、海外业务持续耀眼");
+        Assert.assertEquals(newsRepository.findById(null),null);
+        Assert.assertEquals(newsRepository.findById("hahah"),null);
+    }
 
-    public void go(){
+    @Test
+    public void findByCodeAndType() throws Exception {
+        Assert.assertEquals(newsRepository.findByCodeAndType("浦发银行600000","haha",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),0);
+        Assert.assertEquals(newsRepository.findByCodeAndType("10","新闻",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),0);
+        Assert.assertEquals(newsRepository.findByCodeAndType("10","haha",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getSize(),10);
+        Assert.assertEquals(newsRepository.findByCodeAndType("浦发银行600000","新闻",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),4);
 
+    }
 
-
-//        598bfeb972796025c8da69a6
-//        newsRepository.save()
-
-        Pageable mp=new PageRequest(0,5,new Sort(Sort.Direction.DESC,"isTop").and(new Sort(Sort.Direction.ASC,"date")));
-
-        Page p=newsRepository.findByCodeAndType("上证50ETF510050","新闻",mp);
-        System.out.println(p.getNumber());
-
-        System.out.println(p.getSize());
-        System.out.println(p.getTotalPages());
-
-        Iterator iterator=p.iterator();
-        while (iterator.hasNext()){
-            News news= (News) iterator.next();
-            System.out.println(news.getTitle());
-            System.out.println(news.getDate().toString());
-        }
-
-
-
-
-
+    @Test
+    public void findByTitleLike() throws Exception {
+        Assert.assertEquals(newsRepository.findByTitleLike("乐视",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),9);
+        Assert.assertEquals(newsRepository.findByTitleLike("haha",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),0);
 
 
     }
 
 }
-

@@ -12,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * Created by zhujing on 2017/8/9.
  */
@@ -26,18 +24,23 @@ public class NewServiceImpl implements NewsService {
 
 
     @Override
-    public List<News> search(String keyword) {
-        return null;
+    public Page<News> search(int pageNum, int pageSize,String keyword) throws ParameterException {
+        if(pageNum<0||pageSize<0){
+            throw new ParameterException("错误传参");
+        }
+
+        Pageable mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"date"));
+        Page result=newsRepository.findByTitleLike(keyword,mp);
+        return result;
     }
 
     @Override
     public Page<News> classify(int pageNum, int pageSize, String code, String type, boolean isDescByReadNum) throws ParameterException {
 
         if(pageNum<0||pageSize<0|| !CrawlerUtil.stockCode.containsKey(code)||!CrawlerUtil.type.contains(type)){
-            throw new ParameterException("分类方法错误传参");
+            throw new ParameterException("错误传参");
         }
 
-        Page result=null;
         Pageable mp=null;
         if(isDescByReadNum){
             mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"isTop").and(new Sort(Sort.Direction.DESC,"readNum")).and(new Sort(Sort.Direction.DESC,"date")));
@@ -46,7 +49,7 @@ public class NewServiceImpl implements NewsService {
             mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"readNum").and(new Sort(Sort.Direction.DESC,"date")));
         }
 
-        result=newsRepository.findByCodeAndType(code,type,mp);
+        Page result=newsRepository.findByCodeAndType(CrawlerUtil.stockCode.get(code)+code,type,mp);
         return result;
     }
 
