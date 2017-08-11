@@ -17,18 +17,12 @@ function MainLayout({ children }) {
           theme="dark"
           mode="horizontal"
           defaultSelectedKeys={[]}
-          style={{ lineHeight: '64px' }}
         >
-          <Menu.Item key="login">登录</Menu.Item>
-          <Menu.Item key="seperate">/</Menu.Item>
-          <Menu.Item key="register">注册</Menu.Item>
+          <Menu.Item key="login">首页</Menu.Item>
+          <Menu.Item key="register">登录／注册</Menu.Item>
         </Menu>
       </Header>
-      <div className={styles.content}>
-        <div className={styles.main}>
-          {children}
-        </div>
-      </div>
+      {children}
       <Footer className={styles.footer}>
         Options ©2017 Created by NJU JJSD
       </Footer>

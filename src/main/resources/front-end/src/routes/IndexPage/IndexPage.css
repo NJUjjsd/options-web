@@ -1,6 +1,12 @@
 
 .content {
+  flex: 1;
+  display: flex;
   background-color: #30343a;
+}
+.main {
+  padding: 0 8px;
+  flex: 1 0 auto;
 }
 
 .title {
