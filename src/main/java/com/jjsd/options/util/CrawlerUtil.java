@@ -1,10 +1,15 @@
 package com.jjsd.options.util;
 
+import com.jjsd.options.dao.NewsRepository;
 import com.jjsd.options.entity.News;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +23,9 @@ import java.util.*;
 @Component
 public class CrawlerUtil {
 
-
+    @Autowired
+    private NewsRepository newsRepository;
+    
     public static final Map<String, String> stockCode;
 
     public static final List<String> type;
@@ -94,7 +101,7 @@ public class CrawlerUtil {
 
 
     //新浪个股新闻
-    public static List<News> getNFromSina(String code){
+    private List<News> getNFromSina(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
         Document doc=null;
@@ -119,7 +126,7 @@ public class CrawlerUtil {
                 }
                 String time=url.substring(url.indexOf("2017"),url.indexOf("2017")+10);
 
-                if (time.compareTo("2017-07-00")<0){
+                if (time.compareTo(this.lastTime(code,"新闻"))<0){
                     continue;
                 }
                 news.setTitle(title);
@@ -172,7 +179,7 @@ public class CrawlerUtil {
     }
 
     //新浪个股公告
-    public static List<News> getRFromSina(String code){
+    private List<News> getRFromSina(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
         Document doc=null;
@@ -229,7 +236,7 @@ public class CrawlerUtil {
             }
 
             news.setText(text);
-            if(time.compareTo("2017-07-00")<0){
+            if(time.compareTo(this.lastTime(code,"公告"))<0){
                 it.remove();
                 continue;
             }else {
@@ -246,7 +253,7 @@ public class CrawlerUtil {
     }
 
     //新浪个股研报
-    public static List<News> getAFromSina(String code){
+    private List<News> getAFromSina(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
         Document doc=null;
@@ -263,7 +270,7 @@ public class CrawlerUtil {
                 e=e.getElementsByTag("a").first();
                 String title=e.attr("title");
                 String url=e.attr("href");
-                if(time.compareTo("2017-07-00")<0){
+                if(time.compareTo(this.lastTime(code,"研报"))<0){
                     continue;
                 }
 
@@ -307,7 +314,7 @@ public class CrawlerUtil {
     }
 
     //凤凰个股新闻
-    public static List<News> getNFromIfeng(String code){
+    private List<News> getNFromIfeng(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
         Document doc=null;
@@ -326,7 +333,7 @@ public class CrawlerUtil {
             String time=elements.first().attr("name");
             String url=elements.last().attr("href");
             String title=elements.last().text();
-            if(time.length()<10||time.compareTo("2017-07-00")<0){
+            if(time.length()<10||time.compareTo(this.lastTime(code,"新闻"))<0){
                 continue;
             }
 
@@ -376,7 +383,7 @@ public class CrawlerUtil {
     }
 
     //上证50etf公告
-    public static List<News> getROfEFromHexun(){
+    private List<News> getROfEFromHexun(){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
         Document doc=null;
@@ -392,7 +399,7 @@ public class CrawlerUtil {
                 String title=element.getElementsByTag("a").first().text();
                 String url=element.getElementsByTag("a").first().attr("href");
 
-                if(time.compareTo("2017-07-00")<0){
+                if(time.compareTo(this.lastTime("510050","公告"))<0){
                     continue;
                 }
 
@@ -434,7 +441,7 @@ public class CrawlerUtil {
     }
 
     //基金要闻
-    public static List<News> getNofEFromTencent(){
+    private List<News> getNofEFromTencent(){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
         Document doc=null;
@@ -450,7 +457,7 @@ public class CrawlerUtil {
                 String title=element.getElementsByTag("td").first().getElementsByTag("a").first().text();
                 String url="http://finance.qq.com/"+element.getElementsByTag("td").first().getElementsByTag("a").first().attr("href");
                 String time=sdf.format(new Date()).substring(0,4)+"-"+element.getElementsByTag("td").last().text().substring(1,6);
-                if(time.compareTo("2017-07-00")<0){
+                if(time.compareTo(this.lastTime("510050","新闻"))<0){
                     continue;
                 }
 
@@ -492,7 +499,7 @@ public class CrawlerUtil {
     }
 
 
-    private static boolean kewordCheck(String text){
+    private boolean kewordCheck(String text){
         String [] keyword={
                 "停牌",
                 "复牌",
@@ -510,8 +517,9 @@ public class CrawlerUtil {
     }
 
 
-    private static boolean timeCheck(String time){
-        return false;
+    private String lastTime(String code, String type){
+        Page p=newsRepository.findByCodeAndType(CrawlerUtil.stockCode.get(code)+code,type,new PageRequest(0,1,new Sort(Sort.Direction.DESC,"date")));
+        return ((News)p.getContent().get(0)).getDateToString();
     }
 
     /**
@@ -519,7 +527,26 @@ public class CrawlerUtil {
      */
     @Scheduled(cron="0 0/30 8-16 * * ?")
     private void update(){
+        for (String key:CrawlerUtil.stockCode.keySet()){
+
+            if (key.equals("510050")){
+                newsRepository.save(getROfEFromHexun());
+                newsRepository.save(getNofEFromTencent());
+
+            }else {
+                newsRepository.save(getRFromSina(key));
+                newsRepository.save(getAFromSina(key));
+                newsRepository.save(getNFromSina(key));
+                newsRepository.save(getNFromIfeng(key));
+
+            }
+
+
+        }
+
 
     }
+
+
 
 }

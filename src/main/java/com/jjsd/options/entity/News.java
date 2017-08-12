@@ -3,6 +3,7 @@ package com.jjsd.options.entity;
 
 import org.springframework.data.annotation.Id;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -98,6 +99,11 @@ public class News{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getDateToString(){
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        return sdf.format(this.date);
     }
 
 
