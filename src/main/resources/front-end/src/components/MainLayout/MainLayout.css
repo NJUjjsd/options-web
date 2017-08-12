@@ -1,11 +1,8 @@
 .logo {
-  width: 120px;
-  height: 30px;
-  background: #333;
-  border-radius: 6px;
   float: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  font-size: 20px;
+  color: white;
+  height: inherit;
 }
 .normal {
   display: flex;
@@ -23,11 +20,12 @@
   float: right;
   font-size: 15px;
   background-color: #2A2D32;
-  height: 60px;
+  margin-top: 10px;
+  height: inherit;
 }
 
 .header {
   background-color: #2A2D32;
-  height: 5%;
+  border-bottom-color: #2A2D32;
 }
 

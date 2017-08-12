@@ -6,7 +6,29 @@
 .main {
   flex: 1 0 auto;
 }
-.separate {
-  margin-top: 3%;
+.etf_guide_item {
+  color: #2A2D32;
 }
+.etf_guide_item_separate {
+  margin-right: 50px;
+  margin-left: 50px;
+  color: #a3a3a3;
+}
+.etf_guide {
+  margin-top: 3%;
+  font-size: 20px;
+}
+.select {
+  margin-left: 60px;
+  font-size: 15px;
+  color: #4685A1;
+}
+.news {
+  margin-top: 2%;
+}
+.page {
+  margin-top: 2%;
+  text-align: center;
+}
+
 

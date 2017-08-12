@@ -1,0 +1,16 @@
+.news_head {
+  font-size: 20px;
+  color: #0000C6;
+}
+.news_info {
+  font-size: 15px;
+  color: #a3a3a3;
+}
+.news_brief {
+  font-size: 15px;
+  color: black;
+}
+.news_separate {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}

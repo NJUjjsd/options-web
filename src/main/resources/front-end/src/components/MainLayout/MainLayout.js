@@ -11,7 +11,10 @@ function MainLayout({ children }) {
   return (
     <Layout className={styles.normal}>
       <Header className={styles.header}>
-        <div className={styles.logo} />
+        <div className={styles.logo}>
+          <span>LoGo</span>
+          <span>ETF－ETF期权期现套利交易系统</span>
+        </div>
         <Menu
           className={styles.menu}
           theme="dark"
