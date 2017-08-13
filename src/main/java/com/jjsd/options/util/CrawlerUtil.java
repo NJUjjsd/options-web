@@ -25,13 +25,12 @@ public class CrawlerUtil {
 
     @Autowired
     private NewsRepository newsRepository;
-    
+
     public static final Map<String, String> stockCode;
 
     public static final List<String> type;
 
     static{
-
         stockCode=new HashMap<>();
         type=new ArrayList<>();
 
@@ -149,7 +148,7 @@ public class CrawlerUtil {
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
-            String text="";
+            StringBuilder text=new StringBuilder();
             Document doc1=null;
             Elements elements=null;
             try {
@@ -160,10 +159,10 @@ public class CrawlerUtil {
                 Iterator iterator1=elements.iterator();
                 while (iterator1.hasNext()){
                     Element e= (Element) iterator1.next();
-                    text+=e.text()+"\r\n";
+                    text.append(e.text()+"\r\n");
                 }
 
-                news.setText(text.split("进入【新浪财经股吧】讨论")[0]);
+                news.setText(text.toString().split("进入【新浪财经股吧】讨论")[0]);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -322,42 +321,39 @@ public class CrawlerUtil {
         try {
             doc = Jsoup.connect("http://app.finance.ifeng.com/info/news_gsxw.php?code=sh"+code).get();
             detail=doc.select("span#title");
+
+            Iterator iterator=detail.iterator();
+            while (iterator.hasNext()){
+                Element e= (Element) iterator.next();
+                Elements elements=e.getElementsByTag("a");
+                String time=elements.first().attr("name");
+                String url=elements.last().attr("href");
+                String title=elements.last().text();
+                if(time.length()<10||time.compareTo(this.lastTime(code,"新闻"))<0){
+                    continue;
+                }
+
+                News news=new News();
+                news.setTitle(title);
+                news.setTop(kewordCheck(title));
+                news.setUrl(url);
+                news.setCode(stockCode.get(code)+code);
+                news.setType("新闻");
+                news.setReadNum(0);
+                news.setDate( sdf.parse(time));
+                list.add(news);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Iterator iterator=detail.iterator();
-        while (iterator.hasNext()){
-            Element e= (Element) iterator.next();
-            Elements elements=e.getElementsByTag("a");
-            String time=elements.first().attr("name");
-            String url=elements.last().attr("href");
-            String title=elements.last().text();
-            if(time.length()<10||time.compareTo(this.lastTime(code,"新闻"))<0){
-                continue;
-            }
 
-            News news=new News();
-            news.setTitle(title);
-            news.setTop(kewordCheck(title));
-            news.setUrl(url);
-            news.setCode(stockCode.get(code)+code);
-            news.setType("新闻");
-            news.setReadNum(0);
-            try {
-                news.setDate( sdf.parse(time));
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-                continue;
-            }
-            list.add(news);
-
-        }
 
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
-            String text="";
+            StringBuilder text=new StringBuilder();
             Document doc1=null;
             Elements elements=null;
             try {
@@ -373,9 +369,9 @@ public class CrawlerUtil {
             Iterator iterator1=elements.iterator();
             while (iterator1.hasNext()){
                 Element e= (Element) iterator1.next();
-                text+=e.text()+"\\n";
+                text.append(e.text()+"\\n");
             }
-            news.setText(text);
+            news.setText(text.toString());
 
         }
         return list;

@@ -10,27 +10,41 @@ import java.util.Date;
  * Created by zhujing on 2017/8/5.
  */
 
+/**
+ *
+ *
+ *
+ *
+ */
 public class News{
 
+
+    //id唯一标识
     @Id
     private String id;
 
+    //文章标题
     private String title;
 
+    //文章内容
     private String text;
 
-    //
+    //日期，调用getDateToString，方法获得"yyyy-mm-dd"
     private Date date;
 
+    //原文链接
     private String url;
 
-//    @Indexed
+    //阅读数量（我们自己网站的）
     private int readNum;
 
+    //股票代码，两种：上证50ETF510050和浦发银行600000（其他49只个股类似）
     private String code;
 
+    //新闻种类，三种：新闻、公告、研报
     private String type;
 
+    //是否置顶
     private boolean isTop;
 
     public boolean isTop() {
