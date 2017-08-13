@@ -22,7 +22,9 @@ function IndexPage() {
               <div className={styles.latest_market} />
             </Col>
             <Col offset={1} span={4}>
-              <div className={styles.start_invest} />
+              <Link to="/newsDetails">
+                <div className={styles.start_invest} />
+              </Link>
             </Col>
           </Row>
         </div>

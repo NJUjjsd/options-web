@@ -1,0 +1,17 @@
+.cur_location{
+  font-weight: 500;
+  font-size: 20px;
+  margin-top: 54px;
+}
+.original_link{
+  height: 18px;
+  background: url("../../assets/original_link.svg") no-repeat right;
+  margin: 37px 300px auto;
+}
+.short_content{
+  height: 900px;
+  background-color: white;
+}
+.long_content{
+  background-color: white;
+}

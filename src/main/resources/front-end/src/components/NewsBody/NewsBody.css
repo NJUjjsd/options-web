@@ -1,0 +1,28 @@
+.news_title .news_heading {
+  font-weight: bold;
+  color: #0000C6;
+  font-size: 30px;
+  margin-top: 54px;
+}
+.news_title .news_source{
+  font-weight: normal;
+  color: #000000;
+  opacity: 0.5;
+  font-size: 15px;
+  margin-top: 27px;
+}
+.below_title{
+  color: #979797;
+  margin-top: 19.27px;
+  opacity: 0.5;
+}
+.news_article {
+  margin-top: 18.66px;
+}
+.news_article div{
+  font-weight:normal;
+  color: #000;
+  font-size: 18px;
+  text-indent: 36px;
+  margin-bottom: 20px;
+}
