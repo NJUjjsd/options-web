@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
 import { Row, Col } from 'antd';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import Separate from '../../components/Separate/Separate';
@@ -19,9 +18,8 @@ function NewsDetails() {
         </Row>
         <Separate />
         <NewsBody />
-        <Link>
-          <div className={styles.original_link} />
-        </Link>
+        <a href="https://www.baidu.com" target="view_window" className="">
+          <div className={styles.original_link} /></a>
       </div>
     </MainLayout>
   );

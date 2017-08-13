@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Layout, Menu } from 'antd';
+import { Link } from 'dva/router';
 import styles from './MainLayout.css';
 
 const { Header, Footer } = Layout;
@@ -21,7 +22,9 @@ function MainLayout({ children }) {
           mode="horizontal"
           defaultSelectedKeys={[]}
         >
-          <Menu.Item key="login">首页</Menu.Item>
+          <Menu.Item key="login">
+            <Link to="/">首页</Link>
+          </Menu.Item>
           <Menu.Item key="register">登录／注册</Menu.Item>
         </Menu>
       </Header>
