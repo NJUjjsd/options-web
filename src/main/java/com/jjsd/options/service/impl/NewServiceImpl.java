@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * Created by zhujing on 2017/8/9.
  */
 
-@Service
+//@Service
 public class NewServiceImpl implements NewsService {
 
     @Autowired

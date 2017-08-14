@@ -19,10 +19,19 @@
 .news_article {
   margin-top: 18.66px;
 }
-.news_article div{
+.news_article p{
   font-weight:normal;
   color: #000;
   font-size: 18px;
   text-indent: 36px;
   margin-bottom: 20px;
+}
+.original{
+  margin:37px 14px 36px auto;
+  width: 102px;
+  float: right;
+}
+.original_link{
+  height: 18px;
+  background: url("../../assets/original_link.svg") no-repeat right;
 }

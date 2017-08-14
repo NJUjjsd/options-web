@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by john on 2017/8/13.
  */
-//@Service
+@Service
 public class NewsServiceStub implements NewsService{
     @Override
     public Page<News> search(int pageNum, int pageSize, String keyword) throws ParameterException {
