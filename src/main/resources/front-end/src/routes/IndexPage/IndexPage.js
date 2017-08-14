@@ -14,7 +14,7 @@ function IndexPage() {
           <div className={styles.subtitle}>模型组合，优化方案，实时追踪</div>
           <Row className={styles.row}>
             <Col offset={5} span={4}>
-              <Link to="/real_time_news">
+              <Link to="/news">
                 <div className={styles.real_time_news} />
               </Link>
             </Col>
