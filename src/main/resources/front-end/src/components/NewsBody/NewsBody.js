@@ -7,6 +7,11 @@ import { Row, Col } from 'antd';
 import styles from './NewsBody.css';
 
 function NewsBody(props) {
+  const paragraphList = props.paragraphs.split('\r\n   \r\n');
+  const finalParagraphList = [];
+  for (let i = 0; i < paragraphList.length; i += 1) {
+    finalParagraphList[i] = <p>{paragraphList[i]}</p>;
+  }
   return (
     <Row>
       <Col offset={4} span={15}>
@@ -16,7 +21,7 @@ function NewsBody(props) {
         </div>
         <hr className={styles.below_title} />
         <div className={styles.news_article}>
-          <p>{props.paragraphs}</p>
+          {finalParagraphList}
         </div>
         <a href={props.original} rel="noopener noreferrer" target="_blank" className={styles.original}>
           <div className={styles.original_link} /></a>
