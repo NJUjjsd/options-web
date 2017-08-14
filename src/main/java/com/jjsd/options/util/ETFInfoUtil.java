@@ -1,15 +1,24 @@
 package com.jjsd.options.util;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomNodeList;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.jjsd.options.entity.ETFBaseInfo;
 import com.jjsd.options.entity.ETFInfo;
 import com.mongodb.util.JSON;
 import net.sf.json.JSONObject;
+import net.sourceforge.htmlunit.cyberneko.HTMLElements;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
@@ -18,7 +27,20 @@ import java.net.URL;
 public class ETFInfoUtil {
     static String headUrl = "http://finance.sina.com.cn/fund/quotes/";
     static String endUrl="/bc.shtml";
-
+    //etf期权网址
+    static String optionUrl="http://www.sse.com.cn/assortment/options/price/";
+    //查看有那几个月合约
+    static String monthUrl = "http://stock.finance.sina.com.cn/futures/api/openapi.php/StockOptionService.getStockName";
+    //查看合约剩余日期
+    static String remainedDayUrl="http://stock.finance.sina.com.cn/futures/api/openapi.php/StockOptionService.getRemainderDay?date=";
+    //查看某月份到期的看涨期权代码列表
+    static String upListUrl = "http://hq.sinajs.cn/list=OP_UP_";
+    //查看某月份到期的看跌期权代码列表
+    static String downListUrl = "http://hq.sinajs.cn/list=OP_DOWN_";
+    //根据合约代码获得实时期权行情
+    static String nowInfoUrl="http://hq.sinajs.cn/list=CON_OP_";
+    //50etf实时行情
+    static String etfNowInfoUrl="http://hq.sinajs.cn/list=sh510050";
     /**
      *
      * @param code 股票代码
@@ -113,7 +135,33 @@ public class ETFInfoUtil {
         System.out.println(valueText);
         return valueText;
     }
+
+    /**
+     * 查询url获得信息
+     * @param url
+     * @return
+     */
+    private static String queryUrl(String url){
+        try {
+            URL netUrl = new URL(url);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(netUrl.openConnection().getInputStream()));
+
+            JSONObject object = JSONObject.fromObject(reader.readLine());
+
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+    /**
+     * 爬取etf期权信息（表格）
+     */
+    public static void getOptionInfo(){
+
+
+    }
     public static void main(String[] args) {
-        getOtherInfo("510050");
+        queryUrl(monthUrl);
+        //getOtherInfo("510050");
     }
 }
