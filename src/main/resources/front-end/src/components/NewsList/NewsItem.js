@@ -13,11 +13,16 @@ function NewsItem({ dispatch, data }) {
     });
   }
 
+  let paragraph = data.text;
+  if (paragraph.length > 160) {
+    paragraph = `${paragraph.substring(0, 160)}...`;
+  }
+
   return (
-    <div onClick={toDetail.bind(this)}>
+    <div onClick={toDetail.bind(this)} className={styles.news_container}>
       <div className={styles.news_head}>{data.title}</div>
       <div className={styles.news_info}>{data.dateToString}</div>
-      <div className={styles.news_brief}>{data.text}</div>
+      <div className={styles.news_brief}>{paragraph}</div>
       <hr className={styles.news_separate} />
     </div>
   );

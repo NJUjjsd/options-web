@@ -6,7 +6,7 @@ import { Layout, Menu } from 'antd';
 import { Link } from 'dva/router';
 import styles from './MainLayout.css';
 
-const { Header, Footer, Content } = Layout;
+const { Header, Footer } = Layout;
 
 function MainLayout({ children }) {
   return (
@@ -28,9 +28,7 @@ function MainLayout({ children }) {
           <Menu.Item key="register">登录／注册</Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ background: '#fff', minHeight: 733 }}>
-        {children}
-      </Content>
+      {children}
       <Footer className={styles.footer}>
         Options ©2017 Created by NJU JJSD
       </Footer>

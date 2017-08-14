@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
     @RequestMapping("/")
     public ModelAndView greeting() {
-        System.out.println("mainController");
         return new ModelAndView("index");
     }
 }

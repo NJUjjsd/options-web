@@ -8,11 +8,6 @@ export function getNewsList(page) {
   return promise.then((v) => {
     const data = v.data;
     const newsList = data.content;
-    for (let i = 0; i < newsList.length; i += 1) {
-      if (newsList[i].text.length > 160) {
-        newsList[i].text = `${newsList[i].text.substring(0, 160)}...`;
-      }
-    }
     const allNum = data.totalElements;
     return { newsList, allNum };
   });

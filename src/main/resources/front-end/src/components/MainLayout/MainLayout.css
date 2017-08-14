@@ -5,8 +5,9 @@
   height: inherit;
 }
 .normal {
-  /*display: flex;*/
+  display: flex;
   flex-direction: column;
+  height: 100%;
 }
 .footer {
   border-top-color: #30343a;

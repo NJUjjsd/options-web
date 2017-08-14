@@ -1,3 +1,6 @@
+.news_container {
+  cursor: pointer;
+}
 .news_head {
   font-size: 20px;
   color: #0000C6;

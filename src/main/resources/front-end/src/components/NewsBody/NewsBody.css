@@ -1,15 +1,15 @@
-.news_title .news_heading {
+.news_title{
   font-weight: bold;
   color: #0000C6;
   font-size: 30px;
-  margin-top: 54px;
+  margin-top: 3%;
 }
-.news_title .news_source{
+.news_date{
   font-weight: normal;
   color: #000000;
   opacity: 0.5;
   font-size: 15px;
-  margin-top: 27px;
+  margin-top: 1%;
 }
 .below_title{
   color: #979797;
