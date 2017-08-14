@@ -11,7 +11,7 @@ function RealTimeNewsList({ dispatch, newsList, allNum, current }) {
   function pageChangeHandler(page) {
     const currentPage = page;
     dispatch({
-      type: 'newsList/fetch',
+      type: 'news/getList',
       payload: { page: currentPage },
     });
   }
@@ -38,7 +38,7 @@ function RealTimeNewsList({ dispatch, newsList, allNum, current }) {
 }
 
 function mapStateToProps(state) {
-  const { newsList, allNum, current } = state.newsList;
+  const { newsList, allNum, current } = state.news;
   return { newsList, allNum, current };
 }
 
