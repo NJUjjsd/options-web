@@ -1,14 +1,7 @@
-
 .content {
-  flex: 1;
-  display: flex;
+  flex: auto;
   background-color: #30343a;
 }
-.main {
-  padding: 0 8px;
-  flex: 1 0 auto;
-}
-
 .title {
   -webkit-text-fill-color: #ffffff;
   text-align: center;

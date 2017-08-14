@@ -7,7 +7,7 @@ import { Row, Col, Pagination } from 'antd';
 import NewsItem from './NewsItem';
 import styles from './NewsList.css';
 
-function RealTimeNewsList({ dispatch, newsList, allNum, current }) {
+function NewsList({ dispatch, newsList, allNum, current }) {
   function pageChangeHandler(page) {
     const currentPage = page;
     dispatch({
@@ -16,8 +16,8 @@ function RealTimeNewsList({ dispatch, newsList, allNum, current }) {
     });
   }
   return (
-    <Row>
-      <Col offset={5} span={14}>
+    <Row className={styles.list}>
+      <Col offset={4} span={16}>
         {
           newsList.map((v) => {
             return (
@@ -42,4 +42,4 @@ function mapStateToProps(state) {
   return { newsList, allNum, current };
 }
 
-export default connect(mapStateToProps)(RealTimeNewsList);
+export default connect(mapStateToProps)(NewsList);

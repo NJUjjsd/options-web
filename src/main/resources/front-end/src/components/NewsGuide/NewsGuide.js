@@ -11,7 +11,7 @@ function RealTimeNewsGuide() {
   return (
     <div className={styles.etf_guide}>
       <Row>
-        <Col offset={5} span={14}>
+        <Col offset={4} span={16}>
           <span className={styles.etf_guide_item}>ETF</span>
           <span className={styles.etf_guide_item_separate}>|</span>
           <span className={styles.etf_guide_item}>ETF期权</span>

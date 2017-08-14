@@ -13,15 +13,13 @@ function NewsDetails() {
   return (
     <MainLayout>
       <div className={styles.content}>
-        <div className={styles.main}>
-          <Row>
-            <Col className={styles.cur_location} offset={4}>
-              新闻 &gt; 正文
-            </Col>
-          </Row>
-          <Separate />
-          <NewsBody />
-        </div>
+        <Row>
+          <Col className={styles.cur_location} offset={4}>
+            新闻 &gt; 正文
+          </Col>
+        </Row>
+        <Separate />
+        <NewsBody />
       </div>
     </MainLayout>
   );
