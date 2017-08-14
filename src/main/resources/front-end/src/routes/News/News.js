@@ -6,15 +6,12 @@ import { connect } from 'dva';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import NewsGuide from '../../components/NewsGuide/NewsGuide';
 import NewsList from '../../components/NewsList/NewsList';
-import styles from './News.css';
 
-function News() {
+function News({ location }) {
   return (
-    <MainLayout>
-      <div className={styles.content}>
-        <NewsGuide />
-        <NewsList />
-      </div>
+    <MainLayout location={location} >
+      <NewsGuide />
+      <NewsList />
     </MainLayout>
   );
 }

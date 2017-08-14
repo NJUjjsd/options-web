@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Route } from 'dva/router';
-import IndexPage from './routes/IndexPage/IndexPage';
+import IndexPage from './routes/Home/Home';
 import RealTimeNews from './routes/News/News';
 import NewsDetails from './routes/NewsDetails/NewsDetails';
 

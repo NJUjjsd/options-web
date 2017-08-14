@@ -7,11 +7,17 @@ import styles from './MainLayout.css';
 import Nav from '../../components/Nav/Nav';
 import Footer from '../../components/Footer/Footer';
 
-function MainLayout({ children }) {
+function MainLayout({ location, children }) {
+  let backStyle = styles.white;
+  if (location.pathname === '/') {
+    backStyle = styles.black;
+  }
   return (
     <Layout className={styles.normal}>
-      <Nav />
-      {children}
+      <Nav location={location} />
+      <div className={backStyle}>
+        {children}
+      </div>
       <Footer />
     </Layout>
   );

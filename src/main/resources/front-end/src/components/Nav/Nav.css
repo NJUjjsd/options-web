@@ -16,3 +16,11 @@
   background-color: #2A2D32;
   border-bottom-color: #2A2D32;
 }
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

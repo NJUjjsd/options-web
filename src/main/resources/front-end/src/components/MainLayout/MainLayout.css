@@ -1,3 +1,11 @@
 .normal {
   min-height: 100%;
 }
+.black {
+  flex: auto;
+  background-color: #30343a;
+}
+.white {
+  flex: auto;
+  background-color: white;
+}

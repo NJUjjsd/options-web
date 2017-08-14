@@ -9,7 +9,11 @@ import styles from './Nav.css';
 
 const Header = Layout.Header;
 
-function Nav() {
+function Nav({ location }) {
+  let homeStyle = styles.show;
+  if (location.pathname === '/') {
+    homeStyle = styles.hide;
+  }
   return (
     <Header className={styles.header}>
       <div className={styles.logo}>
@@ -22,7 +26,7 @@ function Nav() {
         mode="horizontal"
         defaultSelectedKeys={[]}
       >
-        <Menu.Item key="login">
+        <Menu.Item key="home" className={homeStyle}>
           <Link to="/">首页</Link>
         </Menu.Item>
         <Menu.Item key="register">登录／注册</Menu.Item>
