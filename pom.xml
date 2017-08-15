@@ -121,9 +121,6 @@
             <version>2.8.0</version>
         </dependency>
 
-<<<<<<< HEAD
-    </dependencies>
-=======
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
@@ -137,7 +134,7 @@
 			<version>2.27</version>
 		</dependency>
 	</dependencies>
->>>>>>> origin/master
+
 
 	<build>
 		<plugins>
