@@ -18,7 +18,11 @@ import org.springframework.stereotype.Service;
  * Created by zhujing on 2017/8/9.
  */
 
+<<<<<<< HEAD:src/main/java/com/jjsd/options/service/impl/NewsServiceImpl.java
 @Service
+=======
+//@Service
+>>>>>>> origin/master:src/main/java/com/jjsd/options/service/impl/NewsServiceImpl.java
 public class NewsServiceImpl implements NewsService {
 
     @Autowired

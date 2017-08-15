@@ -2,36 +2,23 @@
  * Created by john on 2017/8/4.
  */
 import React from 'react';
-import { Layout, Menu } from 'antd';
-import { Link } from 'dva/router';
+import { Layout } from 'antd';
 import styles from './MainLayout.css';
+import Nav from '../../components/Nav/Nav';
+import Footer from '../../components/Footer/Footer';
 
-const { Header, Footer } = Layout;
-
-function MainLayout({ children }) {
+function MainLayout({ location, children }) {
+  let backStyle = styles.white;
+  if (location.pathname === '/') {
+    backStyle = styles.black;
+  }
   return (
     <Layout className={styles.normal}>
-      <Header className={styles.header}>
-        <div className={styles.logo}>
-          <span>LoGo</span>
-          <span>ETF－ETF期权期现套利交易系统</span>
-        </div>
-        <Menu
-          className={styles.menu}
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={[]}
-        >
-          <Menu.Item key="login">
-            <Link to="/">首页</Link>
-          </Menu.Item>
-          <Menu.Item key="register">登录／注册</Menu.Item>
-        </Menu>
-      </Header>
-      {children}
-      <Footer className={styles.footer}>
-        Options ©2017 Created by NJU JJSD
-      </Footer>
+      <Nav location={location} />
+      <div className={backStyle}>
+        {children}
+      </div>
+      <Footer />
     </Layout>
   );
 }

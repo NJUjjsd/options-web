@@ -1,15 +1,15 @@
-.news_title .news_heading {
+.news_title{
   font-weight: bold;
   color: #0000C6;
   font-size: 30px;
-  margin-top: 54px;
+  margin-top: 3%;
 }
-.news_title .news_source{
+.news_date{
   font-weight: normal;
   color: #000000;
   opacity: 0.5;
   font-size: 15px;
-  margin-top: 27px;
+  margin-top: 1%;
 }
 .below_title{
   color: #979797;
@@ -19,10 +19,19 @@
 .news_article {
   margin-top: 18.66px;
 }
-.news_article div{
+.news_article p{
   font-weight:normal;
   color: #000;
   font-size: 18px;
   text-indent: 36px;
   margin-bottom: 20px;
+}
+.original{
+  margin:37px 14px 36px auto;
+  width: 102px;
+  float: right;
+}
+.original_link{
+  height: 18px;
+  background: url("../../assets/original_link.svg") no-repeat right;
 }

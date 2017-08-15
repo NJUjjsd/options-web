@@ -1,31 +1,11 @@
-.logo {
-  float: left;
-  font-size: 20px;
-  color: white;
-  height: inherit;
-}
 .normal {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  min-height: 100%;
 }
-.footer {
-  border-top-color: #30343a;
-  font-size: 15px;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+.black {
+  flex: auto;
+  background-color: #30343a;
 }
-.menu {
-  float: right;
-  font-size: 15px;
-  background-color: #2A2D32;
-  margin-top: 10px;
-  height: inherit;
+.white {
+  flex: auto;
+  background-color: white;
 }
-
-.header {
-  background-color: #2A2D32;
-  border-bottom-color: #2A2D32;
-}
-
