@@ -17,12 +17,12 @@ function IndexPage({ location }) {
           </Link>
         </Col>
         <Col offset={1} span={4}>
-          <div className={styles.latest_market} />
+          <Link to="market">
+            <div className={styles.latest_market} />
+          </Link>
         </Col>
         <Col offset={1} span={4}>
-          <Link to="/newsDetails">
-            <div className={styles.start_invest} />
-          </Link>
+          <div className={styles.start_invest} />
         </Col>
       </Row>
     </MainLayout>
