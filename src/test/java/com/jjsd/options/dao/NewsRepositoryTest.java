@@ -23,6 +23,7 @@ public class NewsRepositoryTest {
 
     @Test
     public void findById() throws Exception {
+
         Assert.assertEquals(newsRepository.findById("5989905c5243010bdf3d56df").getTitle(),"中国建筑:上半年新签合同额快速增长,基建、海外业务持续耀眼");
         Assert.assertEquals(newsRepository.findById(null),null);
         Assert.assertEquals(newsRepository.findById("hahah"),null);
