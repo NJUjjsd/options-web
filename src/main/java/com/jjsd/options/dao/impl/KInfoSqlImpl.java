@@ -2,9 +2,7 @@ package com.jjsd.options.dao.impl;
 
 import com.jjsd.options.dao.KInfoDao;
 import com.jjsd.options.entity.KInfoSimple;
-import com.jjsd.options.util.SqlConnectHelper;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.jjsd.options.util.SqlConnectUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,12 +20,12 @@ public class KInfoSqlImpl implements KInfoDao{
     static PreparedStatement statement=null;//句柄
     ResultSet resultSet = null;//存储结果
     static {
-        connection = SqlConnectHelper.getSqlConnect();
+        connection = SqlConnectUtil.getSqlConnect();
     }
 
     private void freeConnect(){       //释放连接
         try {
-            SqlConnectHelper.close(connection, statement, resultSet);
+            SqlConnectUtil.close(connection, statement, resultSet);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -44,7 +42,7 @@ public class KInfoSqlImpl implements KInfoDao{
         ArrayList<KInfoSimple> resultList = new ArrayList<>();
         try {
 
-            connection = SqlConnectHelper.getSqlConnect();
+            connection = SqlConnectUtil.getSqlConnect();
             String selectSql = "select kdate,openPrice,closePrice,highPrice,lowPrice,turnOver from " + tableName + " order by kdate ";
             statement = connection.prepareStatement(selectSql);
             resultSet=statement.executeQuery();

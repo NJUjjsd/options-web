@@ -8,7 +8,7 @@ import java.sql.Connection;
 /**
  * Created by ${zrz} on 2017/8/16.
  */
-public final class SqlConnectHelper {
+public final class SqlConnectUtil {
     static String url = "jdbc:mysql://118.89.193.72:3306/futures";
     static String user = "jjsd";
     static String password = "jjsd";
