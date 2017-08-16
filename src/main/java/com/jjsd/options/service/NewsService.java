@@ -1,5 +1,6 @@
 package com.jjsd.options.service;
 
+import com.google.gson.JsonObject;
 import com.jjsd.options.entity.News;
 import com.jjsd.options.exception.ParameterException;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
  * Created by zhujing on 2017/8/4.
  */
 public interface NewsService{
+    JsonObject menu();
 
     /**
      * 新闻标题关键字搜索
