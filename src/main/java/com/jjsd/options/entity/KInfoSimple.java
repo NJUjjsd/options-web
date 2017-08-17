@@ -4,7 +4,7 @@ package com.jjsd.options.entity;
  * Created by a297 on 17/8/15.
  */
 public class KInfoSimple {
-    //日期 格式: "2017/08/15"
+    //日期 格式: "2017-08-15"
     private String date;
 
     private double openPrice;
@@ -14,7 +14,7 @@ public class KInfoSimple {
     private double lowPrice;
 
     private double highPrice;
-    //成交量 单位：手
+    //成交量 单位：万手
     private double turnOver;
 
     public KInfoSimple(String date, double openPrice, double closePrice, double highPrice, double lowPrice, double turnOver) {

@@ -1,5 +1,7 @@
 package com.jjsd.options.service.impl;
 
+import com.jjsd.options.dao.KInfoDao;
+import com.jjsd.options.dao.impl.KInfoSqlImpl;
 import com.jjsd.options.entity.KInfo;
 import com.jjsd.options.entity.KInfoSimple;
 import com.jjsd.options.service.MarketService;
@@ -12,18 +14,25 @@ import java.util.ArrayList;
  */
 //@Service
 public class MarketServiceImpl implements MarketService{
+    static KInfoDao dao;
+    static {
+        dao = new KInfoSqlImpl();
+    }
     @Override
     public ArrayList<KInfoSimple> getWeekK() {
-        return null;
+        return dao.getWeekK();
+
     }
 
     @Override
     public ArrayList<KInfoSimple> getMonthK() {
-        return null;
+        return dao.getMonthK();
+
     }
 
     @Override
     public ArrayList<KInfoSimple> getDayK() {
-        return null;
+
+        return dao.getWeekK();
     }
 }
