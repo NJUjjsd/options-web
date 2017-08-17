@@ -1,0 +1,61 @@
+/*====================content========================*/
+.contentLayout {
+  padding: 12px 12px 0 12px;
+}
+/*====================sider========================*/
+.sider {
+  background-color: white;
+  width: 200px;
+  font-size: 20px;
+}
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding-left: 24px;
+  margin: 0;
+  cursor: pointer;
+  transition: color .3s;
+}
+.trigger:hover {
+  color: #108ee9;
+}
+.link {
+  color: #595959;
+}
+/*====================sider========================*/
+/*====================top========================*/
+.top {
+  margin-top: 18px;
+  border-bottom: solid 1px #f4f4f4;
+  padding-bottom: 45px;
+}
+.bread {
+  font-size: 16px;
+  opacity: 0.9;
+}
+.breadcrumb {
+  float: left;
+  padding-left: 24px;
+  padding-top: 3px;
+}
+.hideSearch {
+  float: right;
+  margin-right: 48px;
+  display: none;
+}
+.showSearch {
+  float: right;
+  margin-right: 48px;
+  display: block;
+}
+/*====================top========================*/
+/*====================children========================*/
+.childrenLayout {
+  padding-left:12px
+}
+.children {
+  background-color: white;
+  margin: 0;
+}
+/*====================children========================*/
+/*====================content========================*/

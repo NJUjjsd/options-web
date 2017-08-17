@@ -1,11 +1,48 @@
-.normal {
+.topLayout {
   min-height: 100%;
 }
+
+/*====================header========================*/
+.logo {
+  float: left;
+  font-size: 20px;
+  color: white;
+  height: inherit;
+}
+.headerMenu {
+  float: right;
+  font-size: 15px;
+  background-color: #2A2D32;
+  height: inherit;
+  padding-top: 10px;
+}
+.header {
+  background-color: #2A2D32;
+  border-bottom-color: #2A2D32;
+}
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
+/*====================header========================*/
+
+
+
+/*====================content========================*/
 .black {
   flex: auto;
   background-color: #30343a;
 }
-.white {
-  flex: auto;
-  background-color: white;
+/*====================content========================*/
+
+
+/*====================footer========================*/
+.footer {
+  font-size: 15px;
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
+/*====================footer========================*/

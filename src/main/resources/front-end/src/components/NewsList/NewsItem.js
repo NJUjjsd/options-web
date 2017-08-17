@@ -23,7 +23,6 @@ function NewsItem({ dispatch, data }) {
       <div className={styles.news_head}>{data.title}</div>
       <div className={styles.news_info}>{data.dateToString}</div>
       <div className={styles.news_brief}>{paragraph}</div>
-      <hr className={styles.news_separate} />
     </div>
   );
 }

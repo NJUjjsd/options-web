@@ -4,15 +4,22 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Pagination } from 'antd';
+import { defaultPageSize, defaultIsDescByReadNum } from '../../constant';
 import NewsItem from './NewsItem';
 import styles from './NewsList.css';
 
-function NewsList({ dispatch, newsList, allNum, current }) {
+function NewsList({ dispatch, location, newsList, allNum, current }) {
   function pageChangeHandler(page) {
     const currentPage = page;
     dispatch({
-      type: 'news/getList',
-      payload: { page: currentPage },
+      type: 'news/getClassifiedNews',
+      payload: {
+        page: currentPage,
+        pageSize: defaultPageSize,
+        code: location.query.code,
+        type: location.query.type,
+        isDescByReadNum: defaultIsDescByReadNum,
+      },
     });
   }
   return (

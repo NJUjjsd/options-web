@@ -16,6 +16,7 @@
   height: 182px;
   background: url("../../assets/real_time_news.svg") no-repeat center;
   background-size: 182px 182px;
+  cursor: pointer;
 }
 
 .latest_market {

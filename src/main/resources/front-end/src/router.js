@@ -10,7 +10,7 @@ function RouterConfig({ browserHistory }) {
     <Router history={browserHistory}>
       <Route path="/" component={IndexPage} />
       <Route path="/news" components={RealTimeNews} />
-      <Route path="/newsDetails" component={NewsDetails} />
+      <Route path="/news/details" component={NewsDetails} />
       <Route path="/market" components={Market} />
     </Router>
   );
