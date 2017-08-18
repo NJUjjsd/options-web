@@ -53,4 +53,9 @@ public class NewsServiceTest {
 
     }
 
+    @Test
+    public void getAllTitles() throws Exception {
+        Assert.assertEquals(newsService.getAllTitles().size(),2478);
+
+    }
 }

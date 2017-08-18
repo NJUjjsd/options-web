@@ -5,6 +5,8 @@ import com.jjsd.options.entity.News;
 import com.jjsd.options.exception.ParameterException;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * Created by zhujing on 2017/8/4.
  */
@@ -37,5 +39,12 @@ public interface NewsService{
      * @return
      */
     boolean readNumUpdate(String id);
+
+
+    /**
+     * 所有新闻标题
+     * @return
+     */
+    List<String> getAllTitles();
 
 }
