@@ -38,4 +38,10 @@ public interface NewsRepository extends MongoRepository<News, String> {
      */
     Page<News> findByTitleLike(String title,Pageable pageable);
 
+
+
+
+
+
+
 }

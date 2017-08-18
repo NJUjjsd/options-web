@@ -7,22 +7,36 @@ import com.jjsd.options.entity.News;
 import com.jjsd.options.exception.ParameterException;
 import com.jjsd.options.service.NewsService;
 import com.jjsd.options.util.CrawlerUtil;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by zhujing on 2017/8/9.
  */
 
-//@Service
+
+@Service
 public class NewsServiceImpl implements NewsService {
 
     @Autowired
     private NewsRepository newsRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
 
 
     @Override
@@ -95,6 +109,20 @@ public class NewsServiceImpl implements NewsService {
         news.setReadNum(news.getReadNum()+1);
         newsRepository.save(news);
         return true;
+    }
+
+    @Override
+    public List<String> getAllTitles() {
+        DBObject fieldObject = new BasicDBObject();
+        fieldObject.put("title", true);
+        Query query = new BasicQuery(new BasicDBObject(), fieldObject);
+        List<News> result=mongoTemplate.find(query, News.class);
+        List <String>l=new ArrayList();
+        Iterator iterator=result.iterator();
+        while (iterator.hasNext()){
+            l.add(((News)iterator.next()).getTitle());
+        }
+        return l;
     }
 
 }
