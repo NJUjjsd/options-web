@@ -2,7 +2,7 @@
  * Created by john on 2017/8/13.
  */
 import { routerRedux } from 'dva/router';
-import { defaultPage, defaultPageSize, defaultIsDescByReadNum } from '../constant';
+import { defaultPage, defaultPageSize, defaultIsDescByReadNum, newsDetailsPath } from '../constant';
 import * as newsService from '../services/newsService';
 
 export default {
@@ -12,7 +12,7 @@ export default {
     allNum: 0,
     current: 1,
     detail: {},
-    stockCode: {},
+    stockCode: [],
   },
 
   subscriptions: {
@@ -29,9 +29,6 @@ export default {
               isDescByReadNum: defaultIsDescByReadNum,
             },
           });
-          dispatch(
-            { type: 'getStockCode' },
-          );
         }
       });
     },
@@ -48,6 +45,7 @@ export default {
           current: page,
         },
       });
+      console.log('调用到了models/news.js/getList');
     },
     * putDetail({ payload: { data } }, { put }) {
       yield put({
@@ -56,7 +54,13 @@ export default {
           detail: data,
         },
       });
-      yield put(routerRedux.push('/news/details'));
+      yield put(routerRedux.push({
+        pathname: '/news/details',
+        query: {
+          path: newsDetailsPath,
+        },
+      },
+      ));
     },
     * getStockCode({ payload }, { call, put }) {
       const { stockCode } = yield call(newsService.getStockCode);
@@ -66,6 +70,7 @@ export default {
           stockCode,
         },
       });
+      console.log('调用到了models/news.js/getStockCode');
     },
     * getClassifiedNews(
       { payload: { page, pageSize, code, type, isDescByReadNum } }, { call, put },
@@ -81,6 +86,7 @@ export default {
           current: page,
         },
       });
+      console.log('调用到了models/news.js/getClassifiedNews');
     },
   },
 
