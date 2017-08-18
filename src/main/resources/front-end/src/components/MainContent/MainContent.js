@@ -49,8 +49,10 @@ class MainContent extends React.Component {
     let defaultSelectedKeys = [];
     if (this.props.location.pathname === '/news') {
       defaultSelectedKeys = ['上证50ETF(510050)'];
-    } else if (this.props.location.pathname === '/market') {
+    } else if (this.props.location.pathname === '/market/ETF') {
       defaultSelectedKeys = ['ETF'];
+    } else if (this.props.location.pathname === '/market/ETFOption') {
+      defaultSelectedKeys = ['ETFOption'];
     }
     return defaultSelectedKeys;
   };
@@ -58,8 +60,10 @@ class MainContent extends React.Component {
     let defaultOpenKeys = [];
     if (this.props.location.pathname === '/news') {
       defaultOpenKeys = ['实时新闻', 'ETF资讯', '上证50ETF(510050)'];
-    } else if (this.props.location.pathname === '/market') {
+    } else if (this.props.location.pathname === '/market/ETF') {
       defaultOpenKeys = ['最新行情', 'ETF'];
+    } else if (this.props.location.pathname === '/market/ETFOption') {
+      defaultOpenKeys = ['最新行情', 'ETFOption'];
     }
     return defaultOpenKeys;
   };
@@ -80,12 +84,21 @@ class MainContent extends React.Component {
         },
       }));
     } else if (e.keyPath[length - 1] === '最新行情') {
-      this.props.dispatch(routerRedux.push({
-        pathname: '/market',
-        query: {
-          path,
-        },
-      }));
+      if (e.keyPath[length - 2] === 'ETF') {
+        this.props.dispatch(routerRedux.push({
+          pathname: '/market/ETF',
+          query: {
+            path,
+          },
+        }));
+      } else if (e.keyPath[length - 2] === 'ETF期权') {
+        this.props.dispatch(routerRedux.push({
+          pathname: '/market/ETFOption',
+          query: {
+            path,
+          },
+        }));
+      }
     }
   };
   searchState = () => {
@@ -175,9 +188,9 @@ class MainContent extends React.Component {
                 <span
                   onClick={
                     () => {
-                      if (this.props.location.pathname !== '/market') {
+                      if (this.props.location.pathname.substring(0, 7) !== '/market') {
                         this.props.dispatch(routerRedux.push({
-                          pathname: '/market',
+                          pathname: '/market/ETF',
                           query: {
                             path: defaultMarketPath,
                           },

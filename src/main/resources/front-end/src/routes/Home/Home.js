@@ -19,7 +19,7 @@ function IndexPage({ location, dispatch }) {
   }
   function toMarket() {
     dispatch(routerRedux.push({
-      pathname: '/market',
+      pathname: '/market/ETF',
       query: {
         path: defaultMarketPath,
       },
