@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by a297 on 17/8/15.
  */
-@Service
+//@Service
 public class MarketServiceStub implements MarketService{
 
 

@@ -6,9 +6,9 @@ import { connect } from 'dva';
 import { Row, Col, Menu } from 'antd';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import KLineChart from '../../components/KLineChart/KLineChart';
-import styles from './Market.css';
+import styles from './ETF.css';
 
-function Market({ tab, location, dispatch }) {
+function ETF({ tab, location, dispatch }) {
   function KLineTabChangeHandler(param) {
     const time = param.key;
     if (time !== tab) {
@@ -46,4 +46,4 @@ function mapStateToProps(state) {
   return { tab };
 }
 
-export default connect(mapStateToProps)(Market);
+export default connect(mapStateToProps)(ETF);

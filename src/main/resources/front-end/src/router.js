@@ -3,7 +3,8 @@ import { Router, Route } from 'dva/router';
 import IndexPage from './routes/Home/Home';
 import RealTimeNews from './routes/News/News';
 import NewsDetails from './routes/NewsDetails/NewsDetails';
-import Market from './routes/Market/Market';
+import ETF from './routes/Market/ETF';
+import ETFOption from './routes/Market/ETFOption';
 
 function RouterConfig({ browserHistory }) {
   return (
@@ -11,7 +12,9 @@ function RouterConfig({ browserHistory }) {
       <Route path="/" component={IndexPage} />
       <Route path="/news" components={RealTimeNews} />
       <Route path="/news/details" component={NewsDetails} />
-      <Route path="/market" components={Market} />
+      <Route path="/market/ETF" component={ETF} />
+      <Route path="/market/ETFOption" component={ETFOption} />
+
     </Router>
   );
 }

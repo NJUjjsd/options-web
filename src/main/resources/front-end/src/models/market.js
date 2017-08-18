@@ -13,7 +13,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        if (pathname === '/market') {
+        if (pathname === '/market/ETF') {
           dispatch({ type: 'fetchETFKLineRawData', payload: query });
         }
       });
