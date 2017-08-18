@@ -5,7 +5,8 @@ import React from 'react';
 import { Layout, Menu, Icon, Breadcrumb } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
-import { defaultType, defaultStockCode, defaultNewsPath, defaultMarketPath, newsDetailsPath } from '../../constant';
+import { defaultType, defaultStockCode,
+  defaultNewsPath, defaultMarketPath, newsDetailsPath } from '../../constant';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import styles from './MainContent.css';
 
@@ -48,23 +49,29 @@ class MainContent extends React.Component {
   defaultSelectedKeys = () => {
     let defaultSelectedKeys = [];
     if (this.props.location.pathname === '/news') {
-      defaultSelectedKeys = ['上证50ETF(510050)'];
+      if (this.props.location.query.path === defaultNewsPath) {
+        defaultSelectedKeys = ['上证50ETF(510050)'];
+      }
     } else if (this.props.location.pathname === '/market/ETF') {
       defaultSelectedKeys = ['ETF'];
     } else if (this.props.location.pathname === '/market/ETFOption') {
-      defaultSelectedKeys = ['ETFOption'];
+      defaultSelectedKeys = ['ETF期权'];
     }
+    console.log(`Maincontent/defaultSelectedKeys:${defaultSelectedKeys}`);
     return defaultSelectedKeys;
   };
   defaultOpenKeys = () => {
     let defaultOpenKeys = [];
     if (this.props.location.pathname === '/news') {
-      defaultOpenKeys = ['实时新闻', 'ETF资讯', '上证50ETF(510050)'];
+      if (this.props.location.query.path === defaultNewsPath) {
+        defaultOpenKeys = ['实时新闻', 'ETF资讯', '上证50ETF(510050)'];
+      }
     } else if (this.props.location.pathname === '/market/ETF') {
       defaultOpenKeys = ['最新行情', 'ETF'];
     } else if (this.props.location.pathname === '/market/ETFOption') {
-      defaultOpenKeys = ['最新行情', 'ETFOption'];
+      defaultOpenKeys = ['最新行情', 'ETF期权'];
     }
+    console.log(`Maincontent/defaultOpenKeys:${defaultOpenKeys}`);
     return defaultOpenKeys;
   };
   handleClick = (e) => {
@@ -84,14 +91,14 @@ class MainContent extends React.Component {
         },
       }));
     } else if (e.keyPath[length - 1] === '最新行情') {
-      if (e.keyPath[length - 2] === 'ETF') {
+      if (e.key === 'ETF') {
         this.props.dispatch(routerRedux.push({
           pathname: '/market/ETF',
           query: {
             path,
           },
         }));
-      } else if (e.keyPath[length - 2] === 'ETF期权') {
+      } else if (e.key === 'ETF期权') {
         this.props.dispatch(routerRedux.push({
           pathname: '/market/ETFOption',
           query: {

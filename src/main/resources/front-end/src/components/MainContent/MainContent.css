@@ -40,12 +40,12 @@
 }
 .hideSearch {
   float: right;
-  margin-right: 48px;
+  margin-right: 24px;
   display: none;
 }
 .showSearch {
   float: right;
-  margin-right: 48px;
+  margin-right: 24px;
   display: block;
 }
 /*====================top========================*/

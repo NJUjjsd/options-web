@@ -23,12 +23,14 @@
   height: 182px;
   background: url("../../assets/latest_market.svg") no-repeat center;
   background-size: 182px 182px;
+  cursor: pointer;
 }
 
 .start_invest {
   height: 182px;
   background: url("../../assets/start_invest.svg") no-repeat center;
   background-size: 182px 182px;
+  cursor: pointer;
 }
 
 .row {
