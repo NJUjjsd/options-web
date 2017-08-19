@@ -42,7 +42,7 @@ class MainContent extends React.Component {
     const arr = this.props.location.query.path.split('/');
     for (let i = 0; i < arr.length; i += 1) {
       const data = arr[i + 1];
-      brumbItems.push(<Breadcrumb.Item>{data}</Breadcrumb.Item>);
+      brumbItems.push(<Breadcrumb.Item key={i + 1}>{data}</Breadcrumb.Item>);
     }
     return brumbItems;
   };
