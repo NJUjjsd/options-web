@@ -2,6 +2,8 @@ package com.jjsd.options.service.impl;
 
 import com.jjsd.options.dao.KInfoDao;
 import com.jjsd.options.dao.impl.KInfoSqlImpl;
+import com.jjsd.options.entity.ContactInfoVO;
+import com.jjsd.options.entity.ETFBasicInfoVO;
 import com.jjsd.options.entity.KInfo;
 import com.jjsd.options.entity.KInfoSimple;
 import com.jjsd.options.service.MarketService;
@@ -34,5 +36,25 @@ public class MarketServiceImpl implements MarketService{
     public ArrayList<KInfoSimple> getDayK() {
 
         return dao.getWeekK();
+    }
+
+    @Override
+    public ArrayList<String> getContactDueMonths() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<ETFBasicInfoVO> getETFBasicInfo() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getContactInfoUpdateTime() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<ContactInfoVO> getContactInfo() {
+        return null;
     }
 }

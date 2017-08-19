@@ -25,11 +25,11 @@ class MainContent extends React.Component {
   };
   singleStocks = () => {
     const singleStocks = [];
-    if (this.props.stockCode.length === 0) {
-      this.props.dispatch({
-        type: 'news/getStockCode',
-      });
-    }
+    // if (this.props.stockCode.length === 0) {
+    //   this.props.dispatch({
+    //     type: 'news/getStockCode',
+    //   });
+    // }
     for (let i = 0; i < this.props.stockCode.length; i += 1) {
       const data = this.props.stockCode[i];
       const value = `${data.name}(${data.code})`;
