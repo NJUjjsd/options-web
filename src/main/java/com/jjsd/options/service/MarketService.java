@@ -37,9 +37,9 @@ public interface MarketService {
 
     /**
      * 
-     * @return ETF基本信息列表（虽然目前只有一个上证50ETF，但为了界面显示方便，请给我一个数组，好让我直接塞进表格，谢谢）
+     * @return ETF基本信息
      */
-    ArrayList<ETFBasicInfoVO> getETFBasicInfo();
+    ETFBasicInfoVO getETFBasicInfo();
 
     /**
      * 
@@ -49,7 +49,7 @@ public interface MarketService {
 
     /**
      * 
-     * @return 合约基本信息列表
+     * @return 合约基本信息列表(len=4, 更新的时间与上面对应)
      */
     ArrayList<ContactInfoVO> getContactInfo();
 }

@@ -17,46 +17,64 @@ export function getETFOptionData() {
   // ETF basic info list
   // contact info update time list
   // contact info list
-  return {
-    dueMonthList: ['2017-08', '2017-09', '2017-12', '2018-03'],
-    ETFTime: '2017-08-17 15:15:04',
-    ETFBasicInfo: [{
-      key: '1',
-      code: '510050',
-      name: '上证50ETF',
-      curPrice: '2.645',
-      fluPrice: '-0.007',
-      fluPercent: '-0.26%',
-      amplitude: '0.26%',
-      turnOver: '258921',
-      transaction: '6851.636',
-    }],
-    transactionTime: ['2017-08-17 15:15:04', '2017-08-17 15:15:05', '2017-08-17 15:15:06', '2017-08-17 15:15:07'],
-    optionFormData: [{
-      key: '1',
-      UpTradingCode: '510050C1708M02450',
-      UpCurrentPrice: 0.2017,
-      UpFluctuation: '6.16%',
-      UpPreClosingPrice: 0.1900,
-      UpExercisePrice: 2.450,
-      DownTradingCode: '510050P1708M02450',
-      DownCurrentPrice: 0.0002,
-      DownFluctuation: '-33.33%',
-      DownPreClosingPrice: 0.0003,
-    }, {
-      key: '2',
-      UpTradingCode: '510050C1708M02450',
-      UpCurrentPrice: 0.2017,
-      UpFluctuation: '6.16%',
-      UpPreClosingPrice: 0.1900,
-      UpExercisePrice: 2.450,
-      DownTradingCode: '510050P1708M02450',
-      DownCurrentPrice: 0.0002,
-      DownFluctuation: '-33.33%',
-      DownPreClosingPrice: 0.0003,
-    }],
-  };
+
+  // const promise = request(`api/market/optionData`);
+  // return promise.then((v) => {
+  // const {
+  // contactDueMonths,
+  // ETFBasicInfoUpdateTime,
+  // ETFBasicInfo,
+  // contactInfoUpdateTime,
+  // contactInfo
+  // } = v.data;
+  //
+  // });
 }
+
+//
+//   return {
+//     dueMonthList: ['2017-08', '2017-09', '2017-12', '2018-03'],
+//     ETFTime: '2017-08-17 15:15:04',
+//     ETFBasicInfo: [{
+//       key: '1',
+//       code: '510050',
+//       name: '上证50ETF',
+//       curPrice: '2.645',
+//       fluPrice: '-0.007',
+//       fluPercent: '-0.26%',
+//       amplitude: '0.26%',
+//       turnOver: '258921',
+//       transaction: '6851.636',
+//     }],
+//     transactionTime:
+//    ['2017-08-17 15:15:04',
+//    '2017-08-17 15:15:05',
+//    '2017-08-17 15:15:06', '2017-08-17 15:15:07'],
+//     optionFormData: [{
+//       key: '1',
+//       UpTradingCode: '510050C1708M02450',
+//       UpCurrentPrice: 0.2017,
+//       UpFluctuation: '6.16%',
+//       UpPreClosingPrice: 0.1900,
+//       UpExercisePrice: 2.450,
+//       DownTradingCode: '510050P1708M02450',
+//       DownCurrentPrice: 0.0002,
+//       DownFluctuation: '-33.33%',
+//       DownPreClosingPrice: 0.0003,
+//     }, {
+//       key: '2',
+//       UpTradingCode: '510050C1708M02450',
+//       UpCurrentPrice: 0.2017,
+//       UpFluctuation: '6.16%',
+//       UpPreClosingPrice: 0.1900,
+//       UpExercisePrice: 2.450,
+//       DownTradingCode: '510050P1708M02450',
+//       DownCurrentPrice: 0.0002,
+//       DownFluctuation: '-33.33%',
+//       DownPreClosingPrice: 0.0003,
+//     }],
+//   };
+// }
 
 function turnToRawData(data) {
   const res = [];

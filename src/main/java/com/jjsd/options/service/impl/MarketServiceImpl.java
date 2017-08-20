@@ -4,7 +4,6 @@ import com.jjsd.options.dao.KInfoDao;
 import com.jjsd.options.dao.impl.KInfoSqlImpl;
 import com.jjsd.options.entity.ContactInfoVO;
 import com.jjsd.options.entity.ETFBasicInfoVO;
-import com.jjsd.options.entity.KInfo;
 import com.jjsd.options.entity.KInfoSimple;
 import com.jjsd.options.service.MarketService;
 import org.springframework.stereotype.Service;
@@ -44,7 +43,7 @@ public class MarketServiceImpl implements MarketService{
     }
 
     @Override
-    public ArrayList<ETFBasicInfoVO> getETFBasicInfo() {
+    public ETFBasicInfoVO getETFBasicInfo() {
         return null;
     }
 
