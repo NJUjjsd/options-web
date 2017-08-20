@@ -45,7 +45,7 @@ export default {
           current: page,
         },
       });
-      console.log('调用到了models/news.js/getList');
+      // console.log('调用到了models/news.js/getList');
     },
     * putDetail({ payload: { data } }, { put }) {
       yield put({
@@ -70,7 +70,7 @@ export default {
           stockCode,
         },
       });
-      console.log('调用到了models/news.js/getStockCode');
+      // console.log('调用到了models/news.js/getStockCode');
     },
     * getClassifiedNews(
       { payload: { page, pageSize, code, type, isDescByReadNum } }, { call, put },
@@ -86,7 +86,7 @@ export default {
           current: page,
         },
       });
-      console.log('调用到了models/news.js/getClassifiedNews');
+      // console.log('调用到了models/news.js/getClassifiedNews');
     },
   },
 

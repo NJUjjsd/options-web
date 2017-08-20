@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import { Row, Col, Menu } from 'antd';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import KLineChart from '../../components/KLineChart/KLineChart';
-import styles from './ETF.css';
+import styles from './Market.css';
 
 function ETF({ tab, location, dispatch }) {
   function KLineTabChangeHandler(param) {

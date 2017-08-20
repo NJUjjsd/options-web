@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table } from 'antd';
 
-function ETFInfoForm() {
+function ETFInfoForm({ ETFBasicInfo }) {
   const column = [{
     title: '代码',
     dataIndex: 'code',
@@ -26,17 +26,24 @@ function ETFInfoForm() {
     dataIndex: 'amplitude',
   }, {
     title: '成交量(手)',
+    dataIndex: 'turnOver',
   }, {
     title: '成交额(万元)',
+    dataIndex: 'transaction',
   }];
 
-  const data = [{
-    key: '1',
-    code: 510050,
-    name: '上证50ETF',
-  }];
-
-  return (<Table dataSource={data} columns={column} />);
+  return (
+    <Table
+      dataSource={ETFBasicInfo}
+      columns={column}
+      bordered
+      bodyStyle={{ fontSize: '14px' }}
+    />);
 }
 
-export default connect()(ETFInfoForm);
+function mapStateToProps(state) {
+  const { ETFBasicInfo } = state.market;
+  return { ETFBasicInfo };
+}
+
+export default connect(mapStateToProps)(ETFInfoForm);
