@@ -44,7 +44,9 @@ public class NewsController {
     public @ResponseBody String getClassifiedNews(@RequestParam int page,@RequestParam int pageSize,
                                                   @RequestParam String code,@RequestParam String type,
                                                   @RequestParam boolean isDescByReadNum){
+        System.out.println("NewsController/getClassifiedNews/page:"+page);
         System.out.println("NewsController/getClassifiedNews/code:"+code);
+        System.out.println("NewsController/getClassifiedNews/type:"+type);
         Page<News> news = null;
         try {
             news = newsService.classify(page,pageSize,code,type,isDescByReadNum);

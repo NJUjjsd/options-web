@@ -2,7 +2,7 @@
  * Created by john on 2017/8/4.
  */
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, BackTop } from 'antd';
 import { connect } from 'dva';
 import styles from './MainLayout.css';
 import MainContent from '../MainContent/MainContent';
@@ -37,6 +37,7 @@ function MainLayout({ children, location }) {
         </Menu>
       </Header>
       {content}
+      <BackTop />
       <Footer className={styles.footer}>
         Options ©2017 Created by NJU JJSD
       </Footer>

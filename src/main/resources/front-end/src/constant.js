@@ -1,7 +1,7 @@
 /**
  * Created by john on 2017/8/17.
  */
-export const defaultPageSize = 6;
+export const defaultPageSize = 20;
 export const defaultPage = 1;
 export const defaultType = '新闻';
 export const defaultIsDescByReadNum = false;

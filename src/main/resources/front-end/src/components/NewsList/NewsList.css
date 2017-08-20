@@ -1,8 +1,12 @@
-.list {
-  margin-top: 2%;
-}
 .page {
   margin-top: 1%;
   margin-bottom: 1%;
   text-align: center;
+}
+.checkBox {
+  margin-top: 12px;
+  font-size: 15px;
+}
+.list {
+  margin-top: 1%;
 }

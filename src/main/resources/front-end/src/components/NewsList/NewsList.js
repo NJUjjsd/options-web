@@ -8,7 +8,7 @@ import { defaultPageSize, defaultIsDescByReadNum } from '../../constant';
 import NewsItem from './NewsItem';
 import styles from './NewsList.css';
 
-function NewsList({ dispatch, location, newsList, allNum, current }) {
+function NewsList({ dispatch, location, type, newsList, allNum, current }) {
   function pageChangeHandler(page) {
     const currentPage = page;
     dispatch({
@@ -17,14 +17,14 @@ function NewsList({ dispatch, location, newsList, allNum, current }) {
         page: currentPage,
         pageSize: defaultPageSize,
         code: location.query.code,
-        type: location.query.type,
+        type,
         isDescByReadNum: defaultIsDescByReadNum,
       },
     });
   }
   return (
     <Row className={styles.list}>
-      <Col offset={4} span={16}>
+      <Col offset={2} span={20}>
         {
           newsList.map((v) => {
             return (

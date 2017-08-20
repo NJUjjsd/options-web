@@ -7,6 +7,7 @@
   background-color: white;
   width: 200px;
   font-size: 20px;
+  box-shadow: 0 0 6px #b8b8b8;
 }
 .trigger {
   font-size: 18px;
@@ -23,14 +24,16 @@
   color: #595959;
 }
 /*====================sider========================*/
+
 /*====================top========================*/
 .top {
-  margin-top: 18px;
+  padding-top: 18px;
   border-bottom: solid 1px #f4f4f4;
   padding-bottom: 45px;
 }
 .bread {
   font-size: 16px;
+  -webkit-text-fill-color: #595959;
   opacity: 0.9;
 }
 .breadcrumb {
@@ -42,16 +45,19 @@
   float: right;
   margin-right: 24px;
   display: none;
+  box-shadow: 0 0 2px #f4f4f4;
 }
 .showSearch {
   float: right;
   margin-right: 24px;
   display: block;
+  box-shadow: 0 0 2px #c8c8c8;
 }
 /*====================top========================*/
 /*====================children========================*/
 .childrenLayout {
-  padding-left:12px
+  padding-left:12px;
+  box-shadow: 0 0 6px #b8b8b8;
 }
 .children {
   background-color: white;

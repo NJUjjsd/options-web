@@ -64,11 +64,15 @@ class MainContent extends React.Component {
     }
     if (e.keyPath[length - 1] === '实时新闻') {
       const code = e.key.substring(e.key.length - 7, e.key.length - 1);
+      let type = defaultType;
+      if (this.props.location.pathname === '/news') {
+        type = this.props.location.query.type;
+      }
       this.props.dispatch(routerRedux.push({
         pathname: '/news',
         query: {
           code,
-          type: defaultType,
+          type,
           path,
         },
       }));
@@ -89,6 +93,28 @@ class MainContent extends React.Component {
       searchStyle = styles.showSearch;
     }
     return searchStyle;
+  };
+  toNews = () => {
+    if (this.props.location.pathname !== '/news') {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/news',
+        query: {
+          code: defaultStockCode,
+          type: defaultType,
+          path: defaultNewsPath,
+        },
+      }));
+    }
+  };
+  toMarket = () => {
+    if (this.props.location.pathname.substring(0, 7) !== '/market') {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/market/ETF',
+        query: {
+          path: defaultMarketPath,
+        },
+      }));
+    }
   };
   render() {
     const defaultSelectedKeys = this.defaultSelectedKeys();
@@ -129,22 +155,7 @@ class MainContent extends React.Component {
             <SubMenu
               key="实时新闻"
               title={
-                <span
-                  onClick={
-                    () => {
-                      if (this.props.location.pathname !== '/news') {
-                        this.props.dispatch(routerRedux.push({
-                          pathname: '/news',
-                          query: {
-                            code: defaultStockCode,
-                            type: defaultType,
-                            path: defaultNewsPath,
-                          },
-                        }));
-                      }
-                    }
-                  }
-                >
+                <span onClick={this.toNews.bind(this)}>
                   <Icon type="link" />
                   <span>实时新闻</span>
                 </span>
@@ -166,20 +177,7 @@ class MainContent extends React.Component {
             <SubMenu
               key="最新行情"
               title={
-                <span
-                  onClick={
-                    () => {
-                      if (this.props.location.pathname.substring(0, 7) !== '/market') {
-                        this.props.dispatch(routerRedux.push({
-                          pathname: '/market/ETF',
-                          query: {
-                            path: defaultMarketPath,
-                          },
-                        }));
-                      }
-                    }
-                  }
-                >
+                <span onClick={this.toMarket.bind(this)}>
                   <Icon type="line-chart" />
                   <span>最新行情</span>
                 </span>
