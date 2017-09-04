@@ -6,7 +6,7 @@ import { Layout, Menu, Icon, Breadcrumb } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
 import { defaultType, defaultStockCode,
-  defaultNewsPath, defaultMarketPath } from '../../constant';
+  defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum } from '../../constant';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import styles from './MainContent.css';
 
@@ -25,26 +25,17 @@ class MainContent extends React.Component {
   };
   singleStocks = () => {
     const singleStocks = [];
-    // if (this.props.stockCode.length === 0) {
-    //   this.props.dispatch({
-    //     type: 'news/getStockCode',
-    //   });
-    // }
+    if (this.props.stockCode.length === 0) {
+      this.props.dispatch({
+        type: 'news/getStockCode',
+      });
+    }
     for (let i = 0; i < this.props.stockCode.length; i += 1) {
       const data = this.props.stockCode[i];
       const value = `${data.name}(${data.code})`;
       singleStocks.push(<Menu.Item key={value}>{value}</Menu.Item>);
     }
     return singleStocks;
-  };
-  brumbItems = () => {
-    const brumbItems = [];
-    const arr = this.props.location.query.path.split('/');
-    for (let i = 0; i < arr.length; i += 1) {
-      const data = arr[i + 1];
-      brumbItems.push(<Breadcrumb.Item key={i + 1}>{data}</Breadcrumb.Item>);
-    }
-    return brumbItems;
   };
   defaultSelectedKeys = () => {
     const arr = this.props.location.query.path.split('/');
@@ -65,14 +56,17 @@ class MainContent extends React.Component {
     if (e.keyPath[length - 1] === '实时新闻') {
       const code = e.key.substring(e.key.length - 7, e.key.length - 1);
       let type = defaultType;
+      let isDescByReadNum = defaultIsDescByReadNum;
       if (this.props.location.pathname === '/news') {
         type = this.props.location.query.type;
+        isDescByReadNum = this.props.location.query.isDescByReadNum;
       }
       this.props.dispatch(routerRedux.push({
         pathname: '/news',
         query: {
           code,
           type,
+          isDescByReadNum,
           path,
         },
       }));
@@ -101,6 +95,7 @@ class MainContent extends React.Component {
         query: {
           code: defaultStockCode,
           type: defaultType,
+          isDescByReadNum: defaultIsDescByReadNum,
           path: defaultNewsPath,
         },
       }));
@@ -120,7 +115,6 @@ class MainContent extends React.Component {
     const defaultSelectedKeys = this.defaultSelectedKeys();
     const defaultOpenKeys = this.defaultOpenKeys();
     const singleStocks = this.singleStocks();
-    const brumbItems = this.brumbItems();
     return (
       <Layout className={styles.contentLayout}>
         <Sider
@@ -170,6 +164,7 @@ class MainContent extends React.Component {
               <SubMenu
                 key="个股资讯"
                 title="个股资讯"
+                className={styles.singleStocks}
               >
                 {singleStocks}
               </SubMenu>
@@ -197,7 +192,13 @@ class MainContent extends React.Component {
             <div className={styles.top}>
               <span className={styles.breadcrumb}>
                 <Breadcrumb separator=">" className={styles.bread}>
-                  {brumbItems}
+                  {
+                    this.props.location.query.path.split('/')
+                      .splice(1, this.props.location.query.path.split('/').length - 1)
+                      .map((item, i) =>
+                        <Breadcrumb.Item key={i + 1}>{item}</Breadcrumb.Item>,
+                      )
+                  }
                 </Breadcrumb>
               </span>
               <span className={this.searchState()}>

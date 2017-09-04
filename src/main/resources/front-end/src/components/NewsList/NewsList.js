@@ -8,7 +8,7 @@ import { defaultPageSize, defaultIsDescByReadNum } from '../../constant';
 import NewsItem from './NewsItem';
 import styles from './NewsList.css';
 
-function NewsList({ dispatch, location, type, newsList, allNum, current }) {
+function NewsList({ dispatch, location, newsList, allNum, current, loading }) {
   function pageChangeHandler(page) {
     const currentPage = page;
     dispatch({
@@ -17,14 +17,17 @@ function NewsList({ dispatch, location, type, newsList, allNum, current }) {
         page: currentPage,
         pageSize: defaultPageSize,
         code: location.query.code,
-        type,
+        type: location.query.type,
         isDescByReadNum: defaultIsDescByReadNum,
       },
     });
   }
   return (
-    <Row className={styles.list}>
-      <Col offset={2} span={20}>
+    <Row
+      className={styles.list}
+      loading={loading}
+    >
+      <Col offset={2} span={19}>
         {
           newsList.map((v) => {
             return (
@@ -46,7 +49,14 @@ function NewsList({ dispatch, location, type, newsList, allNum, current }) {
 
 function mapStateToProps(state) {
   const { newsList, allNum, current } = state.news;
-  return { newsList, allNum, current };
+  console.log('components/NewsList.js/mapStateToProps:');
+  console.log(newsList);
+  return {
+    newsList,
+    allNum,
+    current,
+    loading: state.loading.models.news,
+  };
 }
 
 export default connect(mapStateToProps)(NewsList);

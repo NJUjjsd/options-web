@@ -7,12 +7,6 @@ import { Row, Col } from 'antd';
 import styles from './NewsBody.css';
 
 function NewsBody({ detail }) {
-  const paragraphList = detail.text.split('\r\n   \r\n');
-  const paragraphs = [];
-  for (let i = 0; i < paragraphList.length; i += 1) {
-    paragraphs[i] = <p>{paragraphList[i]}</p>;
-  }
-
   return (
     <Row>
       <Col offset={4} span={16}>
@@ -21,7 +15,9 @@ function NewsBody({ detail }) {
           <p className={styles.news_date}>{detail.dateToString}</p>
         </div>
         <hr className={styles.below_title} />
-        <div className={styles.news_article}>{paragraphs}</div>
+        <div className={styles.news_article}>
+          {detail.resolvedText.map(text => <p>{text}</p>)}
+        </div>
         <a href={detail.url} rel="noopener noreferrer" target="_blank" className={styles.original}>
           <div className={styles.original_link} />
         </a>
@@ -29,10 +25,6 @@ function NewsBody({ detail }) {
     </Row>
   );
 }
-
-NewsBody.prototypes = {
-  detail: Object,
-};
 
 function mapStateToProps(state) {
   const { detail } = state.news;

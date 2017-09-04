@@ -13,16 +13,30 @@ function NewsItem({ dispatch, data }) {
     });
   }
 
-  let paragraph = data.text;
-  if (paragraph.length > 160) {
-    paragraph = `${paragraph.substring(0, 160)}...`;
+  function getResolvedText() {
+    const text = [];
+    let total = 0;
+    for (let i = 0; i < data.resolvedText.length; i += 1) {
+      if (total + data.resolvedText[i].length <= 160) {
+        text.push(data.resolvedText[i]);
+      } else {
+        text.push(`${data.resolvedText[i].substring(0, 160 - total)}...`);
+        break;
+      }
+      total += data.resolvedText[i].length;
+    }
+    return text;
   }
 
   return (
     <div onClick={toDetail.bind(this)} className={styles.news_container}>
-      <div className={styles.news_head}>{data.title}</div>
+      <h2 className={styles.news_head}>{data.title}</h2>
       <div className={styles.news_info}>{data.dateToString}</div>
-      <div className={styles.news_brief}>{paragraph}</div>
+      <div className={styles.news_brief}>
+        {
+        getResolvedText().map(text => <p>{text}</p>)
+      }
+      </div>
     </div>
   );
 }

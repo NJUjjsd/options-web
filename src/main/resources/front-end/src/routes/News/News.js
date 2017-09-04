@@ -20,24 +20,42 @@ class News extends React.Component {
     };
   }
   onChange = (activeKey) => {
-    const code = this.props.location.query.code;
-    const type = activeKey;
     this.props.dispatch(routerRedux.push({
       pathname: '/news',
       query: {
-        code,
-        type,
+        code: this.props.location.query.code,
+        type: activeKey,
+        isDescByReadNum: this.props.location.query.isDescByReadNum,
         path: this.props.location.query.path,
       },
     }));
     this.setState({ activeKey });
   };
+  sort = (e) => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/news',
+      query: {
+        code: this.props.location.query.code,
+        type: this.props.location.query.type,
+        isDescByReadNum: e.target.checked,
+        path: this.props.location.query.path,
+      },
+    }));
+    console.log(e.target.checked);
+  };
   render() {
-    const isDescByReadNum = <Checkbox className={styles.checkBox}>按热度</Checkbox>;
+    const isDescByReadNum = (
+      <Checkbox
+        className={styles.checkBox}
+        onChange={this.sort}
+      >
+        按热度
+      </Checkbox>
+      );
     return (
       <MainLayout location={this.props.location}>
         <Row>
-          <Col span={15}>
+          <Col span={18}>
             <Tabs
               hideAdd
               onChange={this.onChange}
@@ -47,12 +65,12 @@ class News extends React.Component {
             >
               {this.state.types.map(type =>
                 <TabPane tab={type} key={type}>
-                  <NewsList location={this.props.location} type={type} />
+                  <NewsList location={this.props.location} />
                 </TabPane>)
               }
             </Tabs>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <div className={styles.bar} />
           </Col>
         </Row>

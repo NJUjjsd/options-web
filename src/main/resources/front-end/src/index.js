@@ -1,5 +1,6 @@
 import dva from 'dva';
 import browserHistory from 'dva/router';
+import createLoading from 'dva-loading';
 import 'antd/dist/antd.less';
 import './index.css';
 
@@ -12,7 +13,7 @@ const app = dva({
 });
 
 // 2. Plugins
-// app.use({});
+app.use(createLoading());
 
 // 3. Model
 // app.model(require('./models/example'));

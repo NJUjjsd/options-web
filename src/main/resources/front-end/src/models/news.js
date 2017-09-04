@@ -2,7 +2,7 @@
  * Created by john on 2017/8/13.
  */
 import { routerRedux } from 'dva/router';
-import { defaultPage, defaultPageSize, defaultIsDescByReadNum, newsDetailsPath } from '../constant';
+import { defaultPage, defaultPageSize, newsDetailsPath } from '../constant';
 import * as newsService from '../services/newsService';
 
 export default {
@@ -26,7 +26,7 @@ export default {
               pageSize: defaultPageSize,
               code: query.code,
               type: query.type,
-              isDescByReadNum: defaultIsDescByReadNum,
+              isDescByReadNum: query.isDescByReadNum,
             },
           });
         }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +48,8 @@ public class NewsController {
         System.out.println("NewsController/getClassifiedNews/page:"+page);
         System.out.println("NewsController/getClassifiedNews/code:"+code);
         System.out.println("NewsController/getClassifiedNews/type:"+type);
+        System.out.println("NewsController/getClassifiedNews/isDescByReadNum:"+isDescByReadNum);
+        System.out.println("===================================================================");
         Page<News> news = null;
         try {
             news = newsService.classify(page,pageSize,code,type,isDescByReadNum);

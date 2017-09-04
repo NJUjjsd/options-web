@@ -104,6 +104,10 @@ public class News{
         return text;
     }
 
+    public String[] getResolvedText() {
+        return text.split("\r");
+    }
+
     public void setText(String text) {
         this.text = text;
     }

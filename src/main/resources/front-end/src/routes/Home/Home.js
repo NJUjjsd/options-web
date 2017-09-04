@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Row, Col } from 'antd';
 import { routerRedux } from 'dva/router';
-import { defaultStockCode, defaultType, defaultNewsPath, defaultMarketPath } from '../../constant';
+import { defaultStockCode, defaultType, defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum } from '../../constant';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import styles from './Home.css';
 
@@ -13,6 +13,7 @@ function IndexPage({ location, dispatch }) {
       query: {
         code: defaultStockCode,
         type: defaultType,
+        isDescByReadNum: defaultIsDescByReadNum,
         path: defaultNewsPath,
       },
     }));
