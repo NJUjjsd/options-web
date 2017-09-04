@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by a297 on 17/8/15.
  */
-@Service
+//@Service
 public class MarketServiceImpl implements MarketService{
     static KInfoDao dao;
     static {
@@ -39,6 +39,11 @@ public class MarketServiceImpl implements MarketService{
 
     @Override
     public ArrayList<String> getContactDueMonths() {
+        return null;
+    }
+
+    @Override
+    public String getETFUpdateTime() {
         return null;
     }
 

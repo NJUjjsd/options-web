@@ -4,8 +4,6 @@ package com.jjsd.options.entity;
  * Created by a297 on 17/8/20.
  */
 public class ETFBasicInfoVO {
-    // 更新时间，如："2017-08-17 15:15:04"
-    private String updateTime;
     // 代码，如："510050"
     private String code;
     // 如："上证50ETF"
@@ -23,8 +21,7 @@ public class ETFBasicInfoVO {
     // 成交额，如："6851.636"
     private String transaction;
 
-    public ETFBasicInfoVO(String updateTime, String code, String name, String curPrice, String fluPrice, String fluPercent, String amplitude, String turnOver, String transaction) {
-        this.updateTime = updateTime;
+    public ETFBasicInfoVO(String code, String name, String curPrice, String fluPrice, String fluPercent, String amplitude, String turnOver, String transaction) {
         this.code = code;
         this.name = name;
         this.curPrice = curPrice;
@@ -33,10 +30,6 @@ public class ETFBasicInfoVO {
         this.amplitude = amplitude;
         this.turnOver = turnOver;
         this.transaction = transaction;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
     }
 
     public String getCode() {

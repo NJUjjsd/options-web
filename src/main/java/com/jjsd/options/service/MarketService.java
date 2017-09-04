@@ -35,6 +35,13 @@ public interface MarketService {
      */
     ArrayList<String> getContactDueMonths();
 
+
+    /**
+     *
+     * @return ETF信息更新时间，如："2017-08-17 15:15:04"
+     */
+    String getETFUpdateTime();
+
     /**
      * 
      * @return ETF基本信息

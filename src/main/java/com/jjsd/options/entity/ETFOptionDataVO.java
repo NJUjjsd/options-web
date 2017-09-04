@@ -7,30 +7,37 @@ import java.util.ArrayList;
  */
 public class ETFOptionDataVO {
     private ArrayList<String> dueMonths;
-    private ETFBasicInfoVO basicInfoVOs;
-    private ArrayList<String> contactInfoUpdateTime;
-    private  ArrayList<ContactInfoVO> contactInfoVOs;
+    private String ETFUpdateTime;
+    private ETFBasicInfoVO basicInfo;
+    private ArrayList<String> contactUpdateTime;
+    private  ArrayList<ContactInfoVO> contactInfo;
 
-    public ETFOptionDataVO(ArrayList<String> dueMonths, ETFBasicInfoVO basicInfoVOs, ArrayList<String> contactInfoUpdateTime, ArrayList<ContactInfoVO> contactInfoVOs) {
+    public ETFOptionDataVO(ArrayList<String> dueMonths, String ETFUpdateTime, ETFBasicInfoVO basicInfo, ArrayList<String> contactUpdateTime, ArrayList<ContactInfoVO> contactInfo) {
         this.dueMonths = dueMonths;
-        this.basicInfoVOs = basicInfoVOs;
-        this.contactInfoUpdateTime = contactInfoUpdateTime;
-        this.contactInfoVOs = contactInfoVOs;
+        this.ETFUpdateTime = ETFUpdateTime;
+
+        this.basicInfo = basicInfo;
+        this.contactUpdateTime = contactUpdateTime;
+        this.contactInfo = contactInfo;
     }
 
     public ArrayList<String> getDueMonths() {
         return dueMonths;
     }
 
-    public ETFBasicInfoVO getBasicInfoVOs() {
-        return basicInfoVOs;
+    public String getETFUpdateTime() {
+        return ETFUpdateTime;
     }
 
-    public ArrayList<String> getContactInfoUpdateTime() {
-        return contactInfoUpdateTime;
+    public ETFBasicInfoVO getBasicInfo() {
+        return basicInfo;
     }
 
-    public ArrayList<ContactInfoVO> getContactInfoVOs() {
-        return contactInfoVOs;
+    public ArrayList<String> getContactUpdateTime() {
+        return contactUpdateTime;
+    }
+
+    public ArrayList<ContactInfoVO> getContactInfo() {
+        return contactInfo;
     }
 }

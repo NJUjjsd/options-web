@@ -7,38 +7,55 @@ import { Table } from 'antd';
 
 const { Column, ColumnGroup } = Table;
 
-function OptionForm({ dueMonthList, optionFormData, selectedMonthIndex }) {
-  const transactionMonth = `${dueMonthList[selectedMonthIndex].split('-')[1]}月份`;
+class OptionForm extends React.Component {
+  state = {
+    dueMonths: [],
+    contactInfo: [],
+    selectedMonthIndex: 0,
+  };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dueMonths.length !== 0) {
+      this.setState({
+        dueMonths: nextProps.dueMonths,
+        contactInfo: nextProps.contactInfo,
+        selectedMonthIndex: nextProps.selectedMonthIndex,
+      });
+    }
+  }
 
-  return (<Table
-    dataSource={optionFormData}
-    bordered
-    footer={() => ''}
-    style={{ textAlign: 'center' }}
-    bodyStyle={{ fontSize: '14px' }}
-  >
-    <ColumnGroup title="认购">
-      <Column title="合约交易代码" dataIndex="UpTradingCode" key="UpTradingCode" />
-      <Column title="当前价" dataIndex="UpCurrentPrice" key="UpCurrentPrice" />
-      <Column title="涨跌幅" dataIndex="UpFluctuation" key="UpFluctuation" />
-      <Column title="前结价" dataIndex="UpPreClosingPrice" key="UpPreClosingPrice" />
-    </ColumnGroup>
-    <ColumnGroup title={transactionMonth}>
-      <Column title="行权价" dataIndex="UpExercisePrice" key="UpExercisePrice" />
-    </ColumnGroup>
-    <ColumnGroup title="认购">
-      <Column title="合约交易代码" dataIndex="DownTradingCode" key="DownTradingCode" />
-      <Column title="当前价" dataIndex="DownCurrentPrice" key="DownCurrentPrice" />
-      <Column title="涨跌幅" dataIndex="DownFluctuation" key="DownFluctuation" />
-      <Column title="前结价" dataIndex="DownPreClosingPrice" key="DownPreClosingPrice" />
-    </ColumnGroup>
-  </Table>);
+  render() {
+    const dueMonth = (this.state.dueMonths.length === 0 ? '月份' : `${this.state.dueMonths[this.state.selectedMonthIndex].split('-')[1]}月份`);
+    const contacts = this.state.contactInfo;
+    contacts.map((v, i) => {
+      return Object.assign(v, { key: i });
+    });
+    return (
+      <Table
+        dataSource={contacts}
+        bordered
+        footer={() => ''}
+        style={{ textAlign: 'center' }}
+        bodyStyle={{ fontSize: '14px' }}
+        rowKey={record => record.key}
+      >
+        <ColumnGroup title="认购">
+          <Column title="合约交易代码" dataIndex="upTradingCode" key="upTradingCode" />
+          <Column title="当前价" dataIndex="upCurrentPrice" key="upCurrentPrice" />
+          <Column title="涨跌幅" dataIndex="upFluctuation" key="upFluctuation" />
+          <Column title="前结价" dataIndex="upPreClosingPrice" key="upPreClosingPrice" />
+        </ColumnGroup>
+        <ColumnGroup title={dueMonth}>
+          <Column title="行权价" dataIndex="upExercisePrice" key="upExercisePrice" />
+        </ColumnGroup>
+        <ColumnGroup title="认购">
+          <Column title="合约交易代码" dataIndex="downTradingCode" key="downTradingCode" />
+          <Column title="当前价" dataIndex="downCurrentPrice" key="downCurrentPrice" />
+          <Column title="涨跌幅" dataIndex="downFluctuation" key="downFluctuation" />
+          <Column title="前结价" dataIndex="downPreClosingPrice" key="downPreClosingPrice" />
+        </ColumnGroup>
+      </Table>
+    );
+  }
 }
-
-function mapStateToProps(state) {
-  const { dueMonthList, optionFormData, selectedMonthIndex } = state.market;
-  return { dueMonthList, optionFormData, selectedMonthIndex };
-}
-
-export default connect(mapStateToProps)(OptionForm);
+export default connect()(OptionForm);
 

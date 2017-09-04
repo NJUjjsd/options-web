@@ -8,11 +8,11 @@ export default {
   state: {
     ETFKLineRawData: [],
     ETFKLineTab: 'daily',
-    dueMonthList: [],
-    ETFTime: '',
-    ETFBasicInfo: [],
-    transactionTime: [],
-    optionFormData: [],
+    dueMonths: [],
+    ETFUpdateTime: '',
+    basicInfo: {},
+    contactUpdateTime: [],
+    contactInfo: [],
     selectedMonthIndex: 0,
   },
 
@@ -20,7 +20,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/market/ETF') {
-          dispatch({ type: 'fetchETFKLineRawData', payload: query });
+          // dispatch({ type: 'fetchETFKLineRawData', payload: query });
         } else if (pathname === '/market/ETFOption') {
           dispatch({ type: 'fetchETFOptionData', payload: query });
         }
@@ -36,18 +36,17 @@ export default {
     },
     *fetchETFOptionData({ payload }, { call, put }) {
       const
-        { dueMonthList, ETFTime, ETFBasicInfo,
-          transactionTime, optionFormData, selectedMonthIndex } =
+        { dueMonths, ETFUpdateTime, basicInfo,
+          contactUpdateTime, contactInfo } =
         yield call(marketService.getETFOptionData);
       yield put({
         type: 'saveETFOptionData',
         payload: {
-          dueMonthList,
-          ETFTime,
-          ETFBasicInfo,
-          transactionTime,
-          optionFormData,
-          selectedMonthIndex,
+          dueMonths,
+          ETFUpdateTime,
+          basicInfo,
+          contactUpdateTime,
+          contactInfo,
         },
       });
     },
@@ -67,22 +66,20 @@ export default {
     },
     saveETFOptionData(state, {
       payload: {
-        dueMonthList,
-        ETFTime,
-        ETFBasicInfo,
-        transactionTime,
-        optionFormData,
-        selectedMonthIndex,
+        dueMonths,
+        ETFUpdateTime,
+        basicInfo,
+        contactUpdateTime,
+        contactInfo,
       },
     }) {
       return {
         ...state,
-        dueMonthList,
-        ETFTime,
-        ETFBasicInfo,
-        transactionTime,
-        optionFormData,
-        selectedMonthIndex,
+        dueMonths,
+        ETFUpdateTime,
+        basicInfo,
+        contactUpdateTime,
+        contactInfo,
       };
     },
     saveSelectedMonthIndex(state, { payload: { selectedMonthIndex } }) {

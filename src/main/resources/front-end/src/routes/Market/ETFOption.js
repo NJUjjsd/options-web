@@ -11,92 +11,120 @@ import styles from './Market.css';
 
 const Option = Select.Option;
 
-function ETFOption({
-  dueMonthList,
-  ETFTime,
-  transactionTime,
-  selectedMonthIndex,
-  location,
-  dispatch,
-}) {
-  /**
-   * 当前所选合约到期月份
-   */
-  const curDueMonth = dueMonthList[selectedMonthIndex];
-  /**
-   * 当前所选合约到期月份的合约信息的更新时间
-   */
-  const updatetransactionTime = transactionTime[selectedMonthIndex];
+class ETFOption extends React.Component {
+  state = {
+    dueMonths: [],
+    ETFUpdateTime: '',
+    basicInfo: {},
+    contactUpdateTime: [],
+    contactInfo: [],
+    selectedMonthIndex: 0,
+  };
 
-  /**
-   * set options in the selector
-   */
-  const monthList = dueMonthList;
-  const monthOption = [];
-  monthList.map((v, i) => {
-    return (
-      monthOption.push(<Option value={v} key={i}>
-        {v.split('-')[0]}年{v.split('-')[1]}月
-      </Option>)
-    );
-  });
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dueMonths !== undefined) {
+      this.setState({
+        dueMonths: nextProps.dueMonths,
+        ETFUpdateTime: nextProps.ETFUpdateTime,
+        basicInfo: nextProps.basicInfo,
+        contactUpdateTime: nextProps.contactUpdateTime,
+        contactInfo: nextProps.contactInfo,
+        selectedMonthIndex: nextProps.selectedMonthIndex,
+      });
+    }
+  }
   /**
    *
    * select due month
    *
    * @param value selected month
    */
-  function dueMonthChangeHandler(value) {
-    for (let i = 0; i < dueMonthList.length; i += 1) {
-      if (value === dueMonthList[i]) {
-        dispatch({
+  dueMonthChangeHandler = (value) => {
+    for (let i = 0; i < 4; i += 1) {
+      if (value === this.state.dueMonths[i]) {
+        this.props.dispatch({
           type: 'market/changeSelectedMonthIndex',
           payload: { selectedMonthIndex: i },
         });
+        break;
       }
     }
   }
 
-  return (
-    <MainLayout location={location}>
-      <Row className={styles.selectMonth}>
-        <Col offset={4} span={2}>
-          <h3>合同到期月份</h3>
-        </Col>
-        <Col span={2}>
-          <Select defaultValue={curDueMonth} onChange={dueMonthChangeHandler}>
-            { monthOption }
-          </Select>
-        </Col>
-      </Row>
-      <Row>
-        <Col offset={4} span={15}>
-          <p className={styles.updateTime}>更新时间：{ ETFTime } </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col offset={4} span={15}>
-          <ETFInfoForm />
-        </Col>
-      </Row>
-      <Row>
-        <Col offset={4} span={15}>
-          <p className={styles.updateTime}>更新时间：{ updatetransactionTime } </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col offset={4} span={15}>
-          <OptionForm />
-        </Col>
-      </Row>
-    </MainLayout>
-  );
+  render() {
+    let contactTime = '';
+    let options = [];
+    if (this.state.dueMonths.length === 0) {
+      const months = this.state.dueMonths;
+      const index = this.state.selectedMonthIndex;
+      contactTime = this.state.contactUpdateTime[index];
+      options = months.map((v, i) => {
+        return (
+          <Option value={v} key={i}>
+            {v.split('-')[0]}年{v.split('-')[1]}月
+          </Option>
+        );
+      });
+    }
+    const defaultMonth = this.state.dueMonths.length === 0 ? '' : this.state.dueMonths[this.state.selectedMonthIndex];
+    return (
+      <MainLayout location={this.props.location}>
+        <Row className={styles.selectMonth}>
+          <Col offset={4} span={2}>
+            <h3>合同到期月份</h3>
+          </Col>
+          <Col span={2}>
+            <Select value={defaultMonth} onChange={this.dueMonthChangeHandler}>
+              {options}
+            </Select>
+          </Col>
+        </Row>
+        <Row>
+          <Col offset={4} span={15}>
+            <p className={styles.updateTime}>更新时间：{this.state.ETFUpdateTime} </p>
+          </Col>
+        </Row>
+        <Row>
+          <Col offset={4} span={15}>
+            <ETFInfoForm basicInfo={this.state.basicInfo} />
+          </Col>
+        </Row>
+        <Row>
+          <Col offset={4} span={15}>
+            <p className={styles.updateTime}>更新时间：{contactTime} </p>
+          </Col>
+        </Row>
+        <Row>
+          <Col offset={4} span={15}>
+            <OptionForm
+              dueMonths={this.state.dueMonths}
+              contactInfo={this.state.contactInfo}
+              selectedMonthIndex={this.state.selectedMonthIndex}
+            />
+          </Col>
+        </Row>
+      </MainLayout>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-  const { dueMonthList, ETFTime, transactionTime, selectedMonthIndex } = state.market;
-  return { dueMonthList, ETFTime, transactionTime, selectedMonthIndex };
+  const {
+    dueMonths,
+    ETFUpdateTime,
+    basicInfo,
+    contactUpdateTime,
+    contactInfo,
+    selectedMonthIndex,
+  } = state.market;
+  return {
+    dueMonths,
+    ETFUpdateTime,
+    basicInfo,
+    contactUpdateTime,
+    contactInfo,
+    selectedMonthIndex,
+  };
 }
 
 export default connect(mapStateToProps)(ETFOption);
