@@ -1,5 +1,7 @@
 package com.jjsd.options.entity;
 
+import com.jjsd.options.entity.vo.ETFBasicInfoVO;
+
 import java.util.ArrayList;
 
 /**
