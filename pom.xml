@@ -133,6 +133,13 @@
 			<artifactId>htmlunit</artifactId>
 			<version>2.27</version>
 		</dependency>
+
+		<!--java邮件-->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+		</dependency>
 	</dependencies>
 
 
