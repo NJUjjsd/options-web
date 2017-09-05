@@ -8,7 +8,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.jjsd.options.entity.ETFBaseInfo;
 import com.jjsd.options.entity.ETFInfo;
+import com.jjsd.options.entity.TransUnitPo;
+import com.jjsd.options.entity.vo.ContactInfoVO;
+import com.jjsd.options.entity.vo.ETFBasicInfoVO;
 import com.mongodb.util.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sourceforge.htmlunit.cyberneko.HTMLElements;
 import org.jsoup.Connection;
@@ -17,9 +21,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.json.Json;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by ${zrz} on 2017/8/14.
@@ -34,13 +41,17 @@ public class ETFInfoUtil {
     //查看合约剩余日期
     static String remainedDayUrl="http://stock.finance.sina.com.cn/futures/api/openapi.php/StockOptionService.getRemainderDay?date=";
     //查看某月份到期的看涨期权代码列表
-    static String upListUrl = "http://hq.sinajs.cn/list=OP_UP_";
+    static String upListUrl = "http://hq.sinajs.cn/list=OP_UP_510050";
     //查看某月份到期的看跌期权代码列表
-    static String downListUrl = "http://hq.sinajs.cn/list=OP_DOWN_";
+    static String downListUrl = "http://hq.sinajs.cn/list=OP_DOWN_510050";
     //根据合约代码获得实时期权行情
     static String nowInfoUrl="http://hq.sinajs.cn/list=CON_OP_";
+    //期权隐含波动率
+    static String FluctuationUrl = "http://hq.sinajs.cn/list=CON_SO_";
     //50etf实时行情
     static String etfNowInfoUrl="http://hq.sinajs.cn/list=sh510050";
+    //50etf实时行情详细信息
+    static String etfNowDetailUrl = "http://hq.sinajs.cn/list=s_sh510050";
     /**
      *
      * @param code 股票代码
@@ -145,13 +156,148 @@ public class ETFInfoUtil {
         try {
             URL netUrl = new URL(url);
             BufferedReader reader = new BufferedReader(new InputStreamReader(netUrl.openConnection().getInputStream()));
+            return reader.readLine();
+            //JSONObject object = JSONObject.fromObject(reader.readLine());
+            //JSONArray array =object.getJSONObject("result").getJSONObject("data").getJSONArray("contractMonth");
 
-            JSONObject object = JSONObject.fromObject(reader.readLine());
 
         }catch (Exception e){
-
+            e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 得到所有月份，格式为yyyy-mm
+     * @return
+     */
+    public static ArrayList getAllMonths(){
+        String queryLine = queryUrl(monthUrl);
+        JSONObject object = JSONObject.fromObject(queryLine);
+        JSONArray array = object.getJSONObject("result").getJSONObject("data").getJSONArray("contractMonth");
+        array.remove(0);
+        return new ArrayList<>(Arrays.asList(array.toArray()));
+    }
+
+    /**
+     * 日期格式转换，yyyy-mm到yymm
+     * @param prime
+     * @return
+     */
+    private static String monthTrans(String prime){
+        String year = prime.substring(2,4);
+        String month =prime.substring(5,7);
+        return year+month;
+    }
+
+    /**
+     * 处理爬取的list字符串，转为arraylist
+     * @param prime
+     * @return
+     */
+    private static ArrayList<String> dealListInfo(String prime){
+        int first = prime.indexOf("=")+2;
+        int last = prime.length()-2;
+        prime = prime.substring(first,last);
+        String [] resultList = prime.split(",");
+        return new ArrayList<>(Arrays.asList(resultList));
+
+    }
+
+    /**
+     * 爬起etf实时信息
+     * @return
+     */
+    public static ETFBasicInfoVO getNowETFInfo(){
+        String query1 = queryUrl(etfNowInfoUrl);
+        String query2 = queryUrl(etfNowDetailUrl);
+        ArrayList<String> info1=dealListInfo(query1);
+        ArrayList<String> info2 = dealListInfo(query2);
+        System.out.println(JSONArray.fromObject(info2).toString());
+
+        String name = info2.get(0);
+        String nowPrice = info2.get(1);
+        String rise = info2.get(2);  //涨跌额
+        String riseScope = info2.get(3)+"%"; //涨跌幅
+        String turnOver = info2.get(4);   //成交量，单位手
+        String volume = info2.get(5);     //成交额，单位万元
+        double lastPrice = Double.valueOf(info1.get(2));
+        double highPrice = Double.valueOf(info1.get(4));
+        double lowPrice = Double.valueOf(info1.get(5));
+        double amplitude = (highPrice-lowPrice)/lastPrice*100;
+        String amplitudeStr = amplitude+"";
+        ETFBasicInfoVO basicInfoVO = new ETFBasicInfoVO("510050",name,nowPrice,rise,riseScope,amplitudeStr,turnOver,volume);
+        return basicInfoVO;
+    }
+    /**
+     * 得到etf行情时间
+     */
+    public static String getETFTime(){
+        String query1 = queryUrl(etfNowInfoUrl);
+        ArrayList<String> info1=dealListInfo(query1);
+        String day = info1.get(info1.size()-3);
+        String time = info1.get(info1.size()-2);
+
+        return day+" "+time;
+    }
+    /**
+     * 根据代码得到单元交易信息
+     * @param id
+     * @return
+     */
+    private static TransUnitPo getTransUnit(String id){
+        String info1Str = queryUrl(nowInfoUrl+id);
+        ArrayList<String> info1 = dealListInfo(info1Str);
+        String  currentPrice = info1.get(2);
+        String  Fluctuation =info1.get(6);
+        String  preClosingPrice = info1.get(8);
+        String  upExercisePrice = info1.get(7);
+        String info2Str = queryUrl(FluctuationUrl+id);
+        ArrayList<String> info2 = dealListInfo(info2Str);
+        String TradingCode = info2.get(12);
+        String time = info1.get(32);
+        TransUnitPo unitPo = new TransUnitPo(upExercisePrice,TradingCode,currentPrice,Fluctuation,preClosingPrice,time);
+        //System.out.println(JSONObject.fromObject(unitPo).toString());
+
+        return unitPo;
+    }
+    public static String getMonthTime(String month){
+        ArrayList list = new ArrayList();
+        month = monthTrans(month);
+        String upListStr = queryUrl(upListUrl+month);
+        ArrayList<String> upList = dealListInfo(upListStr);
+        String upId = upList.get(0).substring(7);
+        String info1Str = queryUrl(nowInfoUrl+upId);
+        ArrayList<String> info1 = dealListInfo(info1Str);
+        String time = info1.get(32);
+        return time;
+    }
+    /**
+     * 根据月份爬取信息
+     * @param month 格式为yyyy-mm
+     * @return
+     */
+    public static ArrayList getInfoByMonth(String month){
+        ArrayList list = new ArrayList();
+        month = monthTrans(month);
+        String upListStr = queryUrl(upListUrl+month);
+        String downListStr= queryUrl(downListUrl+month);
+        ArrayList<String> upList = dealListInfo(upListStr);
+        ArrayList<String> downList = dealListInfo(downListStr);
+
+        for(int i=0;i<upList.size();i++){
+            String upId = upList.get(i).substring(7);
+            String downId = downList.get(i).substring(7);
+            TransUnitPo upUnit = getTransUnit(upId);
+            TransUnitPo downUnit = getTransUnit(downId);
+            ContactInfoVO vo = new ContactInfoVO(upUnit.getUpExercisePrice(),upUnit.getTradingCode(),upUnit.getCurrentPrice(),upUnit.getFluctuation(),upUnit.getPreClosingPrice(),downUnit.getTradingCode(),downUnit.getCurrentPrice(),downUnit.getFluctuation(),downUnit.
+                    getPreClosingPrice());
+            //System.out.println(JSONObject.fromObject(vo).toString());
+            list.add(vo);
+        }
+
+        return list;
+
     }
     /**
      * 爬取etf期权信息（表格）
@@ -161,7 +307,9 @@ public class ETFInfoUtil {
 
     }
     public static void main(String[] args) {
-        queryUrl(monthUrl);
+        getNowETFInfo();
+        //System.out.println(JSONArray.fromObject(getAllMonths()).toString());
+        System.out.println(JSONArray.fromObject(getInfoByMonth("2018-03")).toString());
         //getOtherInfo("510050");
     }
 }
