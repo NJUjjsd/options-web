@@ -11,5 +11,4 @@ public class FuturesWebApplication {
 		SpringApplication.run(FuturesWebApplication.class, args);
 	}
 
-
 }

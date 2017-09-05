@@ -52,11 +52,13 @@ class ETFOption extends React.Component {
   }
 
   render() {
+    let defaultMonth = '';
     let contactTime = '';
     let options = [];
-    if (this.state.dueMonths.length === 0) {
+    if (this.state.dueMonths.length !== 0) {
       const months = this.state.dueMonths;
       const index = this.state.selectedMonthIndex;
+      defaultMonth = this.state.dueMonths[index];
       contactTime = this.state.contactUpdateTime[index];
       options = months.map((v, i) => {
         return (
@@ -66,7 +68,6 @@ class ETFOption extends React.Component {
         );
       });
     }
-    const defaultMonth = this.state.dueMonths.length === 0 ? '' : this.state.dueMonths[this.state.selectedMonthIndex];
     return (
       <MainLayout location={this.props.location}>
         <Row className={styles.selectMonth}>

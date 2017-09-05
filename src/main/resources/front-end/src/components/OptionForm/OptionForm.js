@@ -24,8 +24,14 @@ class OptionForm extends React.Component {
   }
 
   render() {
-    const dueMonth = (this.state.dueMonths.length === 0 ? '月份' : `${this.state.dueMonths[this.state.selectedMonthIndex].split('-')[1]}月份`);
-    const contacts = this.state.contactInfo;
+    let dueMonth = '月份';
+    let contacts = [];
+    if (this.state.dueMonths.length !== 0) {
+      dueMonth = `${this.state.dueMonths[this.state.selectedMonthIndex].split('-')[1]}月份`;
+      console.log('this is contact info');
+      console.log(this.state.contactInfo);
+      contacts = this.state.contactInfo[this.state.selectedMonthIndex];
+    }
     contacts.map((v, i) => {
       return Object.assign(v, { key: i });
     });

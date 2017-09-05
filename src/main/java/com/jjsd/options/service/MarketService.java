@@ -1,8 +1,8 @@
 package com.jjsd.options.service;
 
-import com.jjsd.options.entity.ETFBasicInfoVO;
+import com.jjsd.options.entity.vo.ETFBasicInfoVO;
 import com.jjsd.options.entity.KInfoSimple;
-import com.jjsd.options.entity.ContactInfoVO;
+import com.jjsd.options.entity.vo.ContactInfoVO;
 
 import java.util.ArrayList;
 
@@ -59,4 +59,10 @@ public interface MarketService {
      * @return 合约基本信息列表(len=4, 更新的时间与上面对应)
      */
     ArrayList<ContactInfoVO> getContactInfo();
+
+    /**
+     *
+     * @return 合约基本信息列表(len=4, 更新的时间与上面对应; 即四个ArrayList，每个ArrayList包含的是该月到期的合约)
+     */
+    ArrayList<ArrayList> getAllContactInfo();
 }
