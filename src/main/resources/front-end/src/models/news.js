@@ -71,8 +71,9 @@ export default {
       },
       ));
     },
-    * getTitles({ payload }, { call, put }) {
-      const { titles } = yield call(newsService.getTitles);
+    * getTitles({ payload: { value } }, { call, put }) {
+      const { titles } = yield call(newsService.getTitles, value);
+      console.log('get');
       yield put({
         type: 'saveTitles',
         payload: {

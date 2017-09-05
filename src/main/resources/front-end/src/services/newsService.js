@@ -31,8 +31,8 @@ export function getStockCode() {
   });
 }
 
-export function getTitles() {
-  const promise = request('/api/news/titles');
+export function getTitles(value) {
+  const promise = request(`/api/news/titles?keyword=${value}`);
   return promise.then((v) => {
     const titles = v.data;
     return { titles };

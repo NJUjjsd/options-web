@@ -105,11 +105,13 @@ public class News{
     }
 
     public String[] getResolvedText() {
-//        System.out.println("entity/news/"+title+"／"+type+"==================");
-//        System.out.println(id==null);
-//        System.out.println();
-//        System.out.println(text);
-        return text.split("\r\n");
+        String[] result = null;
+        try{
+           result = text.split("\r\n");
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public void setText(String text) {

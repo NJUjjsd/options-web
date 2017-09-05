@@ -2,45 +2,32 @@
  * Created by john on 2017/8/17.
  */
 import React from 'react';
-import { AutoComplete, Input, Icon } from 'antd';
+import { AutoComplete, Input } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import styles from './SearchBox.css';
 
 const Option = AutoComplete.Option;
 
 class Complete extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-    };
+  onSearch = (value) => {
     this.props.dispatch({
       type: 'news/getTitles',
-    });
-  }
-
-  onChange = (value) => {
-    this.setState({
-      value: this.props.titles[value],
+      payload: { value },
     });
   };
 
-  search = () => {
-    let keyword = this.state.value;
+  handleSearch = (value) => {
+    let keyword = value;
     if (keyword.length > 32) {
       keyword = `${keyword.substring(0, 32)}...`;
     }
     this.props.dispatch(routerRedux.push({
       pathname: '/news/searchResult',
       query: {
-        value: this.state.value,
+        value,
         path: `/新闻/搜索结果/${keyword}`,
       },
     }));
-    this.setState({
-      value: '',
-    });
   };
 
   render() {
@@ -51,19 +38,10 @@ class Complete extends React.Component {
       <AutoComplete
         style={{ width: 300 }}
         dataSource={children}
+        onSearch={this.onSearch}
         placeholder="输入关键字..."
-        onChange={this.onChange}
       >
-        <Input
-          suffix={
-            <Icon
-              type="search"
-              className={styles.certain_category_icon}
-              onClick={this.search.bind(this)}
-            />
-          }
-          onPressEnter={this.search.bind(this)}
-        />
+        <Input.Search onSearch={this.handleSearch.bind(this)} />
       </AutoComplete>
     );
   }

@@ -16,7 +16,7 @@ function NewsBody({ detail }) {
         </div>
         <hr className={styles.below_title} />
         <div className={styles.news_article}>
-          {detail.resolvedText.map(text => <p>{text}</p>)}
+          {detail.resolvedText.map((text, i) => <p key={i}>{text}</p>)}
         </div>
         <a href={detail.url} rel="noopener noreferrer" target="_blank" className={styles.original}>
           <div className={styles.original_link} />
