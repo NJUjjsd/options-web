@@ -61,4 +61,9 @@ public class MarketServiceImpl implements MarketService{
     public ArrayList<ContactInfoVO> getContactInfo() {
         return null;
     }
+
+    @Override
+    public ArrayList<ArrayList> getAllContactInfo() {
+        return null;
+    }
 }

@@ -47,10 +47,10 @@ public class MarketController {
         // 合约信息更新时间
         ArrayList<String> contactUpdateTime = marketService.getContactInfoUpdateTime();
         // 合约信息
-        ArrayList<ContactInfoVO> contactInfo = marketService.getContactInfo();
+        ArrayList<ArrayList> contactInfo = marketService.getAllContactInfo();
 
         // 给前端的data对象
-        ETFOptionDataVO optionDataVO = new ETFOptionDataVO(
+        NewETFOptionDataVO optionDataVO = new NewETFOptionDataVO(
                 dueMonths, ETFUpdateTime, basicInfo, contactUpdateTime, contactInfo);
         System.out.print(JSON.toJSONString(optionDataVO));
         return JSON.toJSONString(optionDataVO);

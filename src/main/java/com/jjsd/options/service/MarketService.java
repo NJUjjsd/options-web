@@ -59,4 +59,10 @@ public interface MarketService {
      * @return 合约基本信息列表(len=4, 更新的时间与上面对应)
      */
     ArrayList<ContactInfoVO> getContactInfo();
+
+    /**
+     *
+     * @return 合约基本信息列表(len=4, 更新的时间与上面对应; 即四个ArrayList，每个ArrayList包含的是该月到期的合约)
+     */
+    ArrayList<ArrayList> getAllContactInfo();
 }
