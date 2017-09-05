@@ -41,7 +41,6 @@ class News extends React.Component {
         path: this.props.location.query.path,
       },
     }));
-    console.log(e.target.checked);
   };
   render() {
     const isDescByReadNum = (
@@ -59,7 +58,7 @@ class News extends React.Component {
             <Tabs
               hideAdd
               onChange={this.onChange}
-              tabBarStyle={{ color: '#a3a3a3', boxShadow: '0 0 6px #b8b8b8;' }}
+              tabBarStyle={{ color: '#a3a3a3' }}
               className={styles.tabPanes}
               tabBarExtraContent={isDescByReadNum}
             >

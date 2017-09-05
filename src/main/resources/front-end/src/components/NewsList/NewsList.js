@@ -8,30 +8,40 @@ import { defaultPageSize, defaultIsDescByReadNum } from '../../constant';
 import NewsItem from './NewsItem';
 import styles from './NewsList.css';
 
-function NewsList({ dispatch, location, newsList, allNum, current, loading }) {
+function NewsList({ dispatch, location, newsList, allNum, current }) {
   function pageChangeHandler(page) {
     const currentPage = page;
-    dispatch({
-      type: 'news/getClassifiedNews',
-      payload: {
-        page: currentPage,
-        pageSize: defaultPageSize,
-        code: location.query.code,
-        type: location.query.type,
-        isDescByReadNum: defaultIsDescByReadNum,
-      },
-    });
+    if (location.pathname === '/news') {
+      dispatch({
+        type: 'news/getClassifiedNews',
+        payload: {
+          page: currentPage,
+          pageSize: defaultPageSize,
+          code: location.query.code,
+          type: location.query.type,
+          isDescByReadNum: defaultIsDescByReadNum,
+        },
+      });
+    } else if (location.pathname === '/news/searchResult') {
+      dispatch({
+        type: 'news/getList',
+        payload: {
+          page: currentPage,
+          pageSize: defaultPageSize,
+          keyword: location.query.value,
+        },
+      });
+    }
   }
   return (
     <Row
       className={styles.list}
-      loading={loading}
     >
       <Col offset={2} span={19}>
         {
-          newsList.map((v) => {
+          newsList.map((v, i) => {
             return (
-              <NewsItem data={v} />
+              <NewsItem key={i} data={v} />
             );
           })
         }
@@ -49,13 +59,10 @@ function NewsList({ dispatch, location, newsList, allNum, current, loading }) {
 
 function mapStateToProps(state) {
   const { newsList, allNum, current } = state.news;
-  console.log('components/NewsList.js/mapStateToProps:');
-  console.log(newsList);
   return {
     newsList,
     allNum,
     current,
-    loading: state.loading.models.news,
   };
 }
 

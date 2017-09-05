@@ -31,3 +31,10 @@ export function getStockCode() {
   });
 }
 
+export function getTitles() {
+  const promise = request('/api/news/titles');
+  return promise.then((v) => {
+    const titles = v.data;
+    return { titles };
+  });
+}

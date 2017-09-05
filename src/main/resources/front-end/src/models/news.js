@@ -13,6 +13,7 @@ export default {
     current: 1,
     detail: {},
     stockCode: [],
+    titles: [],
   },
 
   subscriptions: {
@@ -27,6 +28,15 @@ export default {
               code: query.code,
               type: query.type,
               isDescByReadNum: query.isDescByReadNum,
+            },
+          });
+        } else if (pathname === '/news/searchResult') {
+          dispatch({
+            type: 'getList',
+            payload: {
+              page: defaultPage,
+              pageSize: defaultPageSize,
+              keyword: query.value,
             },
           });
         }
@@ -45,7 +55,6 @@ export default {
           current: page,
         },
       });
-      // console.log('调用到了models/news.js/getList');
     },
     * putDetail({ payload: { data } }, { put }) {
       yield put({
@@ -62,6 +71,15 @@ export default {
       },
       ));
     },
+    * getTitles({ payload }, { call, put }) {
+      const { titles } = yield call(newsService.getTitles);
+      yield put({
+        type: 'saveTitles',
+        payload: {
+          titles,
+        },
+      });
+    },
     * getStockCode({ payload }, { call, put }) {
       const { stockCode } = yield call(newsService.getStockCode);
       yield put({
@@ -70,7 +88,6 @@ export default {
           stockCode,
         },
       });
-      // console.log('调用到了models/news.js/getStockCode');
     },
     * getClassifiedNews(
       { payload: { page, pageSize, code, type, isDescByReadNum } }, { call, put },
@@ -86,7 +103,6 @@ export default {
           current: page,
         },
       });
-      // console.log('调用到了models/news.js/getClassifiedNews');
     },
   },
 
@@ -99,6 +115,9 @@ export default {
     },
     saveStockCode(state, { payload: { stockCode } }) {
       return { ...state, stockCode };
+    },
+    saveTitles(state, { payload: { titles } }) {
+      return { ...state, titles };
     },
   },
 };

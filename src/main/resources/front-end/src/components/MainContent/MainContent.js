@@ -83,7 +83,8 @@ class MainContent extends React.Component {
   searchState = () => {
     let searchStyle = styles.hideSearch;
     if (this.props.location.pathname === '/news' ||
-      this.props.location.pathname === '/news/details') {
+      this.props.location.pathname === '/news/details' ||
+    this.props.location.pathname === '/news/searchResult') {
       searchStyle = styles.showSearch;
     }
     return searchStyle;

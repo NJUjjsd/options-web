@@ -8,5 +8,6 @@ export const defaultIsDescByReadNum = false;
 export const defaultStockCode = '510050';
 export const defaultNewsPath = '/实时新闻/ETF资讯/上证50ETF(510050)';
 export const newsDetailsPath = '/新闻/正文';
+export const searchResultPath = '/新闻/搜索结果';
 
 export const defaultMarketPath = '/最新行情/ETF';

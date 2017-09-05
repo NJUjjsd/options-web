@@ -34,7 +34,7 @@ function NewsItem({ dispatch, data }) {
       <div className={styles.news_info}>{data.dateToString}</div>
       <div className={styles.news_brief}>
         {
-        getResolvedText().map(text => <p>{text}</p>)
+        getResolvedText().map((text, i) => <p key={i}>{text}</p>)
       }
       </div>
     </div>

@@ -45,17 +45,22 @@ public class NewsController {
     public @ResponseBody String getClassifiedNews(@RequestParam int page,@RequestParam int pageSize,
                                                   @RequestParam String code,@RequestParam String type,
                                                   @RequestParam boolean isDescByReadNum){
-        System.out.println("NewsController/getClassifiedNews/page:"+page);
-        System.out.println("NewsController/getClassifiedNews/code:"+code);
-        System.out.println("NewsController/getClassifiedNews/type:"+type);
-        System.out.println("NewsController/getClassifiedNews/isDescByReadNum:"+isDescByReadNum);
-        System.out.println("===================================================================");
+//        System.out.println("NewsController/getClassifiedNews/page:"+page);
+//        System.out.println("NewsController/getClassifiedNews/code:"+code);
+//        System.out.println("NewsController/getClassifiedNews/type:"+type);
+//        System.out.println("NewsController/getClassifiedNews/isDescByReadNum:"+isDescByReadNum);
+//        System.out.println("===================================================================");
         Page<News> news = null;
         try {
             news = newsService.classify(page,pageSize,code,type,isDescByReadNum);
         } catch (ParameterException e) {
             e.printStackTrace();
         }
+//        System.out.println("NewsController/getClassifiedNews/news:");
+//        System.out.println(news.getTotalElements());
+//        System.out.println(news.getTotalPages());
+//        System.out.println(news.getContent().size());
+//        System.out.println();
         return JSON.toJSONString(news);
     }
 
@@ -68,6 +73,12 @@ public class NewsController {
                 result.add(new StockCode(key,map.get(key)));
             }
         }
+        return JSON.toJSONString(result);
+    }
+
+    @GetMapping(value = "/titles")
+    public @ResponseBody String getTitles(){
+        ArrayList<String> result = (ArrayList<String>) newsService.getAllTitles();
         return JSON.toJSONString(result);
     }
 
