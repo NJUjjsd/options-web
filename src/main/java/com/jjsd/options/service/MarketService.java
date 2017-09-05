@@ -1,8 +1,8 @@
 package com.jjsd.options.service;
 
-import com.jjsd.options.entity.ETFBasicInfoVO;
+import com.jjsd.options.entity.vo.ETFBasicInfoVO;
 import com.jjsd.options.entity.KInfoSimple;
-import com.jjsd.options.entity.ContactInfoVO;
+import com.jjsd.options.entity.vo.ContactInfoVO;
 
 import java.util.ArrayList;
 

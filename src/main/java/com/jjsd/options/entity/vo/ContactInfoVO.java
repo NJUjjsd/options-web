@@ -1,4 +1,4 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.vo;
 
 /**
  * Created by a297 on 17/8/20.
