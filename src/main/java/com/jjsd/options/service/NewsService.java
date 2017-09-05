@@ -45,6 +45,6 @@ public interface NewsService{
      * 所有新闻标题
      * @return
      */
-    List<String> getAllTitles();
+    List<String> getAllTitles(String keyword);
 
 }

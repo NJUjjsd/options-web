@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhujing on 2017/8/9.
@@ -112,7 +113,10 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<String> getAllTitles() {
+    public List<String> getAllTitles(String keyword) {
+        String regEx = keyword+".*";
+        Pattern pattern = Pattern.compile(regEx);
+
         DBObject fieldObject = new BasicDBObject();
         fieldObject.put("title", true);
         Query query = new BasicQuery(new BasicDBObject(), fieldObject);
@@ -120,7 +124,14 @@ public class NewsServiceImpl implements NewsService {
         List <String>l=new ArrayList();
         Iterator iterator=result.iterator();
         while (iterator.hasNext()){
-            l.add(((News)iterator.next()).getTitle());
+
+            String title=((News)iterator.next()).getTitle();
+             if(pattern.matcher(title).find()){
+                 l.add(title);
+
+             }
+
+
         }
         return l;
     }

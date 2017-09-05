@@ -24,13 +24,10 @@ public class NewsServiceTest {
     @Test
     public void menu() throws Exception {
         System.out.println(newsService.menu().toString());
-
-
     }
 
     @Test(expected=ParameterException.class)
     public void search() throws Exception {
-
         newsService.search(-1,-1," 乐视");
         Assert.assertEquals(newsService.search(0,10," 乐视").getTotalPages(),9);
 
@@ -55,7 +52,7 @@ public class NewsServiceTest {
 
     @Test
     public void getAllTitles() throws Exception {
-        Assert.assertEquals(newsService.getAllTitles().size(),2478);
+        Assert.assertEquals(newsService.getAllTitles("乐视").size(),90);
 
     }
 }

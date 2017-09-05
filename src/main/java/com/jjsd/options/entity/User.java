@@ -17,7 +17,7 @@ public class User {
 
     private String password;
 
-    //是否设置资产、期权map（代码、数量）、上证50etf数量、最高无风险利率
+    //是否设置资产、期权map（代码、数量）、上证50etf数量、最高无风险利率、本金
 
     private boolean isSetProperty;
 
@@ -26,6 +26,8 @@ public class User {
     private int numOfSETF;
 
     private double r;
+
+    private double b;
 
     //是否设置成本、买入认沽成本c1、买入认购成本c2、买入etf成本c3、卖出认沽成本c4、卖出认购成本c5、卖出etf成本c6
 
