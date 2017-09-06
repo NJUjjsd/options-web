@@ -152,7 +152,7 @@ public class ETFInfoUtil {
      * @param url
      * @return
      */
-    private static String queryUrl(String url){
+    public static String queryUrl(String url){
         try {
             URL netUrl = new URL(url);
             BufferedReader reader = new BufferedReader(new InputStreamReader(netUrl.openConnection().getInputStream()));
@@ -184,7 +184,7 @@ public class ETFInfoUtil {
      * @param prime
      * @return
      */
-    private static String monthTrans(String prime){
+    public static String monthTrans(String prime){
         String year = prime.substring(2,4);
         String month =prime.substring(5,7);
         return year+month;
@@ -195,7 +195,7 @@ public class ETFInfoUtil {
      * @param prime
      * @return
      */
-    private static ArrayList<String> dealListInfo(String prime){
+    public static ArrayList<String> dealListInfo(String prime){
         int first = prime.indexOf("=")+2;
         int last = prime.length()-2;
         prime = prime.substring(first,last);

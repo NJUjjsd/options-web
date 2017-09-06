@@ -63,7 +63,9 @@ public class NewsServiceStub implements NewsService{
     }
 
     @Override
-    public List<String> getAllTitles() {
+    public List<String> getAllTitles(String keyword) {
         return null;
     }
+
+
 }
