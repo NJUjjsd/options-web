@@ -225,6 +225,7 @@ public class ETFInfoUtil {
         double highPrice = Double.valueOf(info1.get(4));
         double lowPrice = Double.valueOf(info1.get(5));
         double amplitude = (highPrice-lowPrice)/lastPrice*100;
+        amplitude = dateTransUtil.precisionTrans(amplitude,2);
         String amplitudeStr = amplitude+"";
         ETFBasicInfoVO basicInfoVO = new ETFBasicInfoVO("510050",name,nowPrice,rise,riseScope,amplitudeStr,turnOver,volume);
         return basicInfoVO;
