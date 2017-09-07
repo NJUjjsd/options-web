@@ -69,7 +69,14 @@ public class NewsController {
     @GetMapping(value = "/titles")
     public @ResponseBody String getTitles(@RequestParam String keyword){
         ArrayList<String> result = (ArrayList<String>) newsService.getAllTitles(keyword);
+        System.out.println(keyword);
+        System.out.println(result);
         return JSON.toJSONString(result);
+    }
+
+    @GetMapping(value = "/readNumUpdate")
+    public @ResponseBody boolean readNumUpdate(@RequestParam String id){
+        return newsService.readNumUpdate(id);
     }
 
 }

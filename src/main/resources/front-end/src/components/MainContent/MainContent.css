@@ -46,12 +46,14 @@
   margin-right: 24px;
   display: none;
   box-shadow: 0 0 2px #f4f4f4;
+  width: 300px;
 }
 .showSearch {
   float: right;
   margin-right: 24px;
   display: block;
   box-shadow: 0 0 2px #c8c8c8;
+  width: 300px;
 }
 /*====================top========================*/
 /*====================children========================*/

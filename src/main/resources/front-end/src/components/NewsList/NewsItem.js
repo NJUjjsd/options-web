@@ -31,7 +31,10 @@ function NewsItem({ dispatch, data }) {
   return (
     <div onClick={toDetail.bind(this)} className={styles.news_container}>
       <h2 className={styles.news_head}>{data.title}</h2>
-      <div className={styles.news_info}>{data.dateToString}</div>
+      <div className={styles.news_info}>
+        <span>{data.dateToString}</span>
+        <span style={{ paddingLeft: 40 }}>阅读次数：{data.readNum}</span>
+      </div>
       <div className={styles.news_brief}>
         {
         getResolvedText().map((text, i) => <p key={i}>{text}</p>)

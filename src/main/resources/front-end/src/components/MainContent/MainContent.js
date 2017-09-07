@@ -2,12 +2,11 @@
  * Created by john on 2017/8/15.
  */
 import React from 'react';
-import { Layout, Menu, Icon, Breadcrumb } from 'antd';
+import { Layout, Menu, Icon, Breadcrumb, Input } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
 import { defaultType, defaultStockCode,
   defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum } from '../../constant';
-import SearchBox from '../../components/SearchBox/SearchBox';
 import styles from './MainContent.css';
 
 
@@ -46,6 +45,21 @@ class MainContent extends React.Component {
     const arr = this.props.location.query.path.split('/');
     const defaultOpenKeys = arr.splice(1, arr.length - 1);
     return defaultOpenKeys;
+  };
+
+  //  根据输入搜索新闻
+  handleSearch = (value) => {
+    let keyword = value;
+    if (keyword.length > 32) {
+      keyword = `${keyword.substring(0, 32)}...`;
+    }
+    this.props.dispatch(routerRedux.push({
+      pathname: '/news/searchResult',
+      query: {
+        value,
+        path: `/新闻/搜索结果/${keyword}`,
+      },
+    }));
   };
   handleClick = (e) => {
     const length = e.keyPath.length;
@@ -203,7 +217,9 @@ class MainContent extends React.Component {
                 </Breadcrumb>
               </span>
               <span className={this.searchState()}>
-                <SearchBox />
+                <Input.Search
+                  onSearch={this.handleSearch.bind(this)}
+                />
               </span>
             </div>
             {this.props.children}

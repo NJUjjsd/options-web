@@ -56,20 +56,22 @@ export default {
         },
       });
     },
-    * putDetail({ payload: { data } }, { put }) {
+    * putDetail({ payload: { data } }, { call, put }) {
+      const { result } = yield call(newsService.readNumUpdate, data.id);
       yield put({
         type: 'saveDetail',
         payload: {
           detail: data,
         },
       });
-      yield put(routerRedux.push({
-        pathname: '/news/details',
-        query: {
-          path: newsDetailsPath,
-        },
-      },
-      ));
+      if (result) {
+        yield put(routerRedux.push({
+          pathname: '/news/details',
+          query: {
+            path: newsDetailsPath,
+          } },
+        ));
+      }
     },
     * getTitles({ payload: { value } }, { call, put }) {
       const { titles } = yield call(newsService.getTitles, value);
