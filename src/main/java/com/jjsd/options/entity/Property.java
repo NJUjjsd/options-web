@@ -2,8 +2,7 @@ package com.jjsd.options.entity;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by zhujing on 2017/9/6.
@@ -16,7 +15,7 @@ public class Property implements Serializable {
     public Property() {
     }
 
-    private HashMap<String,Integer> options;
+    private List<Option> options;
 
     private int numOfSETF;
 
@@ -24,11 +23,11 @@ public class Property implements Serializable {
 
     private double b;
 
-    public HashMap<String, Integer> getOptions() {
+    public List<Option> getOptions() {
         return options;
     }
 
-    public void setOptions(HashMap<String, Integer> options) {
+    public void setOptions(List<Option> options) {
         this.options = options;
     }
 
@@ -56,12 +55,5 @@ public class Property implements Serializable {
         this.b = b;
     }
 
-    /**
-     * 按时计算资产
-     * @param date
-     * @return
-     */
-    public double calculate(Date date){
-        return  0;
-    }
+
 }

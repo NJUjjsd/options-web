@@ -1,5 +1,7 @@
 package com.jjsd.options.service;
 
+import com.jjsd.options.entity.Cost;
+import com.jjsd.options.entity.Property;
 import com.jjsd.options.entity.User;
 
 /**
@@ -10,10 +12,12 @@ public interface UserService {
 
     /**
      *
-     * @param user
+     * @param email
+     * @param userName
+     * @param password
      * @return
      */
-    boolean signUp(User user);
+    boolean signUp(String email,String userName,String password);
 
 
     /**
@@ -27,10 +31,11 @@ public interface UserService {
 
     /**
      *
-     * @param user
+     * @param email
+     * @param password
      * @return
      */
-    boolean modify(User user);
+    boolean modify(String email,String password);
 
 
     /**
@@ -39,6 +44,25 @@ public interface UserService {
      * @return
      */
     User loadUserByEmail(String email);
+
+
+    /**
+     *
+     * @param email
+     * @param cost
+     * @return
+     */
+    boolean fillInCost(String email, Cost cost);
+
+
+    /**
+     *
+     * @param email
+     * @param property
+     * @return
+     */
+    boolean fillInProperty(String email, Property property);
+
 
 
 

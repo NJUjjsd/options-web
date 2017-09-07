@@ -219,11 +219,9 @@ public class CrawlerUtil {
 
                 String text=getUTF8BytesFromGBKString(element1.text());
                 String time=element2.text().substring(element2.text().indexOf(":")+1);
-
                 news.setText(text);
-
 //                if(time.compareTo(this.lastTime(code,"公告"))<0||news.getText().equals("公告内容详见附件")){
-                if(time.compareTo("2017-07-00")<0){
+                if(time.compareTo("2017-07-00")<0||news.getText().equals("公告内容详见附件")){
                     it.remove();
                     continue;
                 }else {
@@ -458,11 +456,16 @@ public class CrawlerUtil {
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
+            StringBuilder text=new StringBuilder();
             try {
                 Document doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
-                Element element1=doc1.select("div#Cnt-Main-Article-QQ").first();
-                String text=element1.text().replace(" ","\r\n");
-                news.setText(text);
+                Elements element1=doc1.select("div#Cnt-Main-Article-QQ").first().getElementsByTag("p");
+                Iterator iterator=element1.iterator();
+                while (iterator.hasNext()){
+                    Element e=(Element)iterator.next();
+                    text.append(e.text()+"\r\n");
+                }
+                news.setText(text.toString().replace("维权现场 图片来源：中国网财经",""));
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
