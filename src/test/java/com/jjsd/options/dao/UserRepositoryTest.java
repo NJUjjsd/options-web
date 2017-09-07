@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
+import java.io.IOException;
+
 
 /**
  * Created by zhujing on 2017/8/5.
@@ -22,9 +23,10 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void findByEmail(){
+    public void findByEmail() throws IOException {
 
     }
+
 
 
     @Test
@@ -32,10 +34,7 @@ public class UserRepositoryTest {
         User u=new User();
         u.setEmail("916110197@qq.com");
         u.setPassword("haha");
-        HashMap<String ,Integer> a=new HashMap();
-        a.put("a",1);
-        a.put("b",2);
-        u.setOptions(a);
+
         userRepository.save(u);
     }
 

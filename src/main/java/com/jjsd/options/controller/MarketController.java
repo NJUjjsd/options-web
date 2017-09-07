@@ -2,9 +2,8 @@ package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.jjsd.options.entity.*;
-import com.jjsd.options.entity.vo.ContactInfoVO;
 import com.jjsd.options.entity.vo.ETFBasicInfoVO;
-import com.jjsd.options.entity.vo.ETFOptionDataVO;
+import com.jjsd.options.entity.vo.NewETFOptionDataVO;
 import com.jjsd.options.service.MarketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
