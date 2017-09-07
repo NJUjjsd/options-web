@@ -12,13 +12,6 @@ import styles from './News.less';
 const TabPane = Tabs.TabPane;
 
 class News extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      types: ['新闻', '研报', '公告'],
-      activeKey: '新闻',
-    };
-  }
   onChange = (activeKey) => {
     this.props.dispatch(routerRedux.push({
       pathname: '/news',
@@ -29,7 +22,6 @@ class News extends React.Component {
         path: this.props.location.query.path,
       },
     }));
-    this.setState({ activeKey });
   };
   sort = (e) => {
     this.props.dispatch(routerRedux.push({
@@ -51,6 +43,7 @@ class News extends React.Component {
         按热度
       </Checkbox>
       );
+    const types = ['新闻', '研报', '公告'];
     return (
       <MainLayout location={this.props.location}>
         <Row>
@@ -59,10 +52,11 @@ class News extends React.Component {
               hideAdd
               onChange={this.onChange}
               tabBarStyle={{ color: '#a3a3a3' }}
+              defaultActiveKey={this.props.location.query.type}
               className={styles.tabPanes}
               tabBarExtraContent={isDescByReadNum}
             >
-              {this.state.types.map(type =>
+              {types.map(type =>
                 <TabPane tab={type} key={type}>
                   <NewsList location={this.props.location} />
                 </TabPane>)

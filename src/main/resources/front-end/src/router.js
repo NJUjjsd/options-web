@@ -16,7 +16,6 @@ function RouterConfig({ browserHistory }) {
       <Route path="/news/searchResult" component={SearchResult} />
       <Route path="/market/ETF" component={ETF} />
       <Route path="/market/ETFOption" component={ETFOption} />
-
     </Router>
   );
 }
