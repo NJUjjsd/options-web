@@ -108,7 +108,11 @@ public class News{
         String[] result = null;
         try{
            result = text.split("\r\n");
+           for (int i = 0; i <result.length ; i++) {
+                result[i]=result[i].replace((char) 12288,' ').trim();
+           }
         }catch (NullPointerException e){
+            System.out.println(this.id);
             e.printStackTrace();
         }
         return result;
@@ -127,8 +131,16 @@ public class News{
     }
 
     public String getDateToString(){
+        String result=null;
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
-        return sdf.format(this.date);
+        try{
+            result = sdf.format(this.date);
+
+        }catch (NullPointerException e){
+            System.out.println(this.id);
+            e.printStackTrace();
+        }
+        return result;
     }
 
 

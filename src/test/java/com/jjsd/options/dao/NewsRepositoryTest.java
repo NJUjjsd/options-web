@@ -1,5 +1,7 @@
 package com.jjsd.options.dao;
 
+import com.jjsd.options.entity.News;
+import com.jjsd.options.util.CrawlerUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by zhujing on 2017/8/11.
@@ -43,6 +48,31 @@ public class NewsRepositoryTest {
 //        Assert.assertEquals(newsRepository.findByTitleLike("乐视",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),9);
 //        Assert.assertEquals(newsRepository.findByTitleLike("haha",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),0);
 
+    }
+
+    @Test
+    public void go(){
+        for (String key: CrawlerUtil.stockCode.keySet()){
+            System.out.println(key);
+            if (key.equals("510050")){
+//                newsRepository.save(CrawlerUtil.getROfEFromHexun());
+//                newsRepository.save(CrawlerUtil.getNofEFromTencent());
+            }else {
+//                newsRepository.save(CrawlerUtil.getRFromSina(key));
+//                newsRepository.save(CrawlerUtil.getNFromSina(key));
+//                newsRepository.save();
+//                newsRepository.save(CrawlerUtil.getNFromIfeng(key));
+//                List l=CrawlerUtil.getNFromSina(key);
+                List l=CrawlerUtil.getAFromSina(key);
+                Iterator iterator=l.iterator();
+                while (iterator.hasNext()){
+                    News n= (News) iterator.next();
+                    System.out.println(n.getText());
+                    System.out.println("-----------------------");
+                }
+
+            }
+        }
     }
 
 

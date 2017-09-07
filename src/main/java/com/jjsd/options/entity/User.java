@@ -3,7 +3,6 @@ package com.jjsd.options.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.HashMap;
 
 /**
  * Created by zhujing on 2017/8/5.
@@ -17,33 +16,17 @@ public class User {
 
     private String password;
 
-    //是否设置资产、期权map（代码、数量）、上证50etf数量、最高无风险利率、本金
+    //是否设置资产
 
     private boolean isSetProperty;
 
-    private HashMap<String,Integer> options;
+    private Property property;
 
-    private int numOfSETF;
-
-    private double r;
-
-    private double b;
-
-    //是否设置成本、买入认沽成本c1、买入认购成本c2、买入etf成本c3、卖出认沽成本c4、卖出认购成本c5、卖出etf成本c6
+    //是否设置成本
 
     private boolean isSetCost;
 
-    private double c1;
-
-    private double c2;
-
-    private double c3;
-
-    private double c4;
-
-    private double c5;
-
-    private double c6;
+    private Cost cost;
 
     //是否邮箱验证、验证码、验证时间
 
@@ -52,23 +35,6 @@ public class User {
     private String token;
 
     private long activateTime;
-
-    public boolean isSetProperty() {
-        return isSetProperty;
-    }
-
-    public void setSetProperty(boolean setProperty) {
-        isSetProperty = setProperty;
-    }
-
-    public boolean isSetCost() {
-        return isSetCost;
-    }
-
-    public void setSetCost(boolean setCost) {
-        isSetCost = setCost;
-    }
-
 
     public String getEmail() {
         return email;
@@ -86,28 +52,36 @@ public class User {
         this.password = password;
     }
 
-    public HashMap<String, Integer> getOptions() {
-        return options;
+    public boolean isSetProperty() {
+        return isSetProperty;
     }
 
-    public void setOptions(HashMap<String, Integer> options) {
-        this.options = options;
+    public void setSetProperty(boolean setProperty) {
+        isSetProperty = setProperty;
     }
 
-    public int getNumOfSETF() {
-        return numOfSETF;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setNumOfSETF(int numOfSETF) {
-        this.numOfSETF = numOfSETF;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
-    public double getR() {
-        return r;
+    public boolean isSetCost() {
+        return isSetCost;
     }
 
-    public void setR(double r) {
-        this.r = r;
+    public void setSetCost(boolean setCost) {
+        isSetCost = setCost;
+    }
+
+    public Cost getCost() {
+        return cost;
+    }
+
+    public void setCost(Cost cost) {
+        this.cost = cost;
     }
 
     public boolean isStatus() {

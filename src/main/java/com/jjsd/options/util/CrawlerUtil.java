@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -22,6 +22,7 @@ import java.util.*;
  */
 @Component
 public class CrawlerUtil {
+//    .replace("银华杯十佳银行理财师大赛，惊喜大奖至高荣誉等你来！","").replace("新浪财经App：直播上线 博主一对一指导 新浪港股APP：实时行情 独家内参","")
 
     @Autowired
     private NewsRepository newsRepository;
@@ -100,32 +101,33 @@ public class CrawlerUtil {
 
 
     //新浪个股新闻
-    private List<News> getNFromSina(String code){
+    public static List<News> getNFromSina(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
-        Document doc=null;
-        Elements detail=null;
         try {
-            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllNewsStock/symbol/sh"+code+".phtml").get();
+            String URL="http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllNewsStock/symbol/sh"+code+".phtml";
+            Document doc = Jsoup.parse(new URL(URL).openStream(), "GBK", URL);
             Element element=doc.select("div.datelist").first();
             Element ul=element.getElementsByTag("ul").first();
-            detail=ul.getElementsByTag("a");
+            Elements detail=ul.getElementsByTag("a");
 
             Iterator iterator=detail.iterator();
             while (iterator.hasNext()){
 
                 News news=new News();
                 Element e= (Element) iterator.next();
-                String title=e.text();
+                String title=getUTF8BytesFromGBKString(e.text());
                 String url=e.attr("href");
-
 
                 if(url.indexOf("2017")<0){
                     continue;
                 }
                 String time=url.substring(url.indexOf("2017"),url.indexOf("2017")+10);
 
-                if (time.compareTo(this.lastTime(code,"新闻"))<0){
+//                if (time.compareTo(this.lastTime(code,"新闻"))<0){
+//                    continue;
+//                }
+                if (time.compareTo("2017-07-00")<0){
                     continue;
                 }
                 news.setTitle(title);
@@ -134,7 +136,7 @@ public class CrawlerUtil {
                 news.setCode(stockCode.get(code)+code);
                 news.setType("新闻");
                 news.setReadNum(0);
-                news.setDate( sdf.parse(time));
+                news.setDate(sdf.parse(time));
 
                 list.add(news);
 
@@ -149,12 +151,10 @@ public class CrawlerUtil {
         while (it.hasNext()){
             News news= (News) it.next();
             StringBuilder text=new StringBuilder();
-            Document doc1=null;
-            Elements elements=null;
             try {
-                doc1 = Jsoup.connect(news.getUrl()).get();
+                Document doc1 = Jsoup.connect(news.getUrl()).get();
                 Element element1=doc1.select("div.left").first();
-                elements=element1.getElementsByTag("p");
+                Elements elements=element1.getElementsByTag("p");
 
                 Iterator iterator1=elements.iterator();
                 while (iterator1.hasNext()){
@@ -162,11 +162,12 @@ public class CrawlerUtil {
                     text.append(e.text()+"\r\n");
                 }
 
-                news.setText(text.toString().split("进入【新浪财经股吧】讨论")[0]);
+                news.setText(text.toString().split("进入【新浪财经股吧】讨论")[0].replace("银华杯十佳银行理财师大赛，惊喜大奖至高荣誉等你来！","").replace("新浪财经App：直播上线 博主一对一指导 新浪港股APP：实时行情 独家内参",""));
 
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
+                it.remove();
                 continue;
             }
 
@@ -178,24 +179,21 @@ public class CrawlerUtil {
     }
 
     //新浪个股公告
-    private List<News> getRFromSina(String code){
+    public static List<News> getRFromSina(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
-        Document doc=null;
-        Elements detail=null;
         try {
-            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllBulletin/stockid/"+code+".phtml").get();
+            String u="http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllBulletin/stockid/"+code+".phtml";
+            Document doc = Jsoup.parse(new URL(u).openStream(), "GBK", u);
             Element element=doc.select("div.datelist").first();
             Element ul=element.getElementsByTag("ul").first();
-            detail=ul.getElementsByTag("a");
+            Elements detail=ul.getElementsByTag("a");
             Iterator iterator=detail.iterator();
             while (iterator.hasNext()){
-
                 News news=new News();
                 Element e= (Element) iterator.next();
-                String title=e.text();
+                String title=getUTF8BytesFromGBKString(e.text());
                 String url="http://vip.stock.finance.sina.com.cn"+e.attr("href");
-
 
                 news.setTitle(title);
                 news.setTop(kewordCheck(title));
@@ -214,36 +212,29 @@ public class CrawlerUtil {
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
-            String text="";
-            String time="";
-            Document doc1=null;
-            Element element1=null;
-            Element element2=null;
-
             try {
-                doc1 = Jsoup.connect(news.getUrl()).get();
-                element1=doc1.select("div#content").first().getElementsByTag("pre").first();
-                element2=doc1.select("[style=text-align:center;height:12px;]").first();
+                Document doc1 = Jsoup.parse(new URL(news.getUrl()).openStream(), "GBK", news.getUrl());
+                Element element1=doc1.select("div#content").first().getElementsByTag("pre").first();
+                Element element2=doc1.select("[style=text-align:center;height:12px;]").first();
 
-                text=element1.text();
-                time=element2.text().substring(element2.text().indexOf(":")+1);
+                String text=getUTF8BytesFromGBKString(element1.text());
+                String time=element2.text().substring(element2.text().indexOf(":")+1);
+
+                news.setText(text);
+
+//                if(time.compareTo(this.lastTime(code,"公告"))<0||news.getText().equals("公告内容详见附件")){
+                if(time.compareTo("2017-07-00")<0){
+                    it.remove();
+                    continue;
+                }else {
+                    news.setDate(sdf.parse(time));
+                }
 
             } catch (Exception e) {
+                it.remove();
                 e.printStackTrace();
                 System.out.println(news.getUrl());
                 continue;
-            }
-
-            news.setText(text);
-            if(time.compareTo(this.lastTime(code,"公告"))<0){
-                it.remove();
-                continue;
-            }else {
-                try {
-                    news.setDate(sdf.parse(time));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
             }
 
         }
@@ -252,14 +243,13 @@ public class CrawlerUtil {
     }
 
     //新浪个股研报
-    private List<News> getAFromSina(String code){
+    public static List<News> getAFromSina(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
-        Document doc=null;
-        Elements detail=null;
         try {
-            doc = Jsoup.connect("http://vip.stock.finance.sina.com.cn/q/go.php/vReport_List/kind/search/index.phtml?symbol="+code+"&t1=all").get();
-            detail=doc.select("td.tal.f14");
+            String u="http://vip.stock.finance.sina.com.cn/q/go.php/vReport_List/kind/search/index.phtml?symbol="+code+"&t1=all";
+            Document doc = Jsoup.parse(new URL(u).openStream(), "GBK", u);
+            Elements detail=doc.select("td.tal.f14");
 
             Iterator iterator=detail.iterator();
             while (iterator.hasNext()){
@@ -267,9 +257,10 @@ public class CrawlerUtil {
                 String time=e.nextElementSibling().nextElementSibling().text();
 
                 e=e.getElementsByTag("a").first();
-                String title=e.attr("title");
+                String title=getUTF8BytesFromGBKString(e.attr("title"));
                 String url=e.attr("href");
-                if(time.compareTo(this.lastTime(code,"研报"))<0){
+//                if(time.compareTo(this.lastTime(code,"研报"))<0){
+                if(time.compareTo("2017-07-00")<0){
                     continue;
                 }
 
@@ -292,14 +283,12 @@ public class CrawlerUtil {
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
-            String text="";
-            Document doc1=null;
-            Elements elements=null;
             try {
-                doc1 = Jsoup.connect(news.getUrl()).get();
+                Document doc1 = Jsoup.parse(new URL(news.getUrl()).openStream(), "GBK", news.getUrl());
                 Element element1=doc1.select("div.blk_container").first().getElementsByTag("p").first();
-                text=element1.text().replace(" ","\r\n");
-                news.setText(text);
+                element1=Jsoup.parse(element1.toString().replace("&nbsp;&nbsp;&nbsp;","\\r\\n"));
+                String text=element1.text().replace("\\r\\n","\r\n");
+                news.setText(getUTF8BytesFromGBKString(text));
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
@@ -313,14 +302,12 @@ public class CrawlerUtil {
     }
 
     //凤凰个股新闻
-    private List<News> getNFromIfeng(String code){
+    public static List<News> getNFromIfeng(String code){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
-        Document doc=null;
-        Elements detail=null;
         try {
-            doc = Jsoup.connect("http://app.finance.ifeng.com/info/news_gsxw.php?code=sh"+code).get();
-            detail=doc.select("span#title");
+            Document doc = Jsoup.connect("http://app.finance.ifeng.com/info/news_gsxw.php?code=sh"+code).get();
+            Elements detail=doc.select("span#title");
 
             Iterator iterator=detail.iterator();
             while (iterator.hasNext()){
@@ -329,7 +316,8 @@ public class CrawlerUtil {
                 String time=elements.first().attr("name");
                 String url=elements.last().attr("href");
                 String title=elements.last().text();
-                if(time.length()<10||time.compareTo(this.lastTime(code,"新闻"))<0){
+//                if(time.length()<10||time.compareTo(this.lastTime(code,"新闻"))<0){
+                if(time.length()<10||time.compareTo("2017-07-00")<0){
                     continue;
                 }
 
@@ -348,30 +336,29 @@ public class CrawlerUtil {
             e.printStackTrace();
         }
 
-
-
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
             StringBuilder text=new StringBuilder();
-            Document doc1=null;
-            Elements elements=null;
             try {
-                doc1 = Jsoup.connect(news.getUrl()).get();
+                Document doc1 = Jsoup.connect(news.getUrl()).get();
                 Element element1=doc1.select("div#main_content").first();
-                elements=element1.getElementsByTag("p");
+                Elements elements=element1.getElementsByTag("p");
+
+
+                Iterator iterator1=elements.iterator();
+                while (iterator1.hasNext()){
+                    Element e= (Element) iterator1.next();
+                    text.append(e.text()+"\r\n");
+                }
+                news.setText(text.toString());
+
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
+                it.remove();
                 continue;
             }
-
-            Iterator iterator1=elements.iterator();
-            while (iterator1.hasNext()){
-                Element e= (Element) iterator1.next();
-                text.append(e.text()+"\\n");
-            }
-            news.setText(text.toString());
 
         }
         return list;
@@ -379,14 +366,12 @@ public class CrawlerUtil {
     }
 
     //上证50etf公告
-    private List<News> getROfEFromHexun(){
+    public static List<News> getROfEFromHexun(){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
-        Document doc=null;
-        Elements detail=null;
         try {
-            doc = Jsoup.connect("http://jingzhi.funds.hexun.com/fundsreport/list.aspx?fundcode=510050").userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
-            detail=doc.select("div#newsList").first().getElementsByTag("ul").first().getElementsByTag("li");
+            Document doc = Jsoup.connect("http://jingzhi.funds.hexun.com/fundsreport/list.aspx?fundcode=510050").userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+            Elements detail=doc.select("div#newsList").first().getElementsByTag("ul").first().getElementsByTag("li");
             Iterator iterator=detail.iterator();
             while (iterator.hasNext()){
                 Element element= (Element) iterator.next();
@@ -395,7 +380,8 @@ public class CrawlerUtil {
                 String title=element.getElementsByTag("a").first().text();
                 String url=element.getElementsByTag("a").first().attr("href");
 
-                if(time.compareTo(this.lastTime("510050","公告"))<0){
+//                if(time.compareTo(this.lastTime("510050","公告"))<0){
+                if(time.compareTo("2017-07-00")<0){
                     continue;
                 }
 
@@ -417,17 +403,15 @@ public class CrawlerUtil {
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
-            String text="";
-            Document doc1=null;
-            Elements elements=null;
             try {
-                doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+                Document doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
                 Element element1=doc1.select("div#mainright").first().getElementsByTag("div").first().getElementsByTag("pre").first();
-                text=element1.text();
+                String text=element1.text();
                 news.setText(text);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
+                it.remove();
                 continue;
             }
 
@@ -437,13 +421,11 @@ public class CrawlerUtil {
     }
 
     //基金要闻
-    private List<News> getNofEFromTencent(){
+    public static List<News> getNofEFromTencent(){
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
         List<News> list=new ArrayList<>();
-        Document doc=null;
         try {
-            doc = Jsoup.connect("http://finance.qq.com/fund/jjyw/list.htm").userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
-
+            Document doc = Jsoup.connect("http://finance.qq.com/fund/jjyw/list.htm").userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
             Elements elements=doc.select("div#tablelsw").first().getElementsByTag("table").first().getElementsByTag("tbody").first().getElementsByTag("tr");
 
             Iterator iterator=elements.iterator();
@@ -453,10 +435,10 @@ public class CrawlerUtil {
                 String title=element.getElementsByTag("td").first().getElementsByTag("a").first().text();
                 String url="http://finance.qq.com/"+element.getElementsByTag("td").first().getElementsByTag("a").first().attr("href");
                 String time=sdf.format(new Date()).substring(0,4)+"-"+element.getElementsByTag("td").last().text().substring(1,6);
-                if(time.compareTo(this.lastTime("510050","新闻"))<0){
+//                if(time.compareTo(this.lastTime("510050","新闻"))<0){
+                if(time.compareTo("2017-07-00")<0){
                     continue;
                 }
-
 
                 News news=new News();
                 news.setTitle(title);
@@ -476,16 +458,15 @@ public class CrawlerUtil {
         Iterator it=list.iterator();
         while (it.hasNext()){
             News news= (News) it.next();
-            String text="";
-            Document doc1=null;
             try {
-                doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+                Document doc1 = Jsoup.connect(news.getUrl()).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
                 Element element1=doc1.select("div#Cnt-Main-Article-QQ").first();
-                text=element1.text().replace(" ","\r\n");
+                String text=element1.text().replace(" ","\r\n");
                 news.setText(text);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
+                it.remove();
                 continue;
             }
         }
@@ -495,7 +476,7 @@ public class CrawlerUtil {
     }
 
 
-    private boolean kewordCheck(String text){
+    private static boolean kewordCheck(String text){
         String [] keyword={
                 "停牌",
                 "复牌",
@@ -518,30 +499,68 @@ public class CrawlerUtil {
         return ((News)p.getContent().get(0)).getDateToString();
     }
 
+
+
+    public static String getUTF8BytesFromGBKString(String gbkStr) throws UnsupportedEncodingException {
+        int n = gbkStr.length();
+        byte[] utfBytes = new byte[3 * n];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            int m = gbkStr.charAt(i);
+            if (m < 128 && m >= 0) {
+                utfBytes[k++] = (byte) m;
+                continue;
+            }
+            utfBytes[k++] = (byte) (0xe0 | (m >> 12));
+            utfBytes[k++] = (byte) (0x80 | ((m >> 6) & 0x3f));
+            utfBytes[k++] = (byte) (0x80 | (m & 0x3f));
+        }
+        if (k < utfBytes.length) {
+            byte[] tmp = new byte[k];
+            System.arraycopy(utfBytes, 0, tmp, 0, k);
+            utfBytes = tmp;
+
+        }
+        return new String(utfBytes,"UTF-8");
+    }
+
     /**
      * 定时任务
      */
-    @Scheduled(cron="0 0/30 8-16 * * ?")
-    private void update(){
-        for (String key:CrawlerUtil.stockCode.keySet()){
+//    @Scheduled(cron="0 0/30 8-16 * * ?")
+//    private void update(){
+//        for (String key:CrawlerUtil.stockCode.keySet()){
+//
+//            if (key.equals("510050")){
+//                newsRepository.save(getROfEFromHexun());
+//                newsRepository.save(getNofEFromTencent());
+//
+//            }else {
+//                newsRepository.save(getRFromSina(key));
+//                newsRepository.save(getAFromSina(key));
+//                newsRepository.save(getNFromSina(key));
+//                newsRepository.save(getNFromIfeng(key));
+//
+//            }
+//
+//
+//        }
+//    }
 
-            if (key.equals("510050")){
-                newsRepository.save(getROfEFromHexun());
-                newsRepository.save(getNofEFromTencent());
 
-            }else {
-                newsRepository.save(getRFromSina(key));
-                newsRepository.save(getAFromSina(key));
-                newsRepository.save(getNFromSina(key));
-                newsRepository.save(getNFromIfeng(key));
+//    @Scheduled(fixedDelay = 1000)
+//    public void printTime() {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println("task one " + format.format(new Date()));
+//    }
+//
+//    @Scheduled(fixedDelay = 1000)
+//    public void printTimeSleep() throws InterruptedException {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println("===================----> task two " + format.format(new Date()));
+//        Thread.sleep(5000);
+//    }
 
-            }
-
-
-        }
-
-
-    }
 
 
 
