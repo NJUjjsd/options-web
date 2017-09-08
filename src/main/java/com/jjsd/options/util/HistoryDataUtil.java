@@ -1,8 +1,6 @@
 package com.jjsd.options.util;
 
-import com.jjsd.options.entity.ETFInfo;
-import com.jjsd.options.entity.ETFStoreInfo;
-import sun.reflect.FieldInfo;
+import com.jjsd.options.entity.market.ETFStoreInfo;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

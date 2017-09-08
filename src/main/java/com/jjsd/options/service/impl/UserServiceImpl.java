@@ -1,9 +1,9 @@
 package com.jjsd.options.service.impl;
 
 import com.jjsd.options.dao.UserRepository;
-import com.jjsd.options.entity.Cost;
-import com.jjsd.options.entity.Property;
-import com.jjsd.options.entity.User;
+import com.jjsd.options.entity.user.Cost;
+import com.jjsd.options.entity.user.Property;
+import com.jjsd.options.entity.user.User;
 import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;

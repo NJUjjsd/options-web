@@ -1,8 +1,8 @@
 package com.jjsd.options.service;
 
-import com.jjsd.options.entity.Cost;
-import com.jjsd.options.entity.Property;
-import com.jjsd.options.entity.User;
+import com.jjsd.options.entity.user.Cost;
+import com.jjsd.options.entity.user.Property;
+import com.jjsd.options.entity.user.User;
 
 /**
  * Created by zhujing on 2017/8/4.

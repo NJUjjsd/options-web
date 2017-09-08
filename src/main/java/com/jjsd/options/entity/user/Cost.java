@@ -1,16 +1,20 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.user;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by zhujing on 2017/9/6.
  */
-@Embeddable
+@Entity
+@Table(name = "Cost")
 public class Cost implements Serializable {
+    @Id
+    private String email;
 
     //买入认沽成本c1、买入认购成本c2、买入etf成本c3、卖出认沽成本c4、卖出认购成本c5、卖出etf成本c6
-
 
     public Cost() {
     }
@@ -26,6 +30,14 @@ public class Cost implements Serializable {
     private double c5;
 
     private double c6;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public double getC1() {
         return c1;

@@ -1,20 +1,28 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.user;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by zhujing on 2017/9/6.
  */
 
-@Embeddable
+@Entity
+@Table(name = "Property")
 public class Property implements Serializable {
     //期权map（代码、数量）、上证50etf数量、最高无风险利率、本金
+
 
     public Property() {
     }
 
-//    private List<Option> options;
+    @Id
+    private String email;
+
+    private List<Option> options;
 
     private int numOfSETF;
 
@@ -22,13 +30,21 @@ public class Property implements Serializable {
 
     private double b;
 
-//    public List<Option> getOptions() {
-//        return options;
-//    }
-//
-//    public void setOptions(List<Option> options) {
-//        this.options = options;
-//    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
 
     public int getNumOfSETF() {
         return numOfSETF;

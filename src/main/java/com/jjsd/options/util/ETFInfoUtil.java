@@ -1,27 +1,16 @@
 package com.jjsd.options.util;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.DomNodeList;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.jjsd.options.entity.ETFBaseInfo;
-import com.jjsd.options.entity.ETFInfo;
-import com.jjsd.options.entity.TransUnitPo;
+import com.jjsd.options.entity.market.ETFBaseInfo;
+import com.jjsd.options.entity.market.ETFInfo;
+import com.jjsd.options.entity.market.TransUnitPo;
 import com.jjsd.options.entity.vo.ContactInfoVO;
 import com.jjsd.options.entity.vo.ETFBasicInfoVO;
-import com.mongodb.util.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sourceforge.htmlunit.cyberneko.HTMLElements;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.json.Json;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;

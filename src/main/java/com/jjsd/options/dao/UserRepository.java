@@ -1,6 +1,6 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.entity.User;
+import com.jjsd.options.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

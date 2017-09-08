@@ -1,7 +1,7 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.jjsd.options.entity.*;
+import com.jjsd.options.entity.market.KInfoSimple;
 import com.jjsd.options.entity.vo.ETFBasicInfoVO;
 import com.jjsd.options.entity.vo.NewETFOptionDataVO;
 import com.jjsd.options.service.MarketService;

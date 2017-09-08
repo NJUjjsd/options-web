@@ -3,7 +3,7 @@ package com.jjsd.options.service.impl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jjsd.options.dao.NewsRepository;
-import com.jjsd.options.entity.News;
+import com.jjsd.options.entity.news.News;
 import com.jjsd.options.exception.ParameterException;
 import com.jjsd.options.service.NewsService;
 import com.jjsd.options.util.CrawlerUtil;

@@ -1,6 +1,6 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.entity.User;
+import com.jjsd.options.entity.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.user;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,13 +22,9 @@ public class User {
 
     private boolean isSetProperty;
 
-    private Property property;
-
     //是否设置成本
 
     private boolean isSetCost;
-
-    private Cost cost;
 
     //是否邮箱验证、验证码、验证时间
 
@@ -71,13 +67,6 @@ public class User {
         isSetProperty = setProperty;
     }
 
-    public Property getProperty() {
-        return property;
-    }
-
-    public void setProperty(Property property) {
-        this.property = property;
-    }
 
     public boolean isSetCost() {
         return isSetCost;
@@ -87,13 +76,6 @@ public class User {
         isSetCost = setCost;
     }
 
-    public Cost getCost() {
-        return cost;
-    }
-
-    public void setCost(Cost cost) {
-        this.cost = cost;
-    }
 
     public boolean isStatus() {
         return status;

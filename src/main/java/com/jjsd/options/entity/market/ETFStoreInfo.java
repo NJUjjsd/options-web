@@ -1,4 +1,4 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.market;
 
 /**
  * Created by ${zrz} on 2017/9/6.

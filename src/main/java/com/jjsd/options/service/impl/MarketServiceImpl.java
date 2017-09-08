@@ -4,7 +4,7 @@ import com.jjsd.options.dao.KInfoDao;
 import com.jjsd.options.dao.impl.KInfoSqlImpl;
 import com.jjsd.options.entity.vo.ContactInfoVO;
 import com.jjsd.options.entity.vo.ETFBasicInfoVO;
-import com.jjsd.options.entity.KInfoSimple;
+import com.jjsd.options.entity.market.KInfoSimple;
 import com.jjsd.options.service.MarketService;
 import org.springframework.stereotype.Service;
 

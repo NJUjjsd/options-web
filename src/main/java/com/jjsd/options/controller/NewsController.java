@@ -1,8 +1,8 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.jjsd.options.entity.News;
-import com.jjsd.options.entity.StockCode;
+import com.jjsd.options.entity.news.News;
+import com.jjsd.options.entity.market.StockCode;
 import com.jjsd.options.exception.ParameterException;
 import com.jjsd.options.service.NewsService;
 import com.jjsd.options.util.CrawlerUtil;

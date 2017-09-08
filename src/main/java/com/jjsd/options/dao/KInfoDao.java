@@ -1,6 +1,6 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.entity.KInfoSimple;
+import com.jjsd.options.entity.market.KInfoSimple;
 
 import java.util.ArrayList;
 

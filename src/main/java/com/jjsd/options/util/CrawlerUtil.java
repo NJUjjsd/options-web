@@ -1,7 +1,7 @@
 package com.jjsd.options.util;
 
 import com.jjsd.options.dao.NewsRepository;
-import com.jjsd.options.entity.News;
+import com.jjsd.options.entity.news.News;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

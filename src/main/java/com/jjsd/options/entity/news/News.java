@@ -1,4 +1,4 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.news;
 
 
 import org.springframework.data.annotation.Id;

@@ -1,4 +1,4 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.market;
 
 import java.time.LocalDate;
 
