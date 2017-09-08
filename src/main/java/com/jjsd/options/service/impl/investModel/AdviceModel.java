@@ -1,16 +1,15 @@
 package com.jjsd.options.service.impl.investModel;
 
 import com.jjsd.options.entity.vo.ModelResultVO;
+import com.jjsd.options.util.InvestMode;
 import com.jjsd.options.util.ResultState;
 
 public class AdviceModel {
     private double Ct;
     private double Pt;
     private double St;
-    private double T;
     private double L;
     private double r;
-    private double t;
 
     private double C1;
     private double C2;
@@ -23,7 +22,9 @@ public class AdviceModel {
     private double paramA;
     private double paramB;
 
-    public AdviceModel(double ct, double pt, double st, double l, double r, double c1, double c2, double c3, double c4, double c5, double c6, Integer remainderDays) {
+    private InvestMode mode; //NORMAL是有买有卖，ONLY_BUY是只买入
+
+    public AdviceModel(double ct, double pt, double st, double l, double r, double c1, double c2, double c3, double c4, double c5, double c6, Integer remainderDays, InvestMode mode) {
         Ct = ct;
         Pt = pt;
         St = st;
@@ -36,6 +37,7 @@ public class AdviceModel {
         C5 = c5;
         C6 = c6;
         this.remainderDays = remainderDays;
+        this.mode = mode;
     }
 
     /**
@@ -64,13 +66,13 @@ public class AdviceModel {
         if (A == B) {
             return new ModelResultVO(ResultState.NONE.toString(), -1);
         } else if (A >= B) {
-            Double profit = calculateProfit(L, r, C2, C4, C6);
+            Double profit = mode == InvestMode.NORMAL ? calculateProfit(L, r, C2, C4, C6) : calculateProfit(L, r, C2, 0, 0);
             if (profit == null) {
                 return new ModelResultVO(ResultState.NONE.toString(), -1);
             }
             return profit >= 0 ? new ModelResultVO(ResultState.BUY.toString(), profit) : new ModelResultVO(ResultState.NONE.toString(), -1);
         } else {
-            Double profit = calculateProfit(L, r, C1, C3, C5);
+            Double profit = mode == InvestMode.NORMAL ? calculateProfit(L, r, C1, C3, C5) : calculateProfit(L, r, C1, C3, 0);
             if (profit == null) {
                 return new ModelResultVO(ResultState.NONE.toString(), -1);
             }
@@ -78,6 +80,7 @@ public class AdviceModel {
         }
 
     }
+
 
     public ModelResultVO getDecision() {
         setParam();
