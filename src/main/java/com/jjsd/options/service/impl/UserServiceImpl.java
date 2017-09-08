@@ -1,5 +1,7 @@
 package com.jjsd.options.service.impl;
 
+import com.jjsd.options.dao.CostRepository;
+import com.jjsd.options.dao.PropertyRepository;
 import com.jjsd.options.dao.UserRepository;
 import com.jjsd.options.entity.user.Cost;
 import com.jjsd.options.entity.user.Property;
@@ -7,6 +9,7 @@ import com.jjsd.options.entity.user.User;
 import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.security.NoSuchAlgorithmException;
@@ -14,10 +17,17 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by zhujing on 2017/9/5.
  */
+@Service
 public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CostRepository costRepository;
+
+    @Autowired
+    private PropertyRepository propertyRepository;
 
 
     @Override
@@ -72,24 +82,38 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean fillInCost(String email, Cost cost) {
-        User u=userRepository.findByEmail(email);
-        if(u==null){
+    public boolean fillInCost(Cost cost) {
+        if (cost==null){
+            throw new NullPointerException();
+        }
+        User u=userRepository.findByEmail(cost.getEmail());
+        Cost c=costRepository.findByEmail(cost.getEmail());
+        if(c==null||u==null){
             return false;
         }
-        u.setCost(cost);
+        if (u.isSetCost()==false){
+            u.setSetCost(true);
+        }
         userRepository.save(u);
+        costRepository.save(cost);
         return true;
     }
 
     @Override
-    public boolean fillInProperty(String email, Property property) {
-        User u=userRepository.findByEmail(email);
-        if(u==null){
+    public boolean fillInProperty(Property property) {
+        if (property==null){
+            throw new NullPointerException();
+        }
+        User u=userRepository.findByEmail(property.getEmail());
+        Property p=propertyRepository.findByEmail(property.getEmail());
+        if(p==null||u==null){
             return false;
         }
-        u.setProperty(property);
+        if (u.isSetProperty()==false){
+            u.setSetProperty(true);
+        }
         userRepository.save(u);
+        propertyRepository.save(property);
         return true;
     }
 }

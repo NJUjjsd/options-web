@@ -1,5 +1,6 @@
 package com.jjsd.options.entity.user;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ public class Property implements Serializable {
     @Id
     private String email;
 
+    @ElementCollection
     private List<Option> options;
 
     private int numOfSETF;
@@ -68,6 +70,10 @@ public class Property implements Serializable {
 
     public void setB(double b) {
         this.b = b;
+    }
+
+    public double getTotal(){
+        return 0;
     }
 
 

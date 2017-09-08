@@ -48,20 +48,18 @@ public interface UserService {
 
     /**
      *
-     * @param email
      * @param cost
      * @return
      */
-    boolean fillInCost(String email, Cost cost);
+    boolean fillInCost(Cost cost);
 
 
     /**
      *
-     * @param email
      * @param property
      * @return
      */
-    boolean fillInProperty(String email, Property property);
+    boolean fillInProperty(Property property);
 
 
 

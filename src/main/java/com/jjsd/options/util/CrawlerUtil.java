@@ -465,7 +465,7 @@ public class CrawlerUtil {
                     Element e=(Element)iterator.next();
                     text.append(e.text()+"\r\n");
                 }
-                news.setText(text.toString().replace("维权现场 图片来源：中国网财经",""));
+                news.setText(text.toString().replace("图片来源：中国网财经",""));
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(news.getUrl());
