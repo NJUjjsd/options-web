@@ -1,7 +1,7 @@
 package com.jjsd.options.dao.impl;
 
 import com.jjsd.options.dao.KInfoDao;
-import com.jjsd.options.entity.KInfoSimple;
+import com.jjsd.options.entity.market.KInfoSimple;
 import com.jjsd.options.util.SqlConnectUtil;
 
 import java.sql.Connection;

@@ -3,12 +3,12 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Pagination } from 'antd';
+import { Row, Col, Pagination, Spin } from 'antd';
 import { defaultPageSize, defaultIsDescByReadNum } from '../../constant';
 import NewsItem from './NewsItem';
 import styles from './NewsList.css';
 
-function NewsList({ dispatch, location, newsList, allNum, current }) {
+function NewsList({ dispatch, location, loading, newsList, allNum, current }) {
   function pageChangeHandler(page) {
     const currentPage = page;
     if (location.pathname === '/news') {
@@ -38,13 +38,15 @@ function NewsList({ dispatch, location, newsList, allNum, current }) {
       className={styles.list}
     >
       <Col offset={2} span={19}>
-        {
-          newsList.map((v, i) => {
-            return (
-              <NewsItem key={i} data={v} />
-            );
-          })
-        }
+        <Spin spinning={loading} size="large" tip="正在加载，请稍后...">
+          {
+            newsList.map((v, i) => {
+              return (
+                <NewsItem key={i} data={v} />
+              );
+            })
+          }
+        </Spin>
         <Pagination
           defaultCurrent={1}
           total={allNum}
@@ -60,6 +62,7 @@ function NewsList({ dispatch, location, newsList, allNum, current }) {
 function mapStateToProps(state) {
   const { newsList, allNum, current } = state.news;
   return {
+    loading: state.loading.models.news,
     newsList,
     allNum,
     current,

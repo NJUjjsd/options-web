@@ -1,5 +1,6 @@
 package com.jjsd.options.dao;
 
+import com.jjsd.options.util.CrawlerUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,24 @@ public class NewsRepositoryTest {
 //        Assert.assertEquals(newsRepository.findByTitleLike("乐视",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),9);
 //        Assert.assertEquals(newsRepository.findByTitleLike("haha",new PageRequest(0,10,new Sort(Sort.Direction.DESC,"date"))).getTotalPages(),0);
 
+    }
+
+    @Test
+    public void go(){
+        for (String key: CrawlerUtil.stockCode.keySet()){
+            System.out.println(key);
+            if (key.equals("510050")){
+                newsRepository.save(CrawlerUtil.getROfEFromHexun());
+                newsRepository.save(CrawlerUtil.getNofEFromTencent());
+
+            }else {
+                newsRepository.save(CrawlerUtil.getRFromSina(key));
+                newsRepository.save(CrawlerUtil.getNFromSina(key));
+                newsRepository.save(CrawlerUtil.getAFromSina(key));
+                newsRepository.save(CrawlerUtil.getNFromIfeng(key));
+
+            }
+        }
     }
 
 

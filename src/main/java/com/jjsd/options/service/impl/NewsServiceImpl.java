@@ -3,7 +3,7 @@ package com.jjsd.options.service.impl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jjsd.options.dao.NewsRepository;
-import com.jjsd.options.entity.News;
+import com.jjsd.options.entity.news.News;
 import com.jjsd.options.exception.ParameterException;
 import com.jjsd.options.service.NewsService;
 import com.jjsd.options.util.CrawlerUtil;
@@ -76,7 +76,7 @@ public class NewsServiceImpl implements NewsService {
             throw new ParameterException("错误传参");
         }
 
-        Pageable mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"date"));
+        Pageable mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"isTop").and(new Sort(Sort.Direction.DESC,"date")));
         Page result=newsRepository.findByTitleLike(keyword,mp);
         return result;
     }
@@ -93,7 +93,7 @@ public class NewsServiceImpl implements NewsService {
             mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"isTop").and(new Sort(Sort.Direction.DESC,"readNum")).and(new Sort(Sort.Direction.DESC,"date")));
 
         }else{
-            mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"readNum").and(new Sort(Sort.Direction.DESC,"date")));
+            mp=new PageRequest(pageNum,pageSize,new Sort(Sort.Direction.DESC,"isTop").and(new Sort(Sort.Direction.DESC,"date")));
         }
 
         Page result=newsRepository.findByCodeAndType(CrawlerUtil.stockCode.get(code)+code,type,mp);

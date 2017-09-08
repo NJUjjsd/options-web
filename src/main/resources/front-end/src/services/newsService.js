@@ -38,3 +38,11 @@ export function getTitles(value) {
     return { titles };
   });
 }
+
+export function readNumUpdate(id) {
+  const promise = request(`/api/news/readNumUpdate?id=${id}`);
+  return promise.then((v) => {
+    const result = v.data;
+    return { result };
+  });
+}

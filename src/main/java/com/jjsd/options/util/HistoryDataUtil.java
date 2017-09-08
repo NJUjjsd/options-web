@@ -1,7 +1,11 @@
 package com.jjsd.options.util;
 
+<<<<<<< HEAD
 import com.jjsd.options.entity.ETFStoreBasic;
 import com.jjsd.options.entity.ETFStoreInfo;
+=======
+import com.jjsd.options.entity.market.ETFStoreInfo;
+>>>>>>> origin/master
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;

@@ -1,11 +1,8 @@
 package com.jjsd.options.dao;
 
 import com.jjsd.options.dao.impl.KInfoSqlImpl;
-import com.jjsd.options.entity.KInfo;
 import net.sf.json.JSONArray;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by ${zrz} on 2017/8/16.

@@ -1,6 +1,6 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.entity.News;
+import com.jjsd.options.entity.news.News;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -1,7 +1,7 @@
 package com.jjsd.options.service;
 
 import com.google.gson.JsonObject;
-import com.jjsd.options.entity.News;
+import com.jjsd.options.entity.news.News;
 import com.jjsd.options.exception.ParameterException;
 import org.springframework.data.domain.Page;
 

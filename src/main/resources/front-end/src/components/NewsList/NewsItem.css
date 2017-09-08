@@ -1,10 +1,10 @@
 .news_container {
-  cursor: pointer;
   padding-top: 1%;
   padding-bottom: 1%;
   border-bottom: solid 1px #f4f4f4;
 }
 .news_head {
+  cursor: pointer;
   color: #0000C6;
 }
 .news_info {
@@ -18,4 +18,11 @@
 .news_separate {
   margin-top: 8px;
   margin-bottom: 8px;
+}
+.hideTop {
+  display: none;
+}
+.showTop {
+  color: #ca2929;
+  display: inline;
 }

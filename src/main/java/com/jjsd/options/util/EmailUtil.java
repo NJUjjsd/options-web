@@ -1,6 +1,6 @@
 package com.jjsd.options.util;
 
-import com.jjsd.options.entity.User;
+import com.jjsd.options.entity.user.User;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
