@@ -75,7 +75,7 @@ export default {
     },
     * getTitles({ payload: { value } }, { call, put }) {
       const { titles } = yield call(newsService.getTitles, value);
-      console.log('get');
+      // console.log('get');
       yield put({
         type: 'saveTitles',
         payload: {

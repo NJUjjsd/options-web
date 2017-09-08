@@ -28,8 +28,8 @@ class OptionForm extends React.Component {
     let contacts = [];
     if (this.state.dueMonths.length !== 0) {
       dueMonth = `${this.state.dueMonths[this.state.selectedMonthIndex].split('-')[1]}月份`;
-      console.log('this is contact info');
-      console.log(this.state.contactInfo);
+      // console.log('this is contact info');
+      // console.log(this.state.contactInfo);
       contacts = this.state.contactInfo[this.state.selectedMonthIndex];
     }
     contacts.map((v, i) => {
@@ -40,7 +40,6 @@ class OptionForm extends React.Component {
         dataSource={contacts}
         bordered
         footer={() => ''}
-        style={{ textAlign: 'center' }}
         bodyStyle={{ fontSize: '14px' }}
         rowKey={record => record.key}
       >
