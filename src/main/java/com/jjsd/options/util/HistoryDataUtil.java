@@ -1,9 +1,9 @@
 package com.jjsd.options.util;
 
-import com.jjsd.options.entity.ETFInfo;
+import com.jjsd.options.entity.ETFStoreBasic;
 import com.jjsd.options.entity.ETFStoreInfo;
-import sun.reflect.FieldInfo;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +15,8 @@ import java.util.ArrayList;
  */
 public class HistoryDataUtil extends ETFInfoUtil{
     public static void main(String[] args) {
-        storeTodayEtf();
+        storeBasicEtf();
+        //storeTodayEtf();
     }
     /**
      * 存储今日的etf期权信息
@@ -46,10 +47,23 @@ public class HistoryDataUtil extends ETFInfoUtil{
             e.printStackTrace();
         }
 
-
-
     }
-    public static void storeTodayEtf(){
+    private static void storeBasicInSql(ETFStoreBasic storeBasic){
+        SqlConnectUtil.getSqlConnect();
+        String insertLine = "insert into ETFBasic values("+"'"+storeBasic.getId()+"'"+","+"'"+storeBasic.getTradeCode()+"'"+","+"'"+storeBasic.getName()+"'"+","+"'"+storeBasic.getDate()+"'"+")";
+        System.out.println(insertLine);
+        Connection connection = SqlConnectUtil.getSqlConnect();
+        Statement statement=null;
+        ResultSet set=null;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(insertLine);
+            SqlConnectUtil.close(connection,statement,set);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void storeTodayEtf(){
         ArrayList<String> months = getAllMonths();
         for(String month:months){
             month = monthTrans(month);
@@ -67,6 +81,51 @@ public class HistoryDataUtil extends ETFInfoUtil{
                 ETFStoreInfo info = getTodayEtf(id);
                 storeInSql(info);
             }
+        }
+
+    }
+    private static ETFStoreBasic getEtfBasic(String id){
+        String info1Str = queryUrl(nowInfoUrl+id);
+        ArrayList<String> info1 = dealListInfo(info1Str);
+        String info2Str = queryUrl(FluctuationUrl+id);
+        ArrayList<String> info2 = ETFInfoUtil.dealListInfo(info2Str);
+        double price = Double.valueOf(info1.get(8));
+        String name = info2.get(0);
+        String TradeCode = null;
+        try {
+            TradeCode = new String(info2.get(12).getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ETFStoreBasic storeBasic = new ETFStoreBasic(id,TradeCode,name);
+        return storeBasic;
+    }
+    public static void storeBasicEtf(){
+        String[] dates = {"2017-09-27","2017-10-25","2017-12-27","2018-03-28"};
+        int i=0;
+        ArrayList<String> months = getAllMonths();
+        String date = null;
+        for(String month:months){
+            date = dates[i];
+            month = monthTrans(month);
+            String upListStr = queryUrl(upListUrl+month);
+            String downListStr= queryUrl(downListUrl+month);
+            ArrayList<String> upList = dealListInfo(upListStr);
+            ArrayList<String> downList = dealListInfo(downListStr);
+            for(String id:upList){
+
+                id = id.substring(7);
+                ETFStoreBasic info = getEtfBasic(id);
+                info.setDate(date);
+                storeBasicInSql(info);
+            }
+            for(String id:downList){
+                id = id.substring(7);
+                ETFStoreBasic info = getEtfBasic(id);
+                info.setDate(date);
+                storeBasicInSql(info);
+            }
+            i++;
         }
     }
 

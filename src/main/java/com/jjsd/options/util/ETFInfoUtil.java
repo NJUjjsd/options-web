@@ -155,7 +155,7 @@ public class ETFInfoUtil {
     public static String queryUrl(String url){
         try {
             URL netUrl = new URL(url);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(netUrl.openConnection().getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(netUrl.openConnection().getInputStream(),"GBK"));
             return reader.readLine();
             //JSONObject object = JSONObject.fromObject(reader.readLine());
             //JSONArray array =object.getJSONObject("result").getJSONObject("data").getJSONArray("contractMonth");
