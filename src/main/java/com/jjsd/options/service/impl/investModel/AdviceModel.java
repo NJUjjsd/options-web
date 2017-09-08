@@ -23,14 +23,12 @@ public class AdviceModel {
     private double paramA;
     private double paramB;
 
-    public AdviceModel(double ct, double pt, double st, double t, double l, double r, double t1, double c1, double c2, double c3, double c4, double c5, double c6, Integer remainderDays) {
+    public AdviceModel(double ct, double pt, double st, double l, double r, double c1, double c2, double c3, double c4, double c5, double c6, Integer remainderDays) {
         Ct = ct;
         Pt = pt;
         St = st;
-        T = t;
         L = l;
         this.r = r;
-        this.t = t1;
         C1 = c1;
         C2 = c2;
         C3 = c3;
@@ -58,7 +56,7 @@ public class AdviceModel {
     }
 
     private void setParam() {
-        paramA = Ct + L * Math.exp(-r * remainderDays);
+        paramA = Ct + L * Math.exp(-r * remainderDays / 365);
         paramB = Pt + St;
     }
 

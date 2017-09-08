@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jjsd.options.entity.vo.ModelResultVO;
 import com.jjsd.options.service.InvestService;
+import com.jjsd.options.service.impl.investModel.AdviceModel;
 import com.jjsd.options.util.UrlFetcher;
 
 import java.io.IOException;
@@ -33,7 +34,9 @@ public class InvestServiceImpl implements InvestService {
 
     @Override
     public ModelResultVO getDecision() {
-
+        //String date = "";
+        //Integer remainderDays = getRemainderDays(date);
+        //return new AdviceModel(Params...).getDecision();
         return null;
     }
 }
