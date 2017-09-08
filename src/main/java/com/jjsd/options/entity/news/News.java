@@ -52,6 +52,8 @@ public class News{
         return isTop;
     }
 
+    public boolean getTop() { return isTop; }
+
     public void setTop(boolean top) {
         isTop = top;
     }

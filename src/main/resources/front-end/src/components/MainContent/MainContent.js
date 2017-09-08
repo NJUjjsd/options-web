@@ -6,7 +6,7 @@ import { Layout, Menu, Icon, Breadcrumb, Input } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
 import { defaultType, defaultStockCode,
-  defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum } from '../../constant';
+  defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum, defaultInvestPath } from '../../constant';
 import styles from './MainContent.css';
 
 
@@ -92,6 +92,14 @@ class MainContent extends React.Component {
           path,
         },
       }));
+    } else if (e.keyPath[length - 1] === '开始投资') {
+      const pathname = e.key === '委托' ? 'entrust' : 'cancel';
+      this.props.dispatch(routerRedux.push({
+        pathname: `/invest/${pathname}`,
+        query: {
+          path,
+        },
+      }));
     }
   };
   searchState = () => {
@@ -122,6 +130,16 @@ class MainContent extends React.Component {
         pathname: '/market/ETF',
         query: {
           path: defaultMarketPath,
+        },
+      }));
+    }
+  };
+  toInvest = () => {
+    if (this.props.location.pathname.substring(0, 6) !== '/invest') {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/invest/entrust',
+        query: {
+          path: defaultInvestPath,
         },
       }));
     }
@@ -196,10 +214,18 @@ class MainContent extends React.Component {
               <Menu.Item key="ETF">ETF</Menu.Item>
               <Menu.Item key="ETF期权">ETF期权</Menu.Item>
             </SubMenu>
-            <Menu.Item key="开始投资">
-              <Icon type="bank" />
-              <span>开始投资</span>
-            </Menu.Item>
+            <SubMenu
+              key="开始投资"
+              title={
+                <span onClick={this.toInvest.bind(this)}>
+                  <Icon type="bank" />
+                  <span>开始投资</span>
+                </span>
+              }
+            >
+              <Menu.Item key="委托">委托</Menu.Item>
+              <Menu.Item key="撤单">撤单</Menu.Item>
+            </SubMenu>
           </Menu>
         </Sider>
         <Layout className={styles.childrenLayout}>

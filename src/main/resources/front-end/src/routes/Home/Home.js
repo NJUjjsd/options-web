@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import { Row, Col } from 'antd';
 import { routerRedux } from 'dva/router';
-import { defaultStockCode, defaultType, defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum } from '../../constant';
+import { defaultStockCode, defaultInvestPath,
+  defaultType, defaultNewsPath, defaultMarketPath,
+  defaultIsDescByReadNum } from '../../constant';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import styles from './Home.css';
 
@@ -26,6 +28,14 @@ function IndexPage({ location, dispatch }) {
       },
     }));
   }
+  function toInvest() {
+    dispatch(routerRedux.push({
+      pathname: '/invest/entrust',
+      query: {
+        path: defaultInvestPath,
+      },
+    }));
+  }
   return (
     <MainLayout location={location} >
       <div className={styles.title}>为您更好地决策ETF投资</div>
@@ -44,7 +54,10 @@ function IndexPage({ location, dispatch }) {
           />
         </Col>
         <Col offset={1} span={4}>
-          <div className={styles.start_invest} />
+          <div
+            className={styles.start_invest}
+            onClick={toInvest.bind(this)}
+          />
         </Col>
       </Row>
     </MainLayout>
