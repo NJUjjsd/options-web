@@ -2,6 +2,7 @@ package com.jjsd.options.util;
 
 import com.jjsd.options.entity.market.ETFBaseInfo;
 import com.jjsd.options.entity.market.ETFInfo;
+import com.jjsd.options.entity.market.ETFTradeInfo;
 import com.jjsd.options.entity.market.TransUnitPo;
 import com.jjsd.options.entity.vo.ContactInfoVO;
 import com.jjsd.options.entity.vo.ETFBasicInfoVO;
@@ -194,6 +195,40 @@ public class ETFInfoUtil {
     }
 
     /**
+     * 根据id爬取交易信息
+     * @param id
+     * @return
+     */
+    public static ETFTradeInfo getTradeInfo(String id){
+        String tradeCode = BasicInfoUtil.getTradeCode(id);
+        String info1Str = queryUrl(nowInfoUrl+id);
+        ArrayList<String> info1 = dealListInfo(info1Str);
+        int index = 11;
+        double sellPrice5 = Double.valueOf(info1.get(++index));
+        double sellVolume5 = Double.valueOf(info1.get(++index));
+        double sellPrice4 = Double.valueOf(info1.get(++index));
+        double sellVolume4 = Double.valueOf(info1.get(++index));
+        double sellPrice3= Double.valueOf(info1.get(++index));
+        double sellVolume3 = Double.valueOf(info1.get(++index));
+        double sellPrice2 = Double.valueOf(info1.get(++index));
+        double sellVolume2 = Double.valueOf(info1.get(++index));
+        double sellPrice1 = Double.valueOf(info1.get(++index));
+        double sellVolume1 = Double.valueOf(info1.get(++index));
+        double buyPrice1 = Double.valueOf(info1.get(++index));
+        double buyVolume1 = Double.valueOf(info1.get(++index));
+        double buyPrice2 = Double.valueOf(info1.get(++index));
+        double buyVolume2 = Double.valueOf(info1.get(++index));
+        double buyPrice3 = Double.valueOf(info1.get(++index));
+        double buyVolume3 = Double.valueOf(info1.get(++index));
+        double buyPrice4 = Double.valueOf(info1.get(++index));
+        double buyVolume4 = Double.valueOf(info1.get(++index));
+        double buyPrice5 = Double.valueOf(info1.get(++index));
+        double buyVolume5 = Double.valueOf(info1.get(++index));
+        ETFTradeInfo etfTradeInfo =new ETFTradeInfo(id,tradeCode,buyPrice1,buyVolume1,buyPrice2,buyVolume2,buyPrice3,buyVolume3,buyPrice4,buyVolume4,buyPrice5,buyVolume5
+        ,sellPrice1,sellVolume1,sellPrice2,sellVolume2,sellPrice3,sellVolume3,sellPrice4,sellVolume4,sellPrice5,sellVolume5);
+        return  etfTradeInfo;
+    }
+    /**
      * 爬起etf实时信息
      * @return
      */
@@ -297,9 +332,7 @@ public class ETFInfoUtil {
 
     }
     public static void main(String[] args) {
-        getNowETFInfo();
-        //System.out.println(JSONArray.fromObject(getAllMonths()).toString());
-        System.out.println(JSONArray.fromObject(getInfoByMonth("2018-03")).toString());
+        System.out.println(JSONObject.fromObject(getTradeInfo("10000843")));
         //getOtherInfo("510050");
     }
 }
