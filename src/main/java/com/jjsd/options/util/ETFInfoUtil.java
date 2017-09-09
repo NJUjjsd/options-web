@@ -204,6 +204,7 @@ public class ETFInfoUtil {
         String info1Str = queryUrl(nowInfoUrl+id);
         ArrayList<String> info1 = dealListInfo(info1Str);
         int index = 11;
+        /*
         double sellPrice5 = Double.valueOf(info1.get(++index));
         double sellVolume5 = Double.valueOf(info1.get(++index));
         double sellPrice4 = Double.valueOf(info1.get(++index));
@@ -224,9 +225,21 @@ public class ETFInfoUtil {
         double buyVolume4 = Double.valueOf(info1.get(++index));
         double buyPrice5 = Double.valueOf(info1.get(++index));
         double buyVolume5 = Double.valueOf(info1.get(++index));
-        ETFTradeInfo etfTradeInfo =new ETFTradeInfo(id,tradeCode,buyPrice1,buyVolume1,buyPrice2,buyVolume2,buyPrice3,buyVolume3,buyPrice4,buyVolume4,buyPrice5,buyVolume5
-        ,sellPrice1,sellVolume1,sellPrice2,sellVolume2,sellPrice3,sellVolume3,sellPrice4,sellVolume4,sellPrice5,sellVolume5);
-        return  etfTradeInfo;
+        */
+        ArrayList<Double> buyPrice = new ArrayList<>();
+        ArrayList<Double> buyVolume = new ArrayList<>();
+        ArrayList<Double> sellPrice = new ArrayList<>();
+        ArrayList<Double> sellVolume = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            sellPrice.add(Double.valueOf(info1.get(++index)));
+            sellVolume.add(Double.valueOf(info1.get(++index)));
+        }
+        for(int j=0;j<5;j++){
+            buyPrice.add(Double.valueOf(info1.get(++index)));
+            buyVolume.add(Double.valueOf(info1.get(++index)));
+        }
+        ETFTradeInfo tradeInfo = new ETFTradeInfo(id,tradeCode,buyPrice,buyVolume,sellPrice,sellVolume);
+        return tradeInfo;
     }
     /**
      * 爬起etf实时信息
@@ -249,7 +262,7 @@ public class ETFInfoUtil {
         double highPrice = Double.valueOf(info1.get(4));
         double lowPrice = Double.valueOf(info1.get(5));
         double amplitude = (highPrice-lowPrice)/lastPrice*100;
-        amplitude = dateTransUtil.precisionTrans(amplitude,2);
+        amplitude = dateDealUtil.precisionTrans(amplitude,2);
         String amplitudeStr = amplitude+"";
         ETFBasicInfoVO basicInfoVO = new ETFBasicInfoVO("510050",name,nowPrice,rise,riseScope,amplitudeStr,turnOver,volume);
         return basicInfoVO;
