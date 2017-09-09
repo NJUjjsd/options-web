@@ -51,9 +51,6 @@ public class AdviceModel {
      * @return param
      */
     private Double calculateProfit(double L, double r, double M1, double M2, double M3) {
-        if (remainderDays == null) {
-            return null;
-        }
         return L * Math.exp(r * remainderDays / 365) - L - M1 - M2 - M3;
     }
 
@@ -83,6 +80,9 @@ public class AdviceModel {
 
 
     public ModelResultVO getDecision() {
+        if (remainderDays == null) {
+            return new ModelResultVO(ResultState.NONE.toString(), -1);
+        }
         setParam();
         return makeDecision(paramA, paramB);
     }

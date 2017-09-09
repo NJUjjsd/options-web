@@ -1,41 +1,45 @@
 package com.jjsd.options.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jjsd.options.entity.vo.ModelResultVO;
 import com.jjsd.options.service.InvestService;
-import com.jjsd.options.service.impl.investModel.AdviceModel;
-import com.jjsd.options.util.UrlFetcher;
+import com.jjsd.options.util.BasicInfoUtil;
 
-import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class InvestServiceImpl implements InvestService {
 
     /**
      * 获取ETF的剩余天数
      *
-     * @param date
+     * @param code
      * @return 剩余天数
      */
-    private Integer getRemainderDays(String date) {
-        String url = "http://stock.finance.sina.com.cn/futures/api/openapi.php/StockOptionService.getRemainderDay?date=" + date;
+    private Integer getRemainderDays(String code) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            String result = UrlFetcher.getUrlString(url);
-            JSONObject jsonObject = JSON.parseObject(result);
-            jsonObject = jsonObject.getJSONObject("result");
-            jsonObject = jsonObject.getJSONObject("data");
-            int remainderDays = (int) jsonObject.get("remainderDays");
-            return remainderDays;
-        } catch (IOException e) {
+            Date endDate = simpleDateFormat.parse(BasicInfoUtil.getEndDate(code));
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(endDate);
+            double end = cal.getTimeInMillis();
+            cal.setTime(today);
+            double now = cal.getTimeInMillis();
+            Integer between_days = Math.toIntExact(Math.round((end - now) / (86400000))); //1000 * 3600 * 24 = 86400000
+            return between_days;
+        } catch (ParseException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
     @Override
     public ModelResultVO getDecision() {
-        //String date = "";
-        //Integer remainderDays = getRemainderDays(date);
+        String code = "";
+        Integer remainderDays = getRemainderDays(code);
         //return new AdviceModel(Params...).getDecision();
         return null;
     }
