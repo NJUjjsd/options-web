@@ -1,22 +1,13 @@
-package com.jjsd.options.entity;
+package com.jjsd.options.entity.market;
 
 /**
- * Created by ${zrz} on 2017/9/8.
- * 存储Etf基本信息
- *
+ * Created by ${zrz} on 2017/9/9.
  */
-public class ETFStoreBasic
-{
+public class ETFStoreBasic {
     private String id;
     private String tradeCode;
     private String name;
     private String date;
-
-    public ETFStoreBasic(String id, String tradeCode, String name) {
-        this.id = id;
-        this.tradeCode = tradeCode;
-        this.name = name;
-    }
 
     public ETFStoreBasic(String id, String tradeCode, String name, String date) {
         this.id = id;
@@ -25,12 +16,10 @@ public class ETFStoreBasic
         this.date = date;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public ETFStoreBasic(String id, String tradeCode, String name) {
+        this.id = id;
+        this.tradeCode = tradeCode;
+        this.name = name;
     }
 
     public String getId() {
@@ -55,5 +44,13 @@ public class ETFStoreBasic
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

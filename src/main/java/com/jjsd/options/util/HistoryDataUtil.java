@@ -1,12 +1,10 @@
 package com.jjsd.options.util;
 
-<<<<<<< HEAD
-import com.jjsd.options.entity.ETFStoreBasic;
-import com.jjsd.options.entity.ETFStoreInfo;
-=======
-import com.jjsd.options.entity.market.ETFStoreInfo;
->>>>>>> origin/master
 
+
+import com.jjsd.options.entity.market.ETFBaseInfo;
+import com.jjsd.options.entity.market.ETFStoreBasic;
+import com.jjsd.options.entity.market.ETFStoreInfo;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -97,6 +95,7 @@ public class HistoryDataUtil extends ETFInfoUtil{
         String name = info2.get(0);
         String TradeCode = null;
         try {
+
             TradeCode = new String(info2.get(12).getBytes("ISO-8859-1"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
