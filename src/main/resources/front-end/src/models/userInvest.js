@@ -1,7 +1,7 @@
 /**
  * Created by a297 on 17/9/9.
  */
-import * as userInvestService from '../services/UserInvestService';
+import * as userInvestService from '../services/userInvestService';
 
 export default {
   namespace: 'userInvest',

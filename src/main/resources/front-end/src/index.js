@@ -19,10 +19,11 @@ app.use(createLoading());
 // app.model(require('./models/example'));
 app.model(require('./models/news'));
 app.model(require('./models/market'));
-app.model(require('./models/Invest'));
+app.model(require('./models/userInvest'));
 
 // 4. Router
 app.router(require('./router'));
+
 
 // 5. Start
 app.start('#root');
