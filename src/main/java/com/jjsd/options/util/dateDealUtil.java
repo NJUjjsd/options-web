@@ -1,6 +1,10 @@
 package com.jjsd.options.util;
 
+import org.apache.bcel.verifier.statics.DOUBLE_Upper;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ${zrz} on 2017/8/16.
@@ -26,9 +30,9 @@ public class dateDealUtil {
      * @param tag 买入还是卖出的标志符，买入为true，卖出为false
      * @return
      */
-    public static double anaylsePrice(ArrayList<Double> price,ArrayList<Double> volume,double nowPrice,boolean tag){
+    public static Map <Double,Double> anaylsePrice(ArrayList<Double> price,ArrayList<Double> volume,double nowPrice,boolean tag){
         int index = 0;
-        double result=0;
+        Map<Double,Double> result = new HashMap<>();
         for(index=0;index<price.size();index++){
             double tempPrice = price.get(index);
             if(tag){
@@ -42,12 +46,12 @@ public class dateDealUtil {
         }
         if(tag){
             for(;index<price.size();index++){
-                result+=volume.get(index);
+                result.put(price.get(index),volume.get(index));
             }
         }
         else{
             for(;index>=0;index--){
-                result+=volume.get(index);
+                result.put(price.get(index),volume.get(index));
             }
         }
         return result;
