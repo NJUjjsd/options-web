@@ -30,7 +30,6 @@ public class UserRepositoryTest {
 
     @Test
     public void go() throws Exception {
-        
 
     }
 
