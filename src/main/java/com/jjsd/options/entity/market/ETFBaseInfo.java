@@ -1,7 +1,5 @@
 package com.jjsd.options.entity.market;
 
-import java.time.LocalDate;
-
 /**
  * Created by ${zrz} on 2017/8/12.
  * ETF基金的基本信息，如公司成立时间等
@@ -81,4 +79,6 @@ public class ETFBaseInfo {
     public void setFundManager(String fundManager) {
         this.fundManager = fundManager;
     }
+
+
 }
