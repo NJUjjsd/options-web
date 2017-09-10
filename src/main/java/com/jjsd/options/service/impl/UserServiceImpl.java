@@ -3,9 +3,7 @@ package com.jjsd.options.service.impl;
 import com.jjsd.options.dao.CostRepository;
 import com.jjsd.options.dao.PropertyRepository;
 import com.jjsd.options.dao.UserRepository;
-import com.jjsd.options.entity.user.Cost;
-import com.jjsd.options.entity.user.Property;
-import com.jjsd.options.entity.user.User;
+import com.jjsd.options.entity.user.*;
 import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by zhujing on 2017/9/5.
@@ -82,6 +81,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Cost loadCostByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public Property loadPropertyByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public boolean fillInCost(Cost cost) {
         if (cost==null){
             throw new NullPointerException();
@@ -116,4 +125,26 @@ public class UserServiceImpl implements UserService{
         propertyRepository.save(property);
         return true;
     }
+
+    @Override
+    public List<Order> getOrderList(String email) {
+        return null;
+    }
+
+    @Override
+    public boolean makeOrder(Order order) {
+        return false;
+    }
+
+    @Override
+    public boolean cancelOrder(Long orderId) {
+        return false;
+    }
+
+    @Override
+    public List<Recommendation> getRecommendationList(String email) {
+        return null;
+    }
+
+
 }

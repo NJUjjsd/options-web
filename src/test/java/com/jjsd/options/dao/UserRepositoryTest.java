@@ -1,12 +1,11 @@
 package com.jjsd.options.dao;
 
+import com.jjsd.options.util.AesEncryptUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.IOException;
 
 
 /**
@@ -22,7 +21,8 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void findByEmail() throws IOException {
+    public void findByEmail() throws Exception {
+
 
     }
 
@@ -30,6 +30,11 @@ public class UserRepositoryTest {
 
     @Test
     public void go() throws Exception {
+//        System.out.println(AesEncryptUtil.encrypt());
+//        System.out.println(AesEncryptUtil.desEncrypt());
+        String a="停牌";
+        System.out.println(AesEncryptUtil.encrypt(a));
+        System.out.println(AesEncryptUtil.desEncrypt(AesEncryptUtil.encrypt(a)));
 
     }
 

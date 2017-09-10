@@ -4,7 +4,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,12 +12,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "Property")
-public class Property implements Serializable {
+public class Property {
     //期权map（代码、数量）、上证50etf数量、最高无风险利率、本金
 
-
-    public Property() {
-    }
 
     @Id
     private String email;

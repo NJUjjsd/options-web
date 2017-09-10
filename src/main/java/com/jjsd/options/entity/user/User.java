@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "User")
 public class User {
+
     @Id
     private String email;
 
@@ -66,8 +67,7 @@ public class User {
     public void setSetProperty(boolean setProperty) {
         isSetProperty = setProperty;
     }
-
-
+    
     public boolean isSetCost() {
         return isSetCost;
     }
@@ -75,7 +75,6 @@ public class User {
     public void setSetCost(boolean setCost) {
         isSetCost = setCost;
     }
-
 
     public boolean isStatus() {
         return status;

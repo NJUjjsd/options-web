@@ -16,9 +16,6 @@ public class Cost implements Serializable {
 
     //买入认沽成本c1、买入认购成本c2、买入etf成本c3、卖出认沽成本c4、卖出认购成本c5、卖出etf成本c6
 
-    public Cost() {
-    }
-
     private double c1;
 
     private double c2;
@@ -38,6 +35,7 @@ public class Cost implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public double getC1() {
         return c1;
