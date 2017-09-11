@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by ${zrz} on 2017/8/16.
  */
-public class dateDealUtil {
+public class DateDealUtil {
     /**
      * 精度转换的方法
      * @param length 小数点后保留的位数

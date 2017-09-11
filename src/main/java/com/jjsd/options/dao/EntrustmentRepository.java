@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface EntrustmentRepository extends JpaRepository<Entrustment, Long> {
 
+
     Entrustment findByEntrustmentId(Long id);
 
 

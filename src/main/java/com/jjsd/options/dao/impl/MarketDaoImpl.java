@@ -1,6 +1,7 @@
 package com.jjsd.options.dao.impl;
 
 import com.jjsd.options.dao.MarketDao;
+import com.jjsd.options.entity.market.TransUnitPo;
 import com.jjsd.options.entity.vo.ContactInfoVO;
 import com.jjsd.options.entity.vo.ETFBasicInfoVO;
 import com.jjsd.options.util.ETFInfoUtil;
@@ -17,6 +18,11 @@ public class MarketDaoImpl implements MarketDao{
         System.out.println(JSONArray.fromObject(dao.getContactInfoUpdateTime()));
         System.out.println(JSONObject.fromObject(dao.getETFBasicInfo()));*/
         System.out.println(dao.getETFUpdateTime());
+    }
+
+    @Override
+    public TransUnitPo getEtfById(String id) {
+        return ETFInfoUtil.getTransUnit(id);
     }
 
     @Override

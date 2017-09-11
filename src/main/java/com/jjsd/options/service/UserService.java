@@ -83,7 +83,14 @@ public interface UserService {
      * @param email
      * @return
      */
-    List<Entrustment> getOrderList(String email);
+    List<Entrustment> getEntrustmentList(String email);
+
+    /**
+     * 获得投资建议列表
+     * @param email
+     * @return
+     */
+    List<Recommendation> getRecommendationList(String email);
 
 
     /**
@@ -96,18 +103,23 @@ public interface UserService {
 
     /**
      * 撤单
-     * @param orderId
+     * @param entrustmentId
      * @return
      */
-    boolean cancelOrder(Long orderId);
+    boolean cancelOrder(Long entrustmentId);
 
 
     /**
-     * 获得投资建议列表
-     * @param email
+     *
+     * @param entrustmentId
      * @return
      */
-    List<Recommendation> getRecommendationList(String email);
+    boolean dealOrder(Long entrustmentId,double totalCost);
+
+
+
+
+
 
 
 
