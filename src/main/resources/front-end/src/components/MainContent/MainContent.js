@@ -5,7 +5,7 @@ import React from 'react';
 import { Layout, Menu, Icon, Breadcrumb, Input, message } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
-import { Encrypt, Decrypt } from '../../utils/aes';
+import { Encrypt } from '../../utils/aes';
 import { defaultType, defaultStockCode,
   defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum,
   defaultInvestPath, basicInfoPath } from '../../constant';
@@ -51,8 +51,8 @@ class MainContent extends React.Component {
 
   //  根据输入搜索新闻
   handleSearch = (value) => {
-    console.log(Encrypt(value));
-    console.log(Decrypt(Encrypt(value)));
+    // console.log(Encrypt(value));
+    // console.log(Decrypt(Encrypt(value)));
     let keyword = value;
     if (keyword.length > 32) {
       keyword = `${keyword.substring(0, 32)}...`;
