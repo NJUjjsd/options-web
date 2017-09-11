@@ -283,7 +283,7 @@ public class ETFInfoUtil {
      * @param id
      * @return
      */
-    private static TransUnitPo getTransUnit(String id){
+    public static TransUnitPo getTransUnit(String id){
         String info1Str = queryUrl(nowInfoUrl+id);
         ArrayList<String> info1 = dealListInfo(info1Str);
         String  currentPrice = info1.get(2);
