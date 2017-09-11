@@ -3,36 +3,35 @@ package com.jjsd.options.entity.user;
 import javax.persistence.*;
 
 /**
- * Created by zhujing on 2017/9/10.
+ * Created by zhujing on 2017/9/11.
  */
 @Entity
-@Table(name = "Order")
-public class Order {
+@Table(name = "Entrustment")
+public class Entrustment{
 
     //订单id，用户email，代码，名称，买入true卖出false，数量，价格
-
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private long entrustmentId;
 
     private String userEmail;
 
     private String code;
 
-    private String name;
+    private String optionName;
 
     private boolean isBuy;
 
-    private int num;
+    private int optionNum;
 
     private double price;
 
-    public long getId() {
-        return id;
+    public long getEntrustmentId() {
+        return entrustmentId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setEntrustmentId(long entrustmentId) {
+        this.entrustmentId = entrustmentId;
     }
 
     public String getUserEmail() {
@@ -51,12 +50,12 @@ public class Order {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public String getOptionName() {
+        return optionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOptionName(String optionName) {
+        this.optionName = optionName;
     }
 
     public boolean isBuy() {
@@ -67,12 +66,12 @@ public class Order {
         isBuy = buy;
     }
 
-    public int getNum() {
-        return num;
+    public int getOptionNum() {
+        return optionNum;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setOptionNum(int optionNum) {
+        this.optionNum = optionNum;
     }
 
     public double getPrice() {
@@ -82,5 +81,4 @@ public class Order {
     public void setPrice(double price) {
         this.price = price;
     }
-
 }

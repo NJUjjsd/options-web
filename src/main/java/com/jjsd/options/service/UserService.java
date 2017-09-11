@@ -83,15 +83,15 @@ public interface UserService {
      * @param email
      * @return
      */
-    List<Order> getOrderList(String email);
+    List<Entrustment> getOrderList(String email);
 
 
     /**
      * 下单
-     * @param order
+     * @param
      * @return
      */
-    boolean makeOrder(Order order);
+    boolean makeOrder(Entrustment entrustment);
 
 
     /**

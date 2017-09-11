@@ -1,7 +1,7 @@
 package com.jjsd.options.service.impl;
 
 import com.jjsd.options.dao.CostRepository;
-import com.jjsd.options.dao.OrderRepository;
+import com.jjsd.options.dao.EntrustmentRepository;
 import com.jjsd.options.dao.PropertyRepository;
 import com.jjsd.options.dao.UserRepository;
 import com.jjsd.options.entity.user.*;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
     private CostRepository costRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private EntrustmentRepository entrustmentRepository;
 
     @Autowired
     private PropertyRepository propertyRepository;
@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService{
         if (u!=null&&u.isStatus()==true&&u.getPassword().equals(password)){
             return true;
         }
-
         return false;
     }
 
@@ -133,21 +132,53 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<Order> getOrderList(String email) {
-        return orderRepository.findByEmail(email);
+    public List<Entrustment> getOrderList(String email) {
+        return entrustmentRepository.findByUserEmail(email);
     }
 
     @Override
-    public boolean makeOrder(Order order) {
+    public boolean makeOrder(Entrustment order) {
+        Property property=propertyRepository.findByEmail(order.getUserEmail());
+        if (order==null||property==null){
+            throw new NullPointerException();
+        }
 
+        String code=order.getCode();
+        int num=order.getOptionNum();
+        double price=order.getPrice();
 
+        //买入则减少资金
+        if (order.isBuy()){
+            double b=property.getB()-num*price;
+            property.setB(b);
 
-        return false;
+        }else {//卖出则对应减少数量
+            List<Option> list=property.getOptions();
+            Iterator iterator=list.iterator();
+            while (iterator.hasNext()){
+
+                Option option= (Option) iterator.next();
+                int position=list.indexOf(option);
+
+                if(option.getCode().equals(code)){
+
+                    int n=option.getAvailableNum()-num;
+                    option.setAvailableNum(n);
+
+                    list.remove(position);
+                    list.add(position,option);
+
+                }
+            }
+        }
+        propertyRepository.save(property);
+        entrustmentRepository.save(order);
+        return true;
     }
 
     @Override
-    public boolean cancelOrder(Long orderId) {
-        Order order=orderRepository.findById(orderId);
+    public boolean cancelOrder(Long entrustmentId) {
+        Entrustment order=entrustmentRepository.findByEntrustmentId(entrustmentId);
         if (order==null){
             throw new NullPointerException();
         }
@@ -159,7 +190,7 @@ public class UserServiceImpl implements UserService{
 
 
         String code=order.getCode();
-        int num=order.getNum();
+        int num=order.getOptionNum();
         double price=order.getPrice();
 
         //买入则恢复资金
@@ -188,7 +219,7 @@ public class UserServiceImpl implements UserService{
             }
         }
         propertyRepository.save(property);
-        orderRepository.delete(order);
+        entrustmentRepository.delete(order);
         return true;
     }
 

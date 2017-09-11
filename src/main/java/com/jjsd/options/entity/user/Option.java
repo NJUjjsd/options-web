@@ -69,6 +69,10 @@ public class Option implements Serializable {
     public double getPriceDifference(){
         return 0;
     }
+
+    public double getPriceChangePercent(){
+        return 0;
+    }
 }
 
 
