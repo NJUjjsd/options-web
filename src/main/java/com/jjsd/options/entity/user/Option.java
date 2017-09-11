@@ -1,5 +1,9 @@
 package com.jjsd.options.entity.user;
 
+import com.jjsd.options.dao.MarketDao;
+import com.jjsd.options.dao.impl.MarketDaoImpl;
+import com.jjsd.options.util.BasicInfoUtil;
+
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
@@ -8,6 +12,10 @@ import java.io.Serializable;
  */
 @Embeddable
 public class Option implements Serializable {
+    private static MarketDao marketDao;
+    static {
+        marketDao=new MarketDaoImpl();
+    }
 
     //代码，名称，可卖数量，成本价
     public Option() {
@@ -58,20 +66,34 @@ public class Option implements Serializable {
      * @return
      */
     public double getNewestPrice(){
-        return 0;
+        if(code.equals("510050")){
+            return Double.parseDouble(marketDao.getETFBasicInfo().getCurPrice());
+
+        }
+        return Double.parseDouble(marketDao.getEtfById(BasicInfoUtil.getId(this.code)).getCurrentPrice());
+
 
     }
 
     /**
-     * 获得差价=当前价-成本价
+     * 获得差价=(当前价-成本价)*数量
      * @return
      */
     public double getPriceDifference(){
-        return 0;
+        return (this.getNewestPrice()-this.cost)*this.availableNum;
     }
 
+    /**
+     * 涨跌幅
+     * @return
+     */
     public double getPriceChangePercent(){
-        return 0;
+        if(code.equals("510050")){
+            return Double.parseDouble(marketDao.getETFBasicInfo().getFluPrice());
+        }
+        return Double.parseDouble(marketDao.getEtfById(BasicInfoUtil.getId(this.code)).getFluctuation());
+
+
     }
 }
 

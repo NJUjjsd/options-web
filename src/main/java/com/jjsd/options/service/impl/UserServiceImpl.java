@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<Entrustment> getOrderList(String email) {
+    public List<Entrustment> getEntrustmentList(String email) {
         return entrustmentRepository.findByUserEmail(email);
     }
 
@@ -170,6 +170,7 @@ public class UserServiceImpl implements UserService{
 
                 }
             }
+            property.setOptions(list);
         }
         propertyRepository.save(property);
         entrustmentRepository.save(order);
@@ -178,23 +179,23 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean cancelOrder(Long entrustmentId) {
-        Entrustment order=entrustmentRepository.findByEntrustmentId(entrustmentId);
-        if (order==null){
+        Entrustment entrustment=entrustmentRepository.findByEntrustmentId(entrustmentId);
+        if (entrustment==null){
             throw new NullPointerException();
         }
 
-        Property property=propertyRepository.findByEmail(order.getUserEmail());
+        Property property=propertyRepository.findByEmail(entrustment.getUserEmail());
         if (property==null){
             throw new NullPointerException();
         }
 
 
-        String code=order.getCode();
-        int num=order.getOptionNum();
-        double price=order.getPrice();
+        String code=entrustment.getCode();
+        int num=entrustment.getOptionNum();
+        double price=entrustment.getPrice();
 
         //买入则恢复资金
-        if (order.isBuy()){
+        if (entrustment.isBuy()){
             double b=property.getB()+num*price;
             property.setB(b);
 
@@ -217,11 +218,61 @@ public class UserServiceImpl implements UserService{
 
                 }
             }
+            property.setOptions(list);
         }
         propertyRepository.save(property);
-        entrustmentRepository.delete(order);
+        entrustmentRepository.delete(entrustment);
         return true;
     }
+
+    @Override
+    public boolean dealOrder(Long entrustmentId,double totalCost) {
+        Entrustment entrustment=entrustmentRepository.findByEntrustmentId(entrustmentId);
+        if (entrustment==null){
+            throw new NullPointerException();
+        }
+
+        Property property=propertyRepository.findByEmail(entrustment.getUserEmail());
+        if (property==null){
+            throw new NullPointerException();
+        }
+
+
+        String code=entrustment.getCode();
+        int num=entrustment.getOptionNum();
+        double price=entrustment.getPrice();
+
+        //买入则增加数量,加差价
+        if (entrustment.isBuy()){
+
+            List<Option> list=property.getOptions();
+            Iterator iterator=list.iterator();
+            while (iterator.hasNext()){
+                Option option= (Option) iterator.next();
+                int position=list.indexOf(option);
+
+                if(option.getCode().equals(code)){
+
+                    int n=option.getAvailableNum()+num;
+                    option.setAvailableNum(n);
+
+                    list.remove(position);
+                    list.add(position,option);
+
+                }
+            }
+            property.setOptions(list);
+            property.setB(property.getB()+num*price-totalCost);
+        }else {//卖出则增加本金，
+
+            property.setB(property.getB()-num*price+totalCost);
+        }
+        propertyRepository.save(property);
+        entrustmentRepository.delete(entrustment);
+        return true;
+
+    }
+
 
     @Override
     public List<Recommendation> getRecommendationList(String email) {

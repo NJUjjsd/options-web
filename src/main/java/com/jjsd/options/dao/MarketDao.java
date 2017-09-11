@@ -15,12 +15,13 @@ public interface MarketDao {
      * @return ETF基本信息
      */
     ETFBasicInfoVO getETFBasicInfo();
+
     /**
      * 根据id得到实时信息
      * @param id 格式为100开头，如实用500开头交易代码请先使用BasicInfoUtil.getId进行转换
      * @return
      */
-    public TransUnitPo getEtfById(String id);
+     TransUnitPo getEtfById(String id);
 
     /**
      *

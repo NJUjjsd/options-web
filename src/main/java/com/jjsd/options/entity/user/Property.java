@@ -4,6 +4,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "Property")
 public class Property {
-
 
     @Id
     private String email;
@@ -63,7 +63,13 @@ public class Property {
      * @return
      */
     public double getTotal(){
-        return 0;
+        double result=0;
+        Iterator it=options.iterator();
+        while (it.hasNext()){
+            Option option= (Option) it.next();
+            result+=option.getAvailableNum()*option.getNewestPrice();
+        }
+        return result;
     }
 
 

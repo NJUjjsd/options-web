@@ -14,4 +14,8 @@ public interface PropertyRepository extends JpaRepository<Property, String> {
      * @return
      */
     Property findByEmail(String email);
+
+
+
+
 }
