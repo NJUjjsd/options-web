@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "Order")
 public class Order {
 
+    //订单id，用户email，代码，名称，买入true卖出false，数量，价格
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
@@ -24,8 +26,6 @@ public class Order {
     private int num;
 
     private double price;
-
-    private boolean isDeal;
 
     public long getId() {
         return id;
@@ -83,11 +83,4 @@ public class Order {
         this.price = price;
     }
 
-    public boolean isDeal() {
-        return isDeal;
-    }
-
-    public void setDeal(boolean deal) {
-        isDeal = deal;
-    }
 }

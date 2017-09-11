@@ -9,14 +9,13 @@ import java.io.Serializable;
 @Embeddable
 public class Option implements Serializable {
 
+    //代码，名称，可卖数量，成本价
     public Option() {
     }
 
     private String code;
 
     private String name;
-
-    private int totalNum;
 
     private int availableNum;
 
@@ -38,14 +37,6 @@ public class Option implements Serializable {
         this.name = name;
     }
 
-    public int getTotalNum() {
-        return totalNum;
-    }
-
-    public void setTotalNum(int totalNum) {
-        this.totalNum = totalNum;
-    }
-
     public int getAvailableNum() {
         return availableNum;
     }
@@ -62,11 +53,19 @@ public class Option implements Serializable {
         this.cost = cost;
     }
 
+    /**
+     * 获得当前价
+     * @return
+     */
     public double getNewestPrice(){
         return 0;
 
     }
 
+    /**
+     * 获得差价=当前价-成本价
+     * @return
+     */
     public double getPriceDifference(){
         return 0;
     }

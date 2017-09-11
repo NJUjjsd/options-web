@@ -1,6 +1,7 @@
 package com.jjsd.options.service.impl;
 
 import com.jjsd.options.dao.CostRepository;
+import com.jjsd.options.dao.OrderRepository;
 import com.jjsd.options.dao.PropertyRepository;
 import com.jjsd.options.dao.UserRepository;
 import com.jjsd.options.entity.user.*;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private CostRepository costRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private PropertyRepository propertyRepository;
@@ -40,6 +45,8 @@ public class UserServiceImpl implements UserService{
         user.setUserName(userName);
         user.setPassword(password);
         user.setStatus(false);
+        user.setSetCost(false);
+        user.setSetProperty(false);
         try {
             user = EmailUtil.activateMail(user);
         } catch (MessagingException e) {
@@ -82,12 +89,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Cost loadCostByEmail(String email) {
-        return null;
+        return costRepository.findByEmail(email);
     }
 
     @Override
     public Property loadPropertyByEmail(String email) {
-        return null;
+        return propertyRepository.findByEmail(email);
     }
 
     @Override
@@ -128,17 +135,62 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<Order> getOrderList(String email) {
-        return null;
+        return orderRepository.findByEmail(email);
     }
 
     @Override
     public boolean makeOrder(Order order) {
+        
+
+
         return false;
     }
 
     @Override
     public boolean cancelOrder(Long orderId) {
-        return false;
+        Order order=orderRepository.findById(orderId);
+        if (order==null){
+            throw new NullPointerException();
+        }
+
+        Property property=propertyRepository.findByEmail(order.getUserEmail());
+        if (property==null){
+            throw new NullPointerException();
+        }
+
+
+        String code=order.getCode();
+        int num=order.getNum();
+        double price=order.getPrice();
+
+        //买入则恢复资金
+        if (order.isBuy()){
+            double b=property.getB()+num*price;
+            property.setB(b);
+
+
+        }else {//卖出则对应恢复数量
+            List<Option> list=property.getOptions();
+            Iterator iterator=list.iterator();
+            while (iterator.hasNext()){
+
+                Option option= (Option) iterator.next();
+                int position=list.indexOf(option);
+
+                if(option.getCode().equals(code)){
+
+                    int n=option.getAvailableNum()+num;
+                    option.setAvailableNum(n);
+
+                    list.remove(position);
+                    list.add(position,option);
+
+                }
+            }
+        }
+        propertyRepository.save(property);
+        orderRepository.delete(order);
+        return true;
     }
 
     @Override

@@ -13,16 +13,14 @@ import java.util.List;
 @Entity
 @Table(name = "Property")
 public class Property {
-    //期权map（代码、数量）、上证50etf数量、最高无风险利率、本金
 
 
     @Id
     private String email;
+    //期权和etf的list（代码，名称，可卖数量，成本价）、最高无风险利率、本金
 
     @ElementCollection
     private List<Option> options;
-
-    private int numOfSETF;
 
     private double r;
 
@@ -44,14 +42,6 @@ public class Property {
         this.options = options;
     }
 
-    public int getNumOfSETF() {
-        return numOfSETF;
-    }
-
-    public void setNumOfSETF(int numOfSETF) {
-        this.numOfSETF = numOfSETF;
-    }
-
     public double getR() {
         return r;
     }
@@ -68,6 +58,10 @@ public class Property {
         this.b = b;
     }
 
+    /**
+     * 获得总资产
+     * @return
+     */
     public double getTotal(){
         return 0;
     }
