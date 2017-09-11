@@ -194,6 +194,30 @@ public class ETFInfoUtil {
 
     }
 
+
+    public static ETFTradeInfo getETFTrade(){
+        String tradeCode = "0";
+        String id = "510050";
+        String query1 = queryUrl(etfNowInfoUrl);
+
+        ArrayList<String> info1=dealListInfo(query1);
+
+        int index = 9;
+        ArrayList<Double> buyPrice = new ArrayList<>();
+        ArrayList<Double> buyVolume = new ArrayList<>();
+        ArrayList<Double> sellPrice = new ArrayList<>();
+        ArrayList<Double> sellVolume = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            sellVolume.add(Double.valueOf(info1.get(++index)));
+            sellPrice.add(Double.valueOf(info1.get(++index)));
+        }
+        for(int j=0;j<5;j++){
+            buyVolume.add(Double.valueOf(info1.get(++index)));
+            buyPrice.add(Double.valueOf(info1.get(++index)));
+        }
+        ETFTradeInfo tradeInfo = new ETFTradeInfo(id,tradeCode,buyPrice,buyVolume,sellPrice,sellVolume);
+        return tradeInfo;
+    }
     /**
      * 根据id爬取交易信息
      * @param id
@@ -262,7 +286,7 @@ public class ETFInfoUtil {
         double highPrice = Double.valueOf(info1.get(4));
         double lowPrice = Double.valueOf(info1.get(5));
         double amplitude = (highPrice-lowPrice)/lastPrice*100;
-        amplitude = dateDealUtil.precisionTrans(amplitude,2);
+        amplitude = DateDealUtil.precisionTrans(amplitude,2);
         String amplitudeStr = amplitude+"";
         ETFBasicInfoVO basicInfoVO = new ETFBasicInfoVO("510050",name,nowPrice,rise,riseScope,amplitudeStr,turnOver,volume);
         return basicInfoVO;

@@ -1,6 +1,7 @@
 package com.jjsd.options.dao;
 
 import com.jjsd.options.dao.impl.KInfoSqlImpl;
+import com.oracle.tools.packager.Log;
 import net.sf.json.JSONArray;
 import org.junit.Test;
 
@@ -16,17 +17,17 @@ public class KInfoDaoTest {
 
     @Test
     public void getWeekK() throws Exception {
-        System.out.println(JSONArray.fromObject(dao.getWeekK()).toString());
+        Log.debug(JSONArray.fromObject(dao.getWeekK()).toString());
     }
 
     @Test
     public void getMonthK() throws Exception {
-        System.out.println(JSONArray.fromObject(dao.getMonthK()).toString());
+        Log.debug(JSONArray.fromObject(dao.getMonthK()).toString());
     }
 
     @Test
     public void getDayK() throws Exception {
-        System.out.println(JSONArray.fromObject(dao.getDayK()).toString());
+        Log.debug(JSONArray.fromObject(dao.getDayK()).toString());
     }
 
 }
