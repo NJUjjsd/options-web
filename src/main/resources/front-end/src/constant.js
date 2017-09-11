@@ -10,6 +10,9 @@ export const defaultNewsPath = '/实时新闻/ETF资讯/上证50ETF(510050)';
 export const newsDetailsPath = '/新闻/正文';
 export const registerPath = '/用户/注册';
 export const loginPath = '/用户/登录';
+export const basicInfoPath = '/用户/个人信息';
+export const changePasswordPath = '/用户/修改密码';
 
 export const defaultMarketPath = '/最新行情/ETF';
 export const defaultInvestPath = '/开始投资/委托';
+

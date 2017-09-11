@@ -1,15 +1,16 @@
 .loginForm {
   max-width: 500px;
-  margin-top: 3%;
+  margin-top: 6%;
 }
 .loginFormButton {
   width: 100%;
-  background-color: #535a60;
+  /*background-color: #535a60;*/
   -webkit-text-fill-color: white;
   border-color: white;
   height: 60px;
   font-size: 20px;
   font-weight: 300;
+  margin-top: 2%;
 }
 .item {
   height: 60px;
@@ -18,15 +19,15 @@
   margin-top: 8%;
   text-align: center;
 }
-.beginLogin {
+.beginRegister {
   font-weight: 400;
-  font-size: 20px;
-  margin-top: 8%;
+  font-size: 26px;
+  margin-top: 20%;
 }
 .loginFormForgot {
   float: right;
 }
-.register {
-  font-size: 20px;
+.passwordIssue {
+  margin-top: 10%;
 }
 

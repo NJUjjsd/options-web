@@ -2,9 +2,11 @@
  * Created by john on 2017/9/8.
  */
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Icon } from 'antd';
+import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import styles from './Login.css';
+import { registerPath } from '../../constant';
 
 
 const FormItem = Form.Item;
@@ -18,12 +20,29 @@ class Login extends React.Component {
       }
     });
   };
+  toRegister = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/users/register',
+      query: {
+        path: registerPath,
+      },
+    }));
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <div className={styles.beginLogin}>开始登录</div>
-        <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
+        <div className={styles.beginRegister}>
+          没有账号？
+          <span
+            style={{ color: '#5EA9E8', cursor: 'pointer' }}
+            onClick={this.toRegister.bind(this)}
+          >
+            立即注册
+            <Icon type="arrow-right" />
+          </span>
+        </div>
+        <Form onSubmit={this.handleSubmit.bind(this)} className={styles.loginForm}>
           <FormItem>
             {getFieldDecorator('email', {
               rules: [{ type: 'email', message: '邮箱格式不正确' },
@@ -39,18 +58,17 @@ class Login extends React.Component {
               <Input className={styles.item} type="password" placeholder="密码" />,
             )}
           </FormItem>
-          <div>
+          <div className={styles.passwordIssue}>
             <span>
               <Checkbox style={{ fontSize: 18 }}>记住密码</Checkbox>
             </span>
-            <span style={{ float: 'right', fontSize: 18 }}>忘记密码</span>
+            <span style={{ float: 'right', fontSize: 18, color: '#5EA9E8', cursor: 'pointer' }}>忘记密码</span>
           </div>
           <FormItem>
             <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
               开始登录
             </Button>
           </FormItem>
-          <div className={styles.beginLogin}>没有账号？<span>立即注册--</span></div>
         </Form>
       </div>
     );

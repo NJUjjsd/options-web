@@ -62,6 +62,16 @@ public class AesEncryptUtil {
         }
     }
 
+    public static void main(String args[]){
+        String text = "热度";
 
+        try {
+            String temp = AesEncryptUtil.encrypt(text);
+            System.out.println(temp);
+            System.out.println(AesEncryptUtil.desEncrypt(temp));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

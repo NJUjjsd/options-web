@@ -10,13 +10,17 @@ import Register from './routes/Register/Register';
 import Login from './routes/Login/Login';
 import Entrust from './routes/Entrust/Entrust';
 import Cancel from './routes/Cancel/Cancel';
+import BasicInfo from './routes/UserInfo/UserInfo';
+import ChangePassword from './routes/ChangePassword/ChangePassword';
 
 function RouterConfig({ browserHistory }) {
   return (
     <Router history={browserHistory}>
       <Route path="/" component={IndexPage} />
       <Route path="/users/register" components={Register} />
+      <Route path="/users/changePassword" components={ChangePassword} />
       <Route path="/users/login" components={Login} />
+      <Route path="/users/basicInfo" components={BasicInfo} />
       <Route path="/news" components={RealTimeNews} />
       <Route path="/news/details" component={NewsDetails} />
       <Route path="/news/searchResult" component={SearchResult} />

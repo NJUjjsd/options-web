@@ -20,6 +20,7 @@ app.use(createLoading());
 app.model(require('./models/news'));
 app.model(require('./models/market'));
 app.model(require('./models/userInvest'));
+app.model(require('./models/users'));
 
 // 4. Router
 app.router(require('./router'));

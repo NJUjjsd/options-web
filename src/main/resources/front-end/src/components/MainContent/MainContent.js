@@ -2,11 +2,13 @@
  * Created by john on 2017/8/15.
  */
 import React from 'react';
-import { Layout, Menu, Icon, Breadcrumb, Input } from 'antd';
+import { Layout, Menu, Icon, Breadcrumb, Input, message } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
+import { Encrypt, Decrypt } from '../../utils/aes';
 import { defaultType, defaultStockCode,
-  defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum, defaultInvestPath } from '../../constant';
+  defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum,
+  defaultInvestPath, basicInfoPath } from '../../constant';
 import styles from './MainContent.css';
 
 
@@ -49,6 +51,8 @@ class MainContent extends React.Component {
 
   //  根据输入搜索新闻
   handleSearch = (value) => {
+    console.log(Encrypt(value));
+    console.log(Decrypt(Encrypt(value)));
     let keyword = value;
     if (keyword.length > 32) {
       keyword = `${keyword.substring(0, 32)}...`;
@@ -56,7 +60,7 @@ class MainContent extends React.Component {
     this.props.dispatch(routerRedux.push({
       pathname: '/news/searchResult',
       query: {
-        value,
+        value: encodeURIComponent(encodeURIComponent(Encrypt(value))),
         path: `/新闻/搜索结果/${keyword}`,
       },
     }));
@@ -144,6 +148,17 @@ class MainContent extends React.Component {
       }));
     }
   };
+  toBasicInfo = () => {
+    if (this.props.location.pathname !== '/users/basicInfo') {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/users/basicInfo',
+        query: {
+          path: basicInfoPath,
+        },
+      }));
+      message.info('亲，修改信息记得保存哦');
+    }
+  };
   render() {
     const defaultSelectedKeys = this.defaultSelectedKeys();
     const defaultOpenKeys = this.defaultOpenKeys();
@@ -174,10 +189,10 @@ class MainContent extends React.Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="个人信息">
-              <Link to="/" className={styles.link}>
+              <div onClick={this.toBasicInfo.bind(this)}>
                 <Icon type="user" />
                 <span>个人信息</span>
-              </Link>
+              </div>
             </Menu.Item>
             <SubMenu
               key="实时新闻"

@@ -5,6 +5,7 @@ import com.jjsd.options.entity.news.News;
 import com.jjsd.options.entity.market.StockCode;
 import com.jjsd.options.exception.ParameterException;
 import com.jjsd.options.service.NewsService;
+import com.jjsd.options.util.AesEncryptUtil;
 import com.jjsd.options.util.CrawlerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,13 @@ public class NewsController {
 
     @GetMapping(value = "/search")
     public @ResponseBody String searchNews(@RequestParam int page,@RequestParam int pageSize,@RequestParam String keyword){
+
+        try {
+            System.out.println(java.net.URLDecoder.decode(keyword,"UTF-8"));
+            System.out.println(AesEncryptUtil.desEncrypt(java.net.URLDecoder.decode(keyword,"UTF-8")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Page<News> news = null;
         try {
             news = newsService.search(page,pageSize,keyword);
@@ -73,7 +81,9 @@ public class NewsController {
 
     @GetMapping(value = "/readNumUpdate")
     public @ResponseBody boolean readNumUpdate(@RequestParam String id){
+
         return newsService.readNumUpdate(id);
     }
+
 
 }
