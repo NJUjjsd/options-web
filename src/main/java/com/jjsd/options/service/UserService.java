@@ -72,10 +72,10 @@ public interface UserService {
 
     /**
      * 填写或更新资产
-     * @param property
+     * @param
      * @return
      */
-    boolean fillInProperty(Property property);
+    boolean fillInProperty(String email,double r,double b);
 
 
     /**

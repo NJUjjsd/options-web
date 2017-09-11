@@ -116,20 +116,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean fillInProperty(Property property) {
-        if (property==null){
-            throw new NullPointerException();
-        }
-        User u=userRepository.findByEmail(property.getEmail());
-        Property p=propertyRepository.findByEmail(property.getEmail());
+    public boolean fillInProperty(String email,double r,double b) {
+        User u=userRepository.findByEmail(email);
+        Property p=propertyRepository.findByEmail(email);
         if(p==null||u==null){
             return false;
         }
+        p.setR(r);
+        p.setB(b);
         if (u.isSetProperty()==false){
             u.setSetProperty(true);
         }
         userRepository.save(u);
-        propertyRepository.save(property);
+        propertyRepository.save(p);
         return true;
     }
 
@@ -140,7 +139,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean makeOrder(Order order) {
-        
+
 
 
         return false;
