@@ -22,7 +22,7 @@ public class EmailUtil {
 
     private static final String FROM = "njujjsd@163.com";//发件人的email
     private static final String PWD = "njujjsd123";//发件人密码--邮箱密码
-    private static final String URL = "http://localhost:8080/index";//项目主页
+    private static final String URL = "http://localhost:8000/";//项目主页
     private static final int TIMELIMIT = 1000*60*60*24; //激活邮件过期时间24小时
     private static final String TITLE = "账户激活邮件";
     private static final String HOST = "smtp.163.com";

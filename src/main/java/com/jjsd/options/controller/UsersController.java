@@ -7,10 +7,19 @@ import com.jjsd.options.entity.vo.Account;
 import com.jjsd.options.entity.vo.UserInfo;
 import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.AesEncryptUtil;
+import com.jjsd.options.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -79,6 +88,49 @@ public class UsersController {
         System.out.println(email+"   "+password+"   ");
 //       return userService.login(email,password);
         return true;
+    }
+
+    @RequestMapping("/activatemail")
+    public ModelAndView hello(HttpServletRequest request, Model model) throws IOException, AddressException, MessagingException, NoSuchAlgorithmException {
+        //获取激活参数
+        String email = request.getParameter("email");
+        String token = request.getParameter("token");
+        Long time = System.currentTimeMillis();
+        User u = userService.loadUserByEmail(email);
+
+        if (u != null) {
+            if (!u.isStatus() && u.getActivateTime() != 1) {
+
+                if (u.getActivateTime() < time) {
+                    System.out.println(11);
+                    //过期--激活失败
+                    u.setActivateTime(Long.parseLong("-1"));
+                    //重新发送激活邮件
+                    u = EmailUtil.activateMail(u);
+                    //重新设置了有效时间和token激活码
+                    userService.modify(u);
+                } else if (u.getActivateTime()>time){
+                    //在时间内
+                    u.setActivateTime(Long.parseLong("1"));
+                    if (u.getToken().equals(token)) {
+                        //在时间内且激活码通过，激活成功
+
+                        u.setStatus(true);
+
+                        //重新设置token防止被禁用的用户利用激活
+                        u.setToken(token.replace("1", "c"));
+                        userService.modify(u);
+
+                    }
+                }
+
+            }
+        } else if (u == null) {
+            System.out.println("无此用户");
+        }
+        HttpSession session=request.getSession();
+        session.setAttribute("username",u.getUserName());
+        return new ModelAndView("log_index");
     }
 
     private User user(){

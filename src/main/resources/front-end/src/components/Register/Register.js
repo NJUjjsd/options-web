@@ -15,7 +15,6 @@ const FormItem = Form.Item;
 class Register extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
   };
   handleConfirmBlur = (e) => {
     const value = e.target.value;
