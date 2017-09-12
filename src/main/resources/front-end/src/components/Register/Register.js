@@ -7,16 +7,49 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import styles from './Register.less';
 import { loginPath } from '../../constant';
+import { Encrypt } from '../../utils/aes';
 
 
 const FormItem = Form.Item;
 
 class Register extends React.Component {
+  state = {
+    confirmDirty: false,
+    autoCompleteResult: [],
+  };
+  handleConfirmBlur = (e) => {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+  checkPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('两次密码输入不一致');
+    } else {
+      callback();
+    }
+  };
+  checkConfirm = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirmPassword'], { force: true });
+    }
+    callback();
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const account = {
+          email: Encrypt(values.email),
+          userName: Encrypt(values.userName),
+          password: Encrypt(values.password),
+        };
+        this.props.dispatch({
+          type: 'users/signUp',
+          payload: { account },
+        });
       }
     });
   };
@@ -60,16 +93,20 @@ class Register extends React.Component {
           </FormItem>
           <FormItem>
             {getFieldDecorator('password', {
-              rules: [{ required: true, message: '请输入您的密码' }],
+              rules: [
+                { required: true, message: '请输入您的密码' },
+                { validator: this.checkConfirm }],
             })(
               <Input className={styles.item} type="password" placeholder="设置密码" />,
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('confirmPassword', {
-              rules: [{ required: true, message: '请确认您的密码' }],
+              rules: [
+                { required: true, message: '请确认您的密码' },
+                { validator: this.checkPassword }],
             })(
-              <Input className={styles.item} type="password" placeholder="确认密码" />,
+              <Input className={styles.item} type="password" placeholder="确认密码" onBlur={this.handleConfirmBlur} />,
             )}
           </FormItem>
           <FormItem>

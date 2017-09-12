@@ -68,7 +68,7 @@ public class AesEncryptUtil {
         try {
             String temp = AesEncryptUtil.encrypt(text);
             System.out.println(temp);
-            System.out.println(AesEncryptUtil.desEncrypt(temp));
+            System.out.println(AesEncryptUtil.desEncrypt("RalPpqoDkCAtbS3qkQpXDiGgzOtZ/6NQ1zi8FmiHppk="));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import styles from './Login.css';
 import { registerPath } from '../../constant';
+import { Encrypt } from '../../utils/aes';
 
 
 const FormItem = Form.Item;
@@ -16,7 +17,14 @@ class Login extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const account = {
+          email: Encrypt(values.email),
+          password: Encrypt(values.password),
+        };
+        this.props.dispatch({
+          type: 'users/login',
+          payload: { account },
+        });
       }
     });
   };

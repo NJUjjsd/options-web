@@ -28,12 +28,26 @@ export default {
 
   effects: {
     * getUserInfo({ payload: { email } }, { call, put }) {
-      const { user } = yield call(userService.getUserInfo,
-        (Encrypt(encodeURI(email))));
+      console.log(Encrypt(email));
+      const { user } = yield call(userService.getUserInfo, Encrypt(email));
       yield put({
         type: 'saveUser',
         payload: { user },
       });
+    },
+
+    * signUp({ payload: { account } }, { call }) {
+      const { result } = yield call(userService.signUp, account);
+      if (result) {
+        //  todo
+      }
+    },
+
+    * login({ payload: { account } }, { call }) {
+      const { result } = yield call(userService.login, account);
+      if (result) {
+        //  todo
+      }
     },
   },
 

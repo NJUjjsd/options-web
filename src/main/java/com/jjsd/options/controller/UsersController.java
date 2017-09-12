@@ -1,19 +1,16 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.jjsd.options.entity.user.Cost;
-import com.jjsd.options.entity.user.Property;
-import com.jjsd.options.entity.user.User;
-import com.jjsd.options.entity.user.UserInfo;
+import com.alibaba.fastjson.JSONObject;
+import com.jjsd.options.entity.user.*;
+import com.jjsd.options.entity.vo.Account;
+import com.jjsd.options.entity.vo.UserInfo;
 import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.AesEncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,15 +23,15 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getUserInfo")
-    public @ResponseBody String getUserInfo(String email){
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
+    public @ResponseBody String getUserInfo(@RequestBody String email){
         String decrypt = null;
         try {
-            decrypt = AesEncryptUtil.desEncrypt(email);
+            decrypt = AesEncryptUtil.desEncrypt(JSONObject.parse(email).toString());
         }catch (Exception e){
             e.printStackTrace();
         }
-        String eDecode = URLDecoder.decode(decrypt);
+        System.out.println(decrypt);
 //        User user = userService.loadUserByEmail(email);
 //        Property property = userService.loadPropertyByEmail(email);
 //        Cost cost = userService.loadCostByEmail(email);
@@ -44,10 +41,44 @@ public class UsersController {
         Date date = new Date(user.getActivateTime());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-DD");
         String registerTime = simpleDateFormat.format(date);
-        UserInfo userInfo = new UserInfo(eDecode,user.getUserName(),registerTime,
+        UserInfo userInfo = new UserInfo(decrypt,user.getUserName(),registerTime,
                 cost.getC1(),cost.getC2(),cost.getC3(),cost.getC4(),cost.getC5(),cost.getC6(),
-                property.getR(),property.getB(),property.getTotal());
+                property.getR(),property.getB(),10000);
         return JSON.toJSONString(userInfo);
+    }
+
+    @RequestMapping(value = "/signUp", method = RequestMethod.POST)
+    public @ResponseBody boolean signUp(@RequestBody Account account){
+       System.out.println(account);
+       String email = null;
+       String userName = null;
+       String password = null;
+       try{
+           email = AesEncryptUtil.desEncrypt(account.getEmail());
+           userName = AesEncryptUtil.desEncrypt(account.getUserName());
+           password = AesEncryptUtil.desEncrypt(account.getPassword());
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       System.out.println(email+"   "+password+"   "+userName+"   ");
+//       return userService.signUp(email,userName,password);
+        return true;
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public @ResponseBody boolean login(@RequestBody Account account){
+        System.out.println(account);
+        String email = null;
+        String password = null;
+        try{
+            email = AesEncryptUtil.desEncrypt(account.getEmail());
+            password = AesEncryptUtil.desEncrypt(account.getPassword());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(email+"   "+password+"   ");
+//       return userService.login(email,password);
+        return true;
     }
 
     private User user(){
