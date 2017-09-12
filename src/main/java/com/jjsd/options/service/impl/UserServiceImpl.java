@@ -263,7 +263,7 @@ public class UserServiceImpl implements UserService{
             }
             property.setOptions(list);
             property.setB(property.getB()+num*price-totalCost);
-        }else {//卖出则增加本金，
+        }else {//卖出则增加本金，加差价
 
             property.setB(property.getB()-num*price+totalCost);
         }
@@ -274,10 +274,6 @@ public class UserServiceImpl implements UserService{
     }
 
 
-    @Override
-    public List<Recommendation> getRecommendationList(String email) {
-        return null;
-    }
 
 
 }

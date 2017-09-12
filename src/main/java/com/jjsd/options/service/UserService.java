@@ -85,12 +85,6 @@ public interface UserService {
      */
     List<Entrustment> getEntrustmentList(String email);
 
-    /**
-     * 获得投资建议列表
-     * @param email
-     * @return
-     */
-    List<Recommendation> getRecommendationList(String email);
 
 
     /**

@@ -95,6 +95,18 @@ public class Option implements Serializable {
 
 
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        Option option= (Option) obj;
+
+        if (option.getCode().equals(this.getCode())){
+            return true;
+        }
+        return false;
+    }
 }
 
 

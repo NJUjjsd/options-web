@@ -1,10 +1,16 @@
 package com.jjsd.options.service;
 
-import com.jjsd.options.entity.vo.ModelResultVO;
+import com.jjsd.options.entity.vo.RecommendationVO;
+
+import java.util.List;
 
 public interface InvestService {
 
-
-    public ModelResultVO getDecision();
+    /**
+     * 获得用户推荐列表
+     * @param email
+     * @return
+     */
+    public List<RecommendationVO> getDecision(String email);
 
 }
