@@ -2,6 +2,7 @@ package com.jjsd.options.service.impl;
 
 import com.jjsd.options.entity.market.ETFTradeInfo;
 import com.jjsd.options.entity.user.Entrustment;
+import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.DateDealUtil;
 import com.jjsd.options.util.ETFInfoUtil;
 
@@ -48,5 +49,19 @@ public class TradeServiceImpl {
         }
         return resultMoney;
 
+    }
+
+    /**
+     * 处理全部委托
+     */
+    public void dealAllTrade(){
+        UserService service = new UserServiceImpl();
+        ArrayList<Entrustment> allTrade =null;  //待补全
+        for(Entrustment entrustment:allTrade){
+            double tradeMoney = dealOneTrade(entrustment);
+            if(tradeMoney>0){
+                service.dealOrder(entrustment.getEntrustmentId(),tradeMoney);
+            }
+        }
     }
 }
