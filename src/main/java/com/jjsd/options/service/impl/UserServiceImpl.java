@@ -71,13 +71,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean modify(String email,String password) {
+    public boolean modify(String email,String password,String newPassword) {
         User u=userRepository.findByEmail(email);
-        if(u==null){
+        if(u==null||!u.getPassword().equals(password)){
             return false;
         }
-        u.setPassword(password);
+        u.setPassword(newPassword);
         userRepository.save(u);
+        return true;
+    }
+
+    @Override
+    public boolean update(User user) {
+        if (user==null||userRepository.findByEmail(user.getEmail())==null){
+            throw new NullPointerException();
+        }
+        userRepository.save(user);
         return true;
     }
 

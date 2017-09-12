@@ -35,7 +35,14 @@ public interface UserService {
      * @param password
      * @return
      */
-    boolean modify(String email,String password);
+    boolean modify(String email,String password,String newPassword);
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    boolean update(User user);
 
 
     /**
