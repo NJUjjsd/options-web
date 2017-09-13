@@ -53,7 +53,6 @@ public class MarketController {
         // 给前端的data对象
         NewETFOptionDataVO optionDataVO = new NewETFOptionDataVO(
                 dueMonths, ETFUpdateTime, basicInfo, contactUpdateTime, contactInfo);
-        System.out.print(JSON.toJSONString(optionDataVO));
         return JSON.toJSONString(optionDataVO);
     }
 }
