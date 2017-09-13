@@ -22,7 +22,7 @@ public class EmailUtil {
 
     private static final String FROM = "njujjsd@163.com";//发件人的email
     private static final String PWD = "njujjsd123";//发件人密码--邮箱密码
-    private static final String URL = "http://localhost:8000/";//项目主页
+    private static final String URL = "Http://localhost:8000/#/users/activatemail";//项目主页
     private static final int TIMELIMIT = 1000*60*60*24; //激活邮件过期时间24小时
     private static final String TITLE = "账户激活邮件";
     private static final String HOST = "smtp.163.com";
@@ -43,8 +43,8 @@ public class EmailUtil {
         u.setActivateTime(activateTime);
         //发送的邮箱内容
         String content = "<p>您好 O(∩_∩)O~~<br><br>欢迎加入!<br><br>帐户需要激活才能使用，赶紧激活成为正式的一员吧:)<br><br>请在24小时内点击下面的链接立即激活帐户："
-                +"<br><a href='"+URL+"/activatemail/?token="+token+"&email="+to+"'>"
-                +URL+"/activatemail/?token="+token+"&email="+to+"</a></p>";
+                +"<br><a href='"+URL+"?token="+token+"&&email="+to+"'>"
+                +URL+"?token="+token+"&&email="+to+"</a></p>";
         //调用发送邮箱服务
         sendMail(to, TITLE, content);
         return u;

@@ -5,7 +5,6 @@ import React from 'react';
 import { Layout, Menu, BackTop } from 'antd';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { loginPath } from '../../constant';
 import styles from './MainLayout.css';
 import MainContent from '../MainContent/MainContent';
 
@@ -15,24 +14,30 @@ class MainLayout extends React.Component {
   toLogin = () => {
     this.props.dispatch(routerRedux.push({
       pathname: '/users/login',
-      query: {
-        path: loginPath,
-      },
     }));
   };
   render() {
+    const { location, children } = this.props;
+    const pathname = location.pathname;
     //  区分是首页还是其他，content部分根据首页还是其他会有所不同
-    let content = (
-      <MainContent location={this.props.location}>
-        {this.props.children}
-      </MainContent>
-    );
-    if (this.props.location.pathname === '/') {
+    let content;
+    if (pathname === '/') {
       content = (
-        <div className={styles.black}>{this.props.children}</div>
+        <div className={styles.black}>{children}</div>
+      );
+    } else if (pathname === '/users/register' || pathname === '/users/login' || pathname === '/users/activatemail') {
+      content = (
+        <div className={styles.white}>{children}</div>
+      );
+    } else {
+      content = (
+        <MainContent location={location}>
+          {children}
+        </MainContent>
       );
     }
-    //  区分用户是否登录，如果登录，则显示"退出"；如果未登录，则显示"登录／注册"
+
+    //  todo 区分用户是否登录，如果登录，则显示"退出"；如果未登录，则显示"登录／注册"
     const loginMenu = '登录／注册';
     // const storage = window.sessionStorage;
     // const token = storage.getItem('token');

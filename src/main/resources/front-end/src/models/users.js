@@ -12,7 +12,7 @@ export default {
 
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
+      return history.listen(({ pathname, query }) => {
         if (pathname === '/users/basicInfo') {
           dispatch({
             type: 'getUserInfo',
@@ -21,6 +21,9 @@ export default {
               email: '1512592323@qq.com',
             },
           });
+        } else if (pathname === '/users/activatemail') {
+          console.log(query.token);
+          console.log(query.email);
         }
       });
     },
@@ -38,6 +41,7 @@ export default {
 
     * signUp({ payload: { account } }, { call }) {
       const { result } = yield call(userService.signUp, account);
+      console.log(result);
       if (result) {
         //  todo
       }

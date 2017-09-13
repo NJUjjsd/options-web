@@ -6,7 +6,6 @@ import { Form, Input, Button, Icon } from 'antd';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import styles from './Register.less';
-import { loginPath } from '../../constant';
 import { Encrypt } from '../../utils/aes';
 
 
@@ -55,9 +54,6 @@ class Register extends React.Component {
   toLogin = () => {
     this.props.dispatch(routerRedux.push({
       pathname: '/users/login',
-      query: {
-        path: loginPath,
-      },
     }));
   };
   render() {

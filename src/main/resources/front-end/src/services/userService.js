@@ -37,3 +37,16 @@ export function login(account) {
     body: JSON.stringify(account),
   });
 }
+
+export function activatemail(account) {
+  const promise = request('/api/users/activatemail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(account),
+  });
+  return promise.then((v) => {
+    return v.data;
+  });
+}

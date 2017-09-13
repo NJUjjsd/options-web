@@ -12,12 +12,14 @@ import Entrust from './routes/Entrust/Entrust';
 import Cancel from './routes/Cancel/Cancel';
 import BasicInfo from './routes/UserInfo/UserInfo';
 import ChangePassword from './routes/ChangePassword/ChangePassword';
+import Activatemail from './routes/Activatemail/Activatemail';
 
 function RouterConfig({ browserHistory }) {
   return (
     <Router history={browserHistory}>
       <Route path="/" component={IndexPage} />
       <Route path="/users/register" components={Register} />
+      <Route path="/users/activatemail" components={Activatemail} />
       <Route path="/users/changePassword" components={ChangePassword} />
       <Route path="/users/login" components={Login} />
       <Route path="/users/basicInfo" components={BasicInfo} />

@@ -10,13 +10,16 @@ public class Account {
 
     private String password;
 
+    private String token;
+
     public Account(){}
 
-    public Account(String email, String userName, String password) {
+    public Account(String email, String userName, String password, String token) {
 
         this.email = email;
         this.userName = userName;
         this.password = password;
+        this.token = token;
     }
 
     public void setEmail(String email) {
@@ -43,4 +46,12 @@ public class Account {
         return password;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+
+        this.token = token;
+    }
 }

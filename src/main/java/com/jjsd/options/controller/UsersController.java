@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +32,8 @@ import java.util.Date;
 public class UsersController {
     @Autowired
     private UserService userService;
+
+    private static final String register = "http://localhost: 8000/users/register";
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
     public @ResponseBody String getUserInfo(@RequestBody String email){
@@ -70,8 +73,15 @@ public class UsersController {
            e.printStackTrace();
        }
        System.out.println(email+"   "+password+"   "+userName+"   ");
-//       return userService.signUp(email,userName,password);
-        return true;
+       boolean result = false;
+
+       try {
+           result = userService.signUp(email,userName,password);
+       }catch (MessagingException e){
+           e.printStackTrace();
+       }
+       System.out.println("注册结果"+result);
+       return result;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -90,11 +100,13 @@ public class UsersController {
         return true;
     }
 
-    @RequestMapping("/activatemail")
-    public ModelAndView hello(HttpServletRequest request, Model model) throws IOException, AddressException, MessagingException, NoSuchAlgorithmException {
+    @RequestMapping(value = "/activatemail", method = RequestMethod.POST)
+    public @ResponseBody String activatemail(@RequestBody Account account) throws IOException, MessagingException, NoSuchAlgorithmException {
         //获取激活参数
-        String email = request.getParameter("email");
-        String token = request.getParameter("token");
+        String email = account.getEmail();
+        String token = account.getToken();
+        System.out.println("========================");
+        System.out.println(email+"   "+token);
         Long time = System.currentTimeMillis();
         User u = userService.loadUserByEmail(email);
         if (u != null) {
@@ -125,10 +137,9 @@ public class UsersController {
         } else if (u == null) {
             System.out.println("无此用户");
         }
-        HttpSession session=request.getSession();
-        session.setAttribute("username",u.getUserName());
-        return new ModelAndView("log_index");
+        return JSON.toJSONString("恭喜您成功激活账号！");
     }
+
 
     private User user(){
         User user = new User();
