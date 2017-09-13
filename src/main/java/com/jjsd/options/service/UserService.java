@@ -2,6 +2,7 @@ package com.jjsd.options.service;
 
 import com.jjsd.options.entity.user.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    boolean signUp(String email,String userName,String password);
+    boolean signUp(String email,String userName,String password) throws MessagingException;
 
 
     /**

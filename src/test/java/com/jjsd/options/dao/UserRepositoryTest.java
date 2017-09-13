@@ -1,6 +1,5 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.util.AesEncryptUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +26,14 @@ public class UserRepositoryTest {
     }
 
 
-
+    /**
+     * 删除所有用户方法，直接跑
+     * @throws Exception
+     */
     @Test
     public void go() throws Exception {
-//        System.out.println(AesEncryptUtil.encrypt());
-//        System.out.println(AesEncryptUtil.desEncrypt());
-        String a="停牌";
-        System.out.println(AesEncryptUtil.encrypt(a));
-        System.out.println(AesEncryptUtil.desEncrypt(AesEncryptUtil.encrypt(a)));
-
+        userRepository.deleteAll();
     }
-
 
 
 

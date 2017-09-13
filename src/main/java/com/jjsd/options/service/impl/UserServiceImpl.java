@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public boolean signUp(String email,String userName,String password) {
+    public boolean signUp(String email,String userName,String password) throws MessagingException {
         User u=userRepository.findByEmail(email);
         if(u!=null&&u.isStatus()==true){
             return false;
@@ -47,11 +47,9 @@ public class UserServiceImpl implements UserService{
         user.setStatus(false);
         user.setSetCost(false);
         user.setSetProperty(false);
+
         try {
             user = EmailUtil.activateMail(user);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return false;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return false;
