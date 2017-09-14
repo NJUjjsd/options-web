@@ -142,9 +142,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.websocket</groupId>
-			<artifactId>javax.websocket-api</artifactId>
-
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+			<version>1.3.5.RELEASE</version>
 		</dependency>
 	</dependencies>
 

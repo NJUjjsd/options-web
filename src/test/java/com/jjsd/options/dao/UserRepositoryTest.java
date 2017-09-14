@@ -21,6 +21,7 @@ public class UserRepositoryTest {
 
     @Test
     public void findByEmail() throws Exception {
+        System.out.println(userRepository.findByEmail("1513592323@qq.com").isStatus());
 
 
     }

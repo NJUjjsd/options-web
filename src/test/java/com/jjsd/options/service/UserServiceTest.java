@@ -18,6 +18,7 @@ public class UserServiceTest {
 
     @Test
     public void signUp() throws Exception {
+        System.out.println(userService.loadUserByEmail("1513592323@qq.com").getEmail());
 
     }
 
