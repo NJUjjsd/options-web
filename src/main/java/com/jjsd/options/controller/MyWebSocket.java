@@ -1,6 +1,8 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.jjsd.options.entity.vo.InformationVO;
+import com.jjsd.options.entity.vo.UserInvestVOService;
 import com.jjsd.options.service.InvestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,15 +60,17 @@ public class MyWebSocket {
      * @param message 客户端发送过来的消息*/
     @OnMessage
     public void onMessage(String message, Session session) throws InterruptedException {
+        System.out.println("客户端发来消息");
+        System.out.println(message);
         while (true) {
-            Thread.sleep(30000);
+            Thread.sleep(3000);
             try {
-                session.getBasicRemote().sendText(JSON.toJSONString(investService.getDecision(message)));
+                session.getBasicRemote().sendText(JSON.toJSONString(UserInvestVOService.generateInformation()));
+//                session.getBasicRemote().sendText(JSON.toJSONString(investService.getDecision(message)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        
     }
 
     /**

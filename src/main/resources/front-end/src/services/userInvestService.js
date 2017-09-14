@@ -1,7 +1,7 @@
 /**
  * Created by a297 on 17/9/9.
  */
-import { WebSocket } from 'react';
+import { WebSocket } from 'ws';
 import request from '../utils/request';
 
 export function getInvestBasicInfo(email) {
@@ -35,26 +35,46 @@ export function combinationEntrust(combination) {
   });
 }
 
-export function getNotification({ path, email }) {
-  const webSocket = new WebSocket(path);
-  webSocket.onerror = function (event) {
-    onerror(event);
+export function getNotification({ email }) {
+  console.log('getNotification');
+
+  const ws = new WebSocket('ws://localhost:8080/websocket');
+  console.log(ws);
+  ws.onopen = () => {
+    console.log('hhhhhhhhhhh open');
   };
-  webSocket.onopen = function (event) {
-    onopen(event);
+  ws.onmessage = (e) => {
+    console.log('hhhhhhhhhhh onmessage:', e.data);
+    return [];
   };
-  webSocket.onmessage = function (event) {
-    onmessage(event);
+  ws.onerror = (e) => {
+    console.log('hhhhhhhhhhh error', e.message);
   };
-  webSocket.send(`hello server, this is ${email}`);
+  ws.onclose = (e) => {
+    console.log(e.code, e.reason);
+  };
+  ws.send(email);
+
   return false;
 }
-function onerror(event) {
-  console.log(event.data);
+
+export function getUserEntrust(email) {
+  console.log('getUserEntrust in service', email);
+  const promise = request(`api/userInvest/getUserEntrust?email=${email}`);
+  return promise.then((v) => {
+    const theEntrust = v.data;
+    console.log('userEntrust in front-end service', theEntrust);
+    return theEntrust;
+  });
 }
-function onopen(event) {
-  console.log('connection established', event.data);
-}
-function onmessage(event) {
-  console.log(event.data);
+
+export function cancelEntrust(cancelList) {
+  console.log('传给后端的取消委托信息', cancelList);
+  return request('api/userInvest/cancelEntrust', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(cancelList),
+  });
 }

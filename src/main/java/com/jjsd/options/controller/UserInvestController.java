@@ -1,6 +1,8 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jjsd.options.entity.vo.InformationVO;
 import com.jjsd.options.entity.vo.InvestBasicInfoVO;
 import com.jjsd.options.entity.vo.UserEntrustVO;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.POST;
 import java.util.*;
 
 /**
@@ -23,7 +26,6 @@ public class UserInvestController {
     private InvestService investService;
 
     private static int count = 0;
-
 
     @GetMapping(value = "/investBasicInfo")
     public @ResponseBody String getInvestBasicInfo(@RequestParam String email){
@@ -44,4 +46,18 @@ public class UserInvestController {
         InformationVO informationVO = UserInvestVOService.getInformationEntrustVO(combinationEntrust);
         return JSON.toJSONString(investService.informationEntrust(informationVO));
     }
+
+    @GetMapping(value = "/getUserEntrust")
+    public @ResponseBody String getUserEntrust(@RequestParam String email){
+        ArrayList<UserEntrustVO> vos = investService.getUserEntrust(email);
+        return JSONArray.toJSONString(vos);
+    }
+
+    @PostMapping(value = "/cancelEntrust")
+    public @ResponseBody String cancelEntrust(@RequestBody String list){
+        JSONArray array = JSONArray.parseArray(list);
+        ArrayList<UserEntrustVO> vos = UserInvestVOService.getCancelEntrustVOs(array);
+        return JSON.toJSONString(investService.cancelEntrust(vos));
+    }
+
 }

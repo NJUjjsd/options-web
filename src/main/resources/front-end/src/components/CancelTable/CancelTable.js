@@ -3,9 +3,58 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 
 class CancelTable extends React.Component {
+  state = {
+    data: [],
+    selectedRowKeys: [],
+    loading: false,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const dataSource = nextProps.userEntrust;
+    dataSource.map((v, i) => {
+      const kind = v.isBuy ? '买入' : '卖出';
+      return Object.assign(v, { key: i, isBuy: kind });
+    });
+    this.setState({
+      data: dataSource,
+    });
+  }
+  onSelectChange = (selectedRowKeys) => {
+    this.setState({ selectedRowKeys });
+  };
+  getNewData = () => {
+    console.log('get data');
+    this.props.dispatch({
+      type: 'userInvest/fetchUserEntrust',
+      payload: '',
+    });
+  };
+  handleCancel = () => {
+    this.setState({ loading: true, data: [] });
+    // ajax request after empty completing
+    setTimeout(() => {
+      this.setState({
+        selectedRowKeys: [],
+        loading: false,
+      });
+    }, 2000);
+
+    const keys = this.state.selectedRowKeys;
+    const list = [];
+    keys.map((v) => {
+      return list.push(this.props.userEntrust[v]);
+    });
+    this.props.dispatch({
+      type: 'userInvest/cancelEntrust',
+      payload: list,
+    });
+
+    setTimeout(this.getNewData, 2000);
+  };
+
   render() {
     const columns = [{
       title: '代码',
@@ -23,51 +72,33 @@ class CancelTable extends React.Component {
       title: '数量',
       dataIndex: 'optionNum',
     }];
-    const data = this.props.orders;
-    data.map((v, i) => {
-      return Object.assign(v, { key: i });
-    });
 
+    const { loading, selectedRowKeys } = this.state;
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',    // Column configuration not to be checked
-      }),
+      selectedRowKeys,
+      onChange: this.onSelectChange,
     };
+
     return (
-      <Table
-        columns={columns}
-        dataSource={data}
-        rowSelection={rowSelection}
-        bordered
-        rowKey={record => record.key}
-      />
+      <div>
+        <Button
+          style={{ marginTop: 20, marginBottom: 10, fontSize: 14 }}
+          onClick={this.handleCancel}
+          loading={loading}
+        >撤单</Button>
+        <Table
+          columns={columns}
+          dataSource={this.state.data}
+          rowSelection={rowSelection}
+          bordered
+          rowKey={record => record.key}
+        />
+      </div>
     );
   }
 }
 function mapStateToProps(state) {
-  const { orders } = state.userInvest;
-  // const orders = [{
-  //   code: '510050',
-  //   optionName: '上证50ETF',
-  //   isBuy: '买入',
-  //   optionNum: '200000',
-  //   price: '3.33',
-  // }, {
-  //   code: '510050',
-  //   optionName: '上证50ETF',
-  //   isBuy: '卖出',
-  //   optionNum: '200000',
-  //   price: '2.22',
-  // }, {
-  //   code: '510050',
-  //   optionName: '上证50ETF',
-  //   isBuy: '买入',
-  //   optionNum: '200000',
-  //   price: '1.11',
-  // }];
-  return { orders };
+  const { userEntrust } = state.userInvest;
+  return { userEntrust };
 }
 export default connect(mapStateToProps)(CancelTable);

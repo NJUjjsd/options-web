@@ -15,6 +15,7 @@ import java.util.Map;
  */
 @Service
 public class InvestServiceStub implements InvestService {
+    private static int count = 0;
 
     @Override
     public List<RecommendationVO> getDecision(String email) {
@@ -65,5 +66,28 @@ public class InvestServiceStub implements InvestService {
             return ResultState.SUCCEED;
         }
         return ResultState.FAIL;
+    }
+
+    @Override
+    public ArrayList<UserEntrustVO> getUserEntrust(String email) {
+        count++;
+        UserEntrustVO vo0 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
+        UserEntrustVO vo1 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
+        UserEntrustVO vo2 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
+        UserEntrustVO vo3 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
+        UserEntrustVO vo4 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
+
+        ArrayList<UserEntrustVO> vos = new ArrayList<>(5);
+        vos.add(vo0);
+        vos.add(vo1);
+        vos.add(vo2);
+        vos.add(vo3);
+        vos.add(vo4);
+        return vos;
+    }
+
+    @Override
+    public ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs) {
+        return ResultState.SUCCEED;
     }
 }

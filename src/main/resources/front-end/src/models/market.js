@@ -7,7 +7,7 @@ export default {
   namespace: 'market',
   state: {
     ETFKLineRawData: [],
-    ETFKLineTab: 'daily',
+    ETFKLineTab: 'monthly',
     dueMonths: [],
     ETFUpdateTime: '',
     basicInfo: {},
@@ -20,7 +20,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/market/ETF') {
-          // dispatch({ type: 'fetchETFKLineRawData', payload: query });
+          dispatch({ type: 'fetchETFKLineRawData', payload: query });
         } else if (pathname === '/market/ETFOption') {
           dispatch({ type: 'fetchETFOptionData', payload: query });
         }
@@ -29,12 +29,12 @@ export default {
   },
 
   effects: {
-    * fetchETFKLineRawData({ payload: { tab = 'daily' } }, { call, put }) {
+    *fetchETFKLineRawData({ payload: { tab = 'monthly' } }, { call, put }) {
       const ETFKLineRawData = yield call(marketService.getETFKLineRawData, tab);
       yield put({ type: 'saveETFKLineRawData', payload: ETFKLineRawData });
       yield put({ type: 'saveETFKLineTab', payload: tab });
     },
-    * fetchETFOptionData({ payload }, { call, put }) {
+    *fetchETFOptionData({ payload }, { call, put }) {
       const
         { dueMonths, ETFUpdateTime, basicInfo,
           contactUpdateTime, contactInfo } =
@@ -50,7 +50,7 @@ export default {
         },
       });
     },
-    * changeSelectedMonthIndex({ payload: { selectedMonthIndex } }, { put }) {
+    *changeSelectedMonthIndex({ payload: { selectedMonthIndex } }, { put }) {
       yield put({
         type: 'saveSelectedMonthIndex', payload: { selectedMonthIndex },
       });

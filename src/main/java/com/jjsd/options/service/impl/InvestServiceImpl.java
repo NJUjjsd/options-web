@@ -154,6 +154,15 @@ public class InvestServiceImpl implements InvestService {
         return null;
     }
 
+    @Override
+    public ArrayList<UserEntrustVO> getUserEntrust(String email) {
+        return null;
+    }
+
+    @Override
+    public ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs) {
+        return null;
+    }
 
 
 }

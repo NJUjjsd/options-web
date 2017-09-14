@@ -11,11 +11,20 @@ import Notification from '../../components/InformTable/Notification';
 
 class Entrust extends React.Component {
   render() {
+    const { information } = this.props;
+
+    const notifications = [];
+    for (let i = 0; i < information.length; i += 1) {
+      notifications.push(
+        <Notification index={i} content={information[i]} />,
+      );
+    }
+
     return (
       <MainLayout location={this.props.location}>
         <Row style={{ marginTop: 25 }}>
           <Col offset={12} span={7}>
-            <Notification index="0" />
+            {notifications}
           </Col>
           <Col offset={4} span={8}>
             <Row style={{ marginBottom: 30 }}>
@@ -64,11 +73,14 @@ function mapStateToProps(state) {
     noRiskRate,
     principal,
     assets,
+    information,
   } = state.userInvest;
+  console.log('the information in page', information);
   return {
     noRiskRate,
     principal,
     assets,
+    information,
   };
 }
 export default connect(mapStateToProps)(Entrust);

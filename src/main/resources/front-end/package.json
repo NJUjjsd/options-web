@@ -18,6 +18,7 @@
     "react": "^15.4.0",
     "react-custom-scrollbars": "^4.1.2",
     "react-dom": "^15.4.0",
+    "ws": "1.1.1",
     "reactjs-iscroll": "^0.3.2"
   },
   "devDependencies": {

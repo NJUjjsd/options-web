@@ -42,6 +42,7 @@ class OptionForm extends React.Component {
         footer={() => ''}
         bodyStyle={{ fontSize: '14px' }}
         rowKey={record => record.key}
+        loading={this.props.loading}
       >
         <ColumnGroup title="认购">
           <Column title="合约交易代码" dataIndex="upTradingCode" key="upTradingCode" />
@@ -62,5 +63,8 @@ class OptionForm extends React.Component {
     );
   }
 }
-export default connect()(OptionForm);
+function mapStateToProps(state) {
+  return { loading: state.loading.models.market };
+}
+export default connect(mapStateToProps)(OptionForm);
 

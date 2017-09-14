@@ -49,7 +49,11 @@ class ETFInfoForm extends React.Component {
         bordered
         bodyStyle={{ fontSize: '14px' }}
         rowKey={record => record.dataIndex}
+        loading={this.props.loading}
       />);
   }
 }
-export default connect()(ETFInfoForm);
+function mapStateToProps(state) {
+  return { loading: state.loading.models.market };
+}
+export default connect(mapStateToProps)(ETFInfoForm);

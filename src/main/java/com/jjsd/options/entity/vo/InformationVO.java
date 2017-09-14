@@ -65,7 +65,7 @@ public class InformationVO {
         return optionNum;
     }
 
-    public boolean isBuy() {
+    public boolean getIsBuy() {
         return isBuy;
     }
 
@@ -85,7 +85,7 @@ public class InformationVO {
         return upOptionNum;
     }
 
-    public boolean isUpIsBuy() {
+    public boolean getUpIsBuy() {
         return upIsBuy;
     }
 
@@ -105,7 +105,7 @@ public class InformationVO {
         return downOptionNum;
     }
 
-    public boolean isDownIsBuy() {
+    public boolean getDownIsBuy() {
         return downIsBuy;
     }
 

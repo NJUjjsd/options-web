@@ -32,7 +32,7 @@ public class UserEntrustVO {
         return optionName;
     }
 
-    public boolean isBuy() {
+    public boolean getIsBuy() {
         return isBuy;
     }
 

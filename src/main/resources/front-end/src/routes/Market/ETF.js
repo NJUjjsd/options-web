@@ -21,13 +21,13 @@ function ETF({ tab, location, dispatch }) {
   return (
     <MainLayout location={location}>
       <Row>
-        <Col offset={4} span={15}>
+        <Col offset={3} span={16}>
           <KLineChart />
         </Col>
         <Col span={2}>
           <Menu
             className={styles.KLineTabs}
-            defaultSelectedKeys={['daily']}
+            defaultSelectedKeys={['monthly']}
             onSelect={KLineTabChangeHandler}
           >
             <Menu.Item key="daily">日 K</Menu.Item>
@@ -42,6 +42,7 @@ function ETF({ tab, location, dispatch }) {
 
 function mapStateToProps(state) {
   const props = state.market;
+  console.log('ETF', props);
   const tab = props.ETFKLineTab;
   return { tab };
 }

@@ -38,6 +38,7 @@ class EntrustForm extends React.Component {
     modalContent: [],
   };
   componentWillReceiveProps(nextProps) {
+    console.log(' will in 委托', nextProps);
     const deFaultCode = nextProps.codeInputType === 0 ? '510050' : '';
     // 最大交易数, 委托结果信息
     this.setState({

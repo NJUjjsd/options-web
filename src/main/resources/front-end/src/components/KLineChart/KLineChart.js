@@ -33,7 +33,7 @@ class KLineChart extends React.Component {
   }
 
   render() {
-    return <div ref={(c) => { this.ref = c; }} style={{ width: '100%', height: '635px', margin: '72px 0 60px 0' }} />;
+    return <div ref={(c) => { this.ref = c; }} style={{ width: '100%', height: '580px', margin: '30px 0 100px 0' }} />;
   }
 }
 function getOption(rawData) {

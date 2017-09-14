@@ -14,6 +14,7 @@ function Notification({ index, content, dispatch }) {
       type: 'userInvest/combinationEntrust',
       payload: content,
     });
+    notification.close(index);
   };
   const columns = [{
     title: '代码',
@@ -84,8 +85,8 @@ function Notification({ index, content, dispatch }) {
       dataSource={data}
       columns={columns}
       bordered
-      pagination="false"
-      style={{ marginTop: 10 }}
+      pagination={false}
+      style={{ marginTop: 10, marginBottom: 20 }}
       key="0"
     />,
     <span key="1">
@@ -120,30 +121,4 @@ function Notification({ index, content, dispatch }) {
   );
 }
 
-function mapStateToProps(state) {
-  const { information } = state.userInvest;
-  const content = {
-    code: '510050',
-    optionName: '上证50ETF',
-    price: '2.3',
-    optionNum: '130000',
-    isBuy: true,
-
-    upCode: '510050C1709M02250',
-    upOptionName: 'name1',
-    upPrice: '2.1',
-    upOptionNum: '100',
-    upIsBuy: true,
-
-    downCode: '510050P1709M02250',
-    downOptionName: 'name2',
-    downPrice: '2.3',
-    downOptionNum: '130000',
-    downIsBuy: false,
-
-    totalProfit: '2333333',
-  };
-  return { information, content };
-}
-
-export default connect(mapStateToProps)(Notification);
+export default connect()(Notification);
