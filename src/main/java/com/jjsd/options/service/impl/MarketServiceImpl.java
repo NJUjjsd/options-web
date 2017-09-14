@@ -38,7 +38,7 @@ public class MarketServiceImpl implements MarketService{
     @Override
     public ArrayList<KInfoSimple> getDayK() {
 
-        return dao.getWeekK();
+        return dao.getDayK();
     }
 
     @Override
