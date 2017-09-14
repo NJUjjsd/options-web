@@ -78,6 +78,7 @@ public class UsersController {
 
     @RequestMapping(value = "/modifyUserInfo", method = RequestMethod.POST)
     public @ResponseBody String modifyUserInfo(@RequestBody UserInfo userInfo){
+        // todo issetcost,property
         System.out.println("????????????????????");
         System.out.println(userInfo.getEmail());
         String email = userInfo.getEmail();

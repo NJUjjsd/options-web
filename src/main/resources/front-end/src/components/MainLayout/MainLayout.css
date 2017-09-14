@@ -8,6 +8,15 @@
   font-size: 20px;
   color: white;
   height: inherit;
+  margin-left: 60px;
+}
+.logoSvg {
+  background: url("../../assets/logo.svg") no-repeat center;
+  background-size: 28px 28px;
+  height: 28px;
+  width: 28px;
+  float: left;
+  margin-top: 18px;
 }
 .headerMenu {
   float: right;

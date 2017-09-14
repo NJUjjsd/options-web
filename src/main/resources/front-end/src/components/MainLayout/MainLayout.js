@@ -56,10 +56,8 @@ class MainLayout extends React.Component {
     return (
       <Layout className={styles.topLayout}>
         <Header className={styles.header}>
-          <div className={styles.logo}>
-            <span>LoGo</span>
-            <span>ETF－ETF期权期现套利交易系统</span>
-          </div>
+          <div className={styles.logoSvg} />
+          <div className={styles.logo}>ETF－ETF期权期现套利交易系统</div>
           {
             this.props.isLogin ?
               <div className={styles.headerDiv}>
