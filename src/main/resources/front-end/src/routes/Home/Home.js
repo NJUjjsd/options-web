@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
+import { Row, Col, Modal } from 'antd';
 import { routerRedux } from 'dva/router';
 import { defaultStockCode, defaultInvestPath,
   defaultType, defaultNewsPath, defaultMarketPath,
@@ -8,7 +8,7 @@ import { defaultStockCode, defaultInvestPath,
 import MainLayout from '../../components/MainLayout/MainLayout';
 import styles from './Home.css';
 
-function IndexPage({ location, dispatch }) {
+function IndexPage({ location, dispatch, isLogin }) {
   function toNews() {
     dispatch(routerRedux.push({
       pathname: '/news',
@@ -29,12 +29,21 @@ function IndexPage({ location, dispatch }) {
     }));
   }
   function toInvest() {
-    dispatch(routerRedux.push({
-      pathname: '/invest/entrust',
-      query: {
-        path: defaultInvestPath,
-      },
-    }));
+    if (isLogin) {
+      dispatch(routerRedux.push({
+        pathname: '/invest/entrust',
+        query: {
+          path: defaultInvestPath,
+        },
+      }));
+    } else {
+      loginRemind();
+    }
+  }
+  function loginRemind() {
+    Modal.warning({
+      content: '您尚未登录，请先登录，再开始投资',
+    });
   }
   return (
     <MainLayout location={location} >
@@ -67,4 +76,9 @@ function IndexPage({ location, dispatch }) {
 IndexPage.propTypes = {
 };
 
-export default connect()(IndexPage);
+function mapStateToProps(state) {
+  const { isLogin } = state.users;
+  return { isLogin };
+}
+
+export default connect(mapStateToProps)(IndexPage);

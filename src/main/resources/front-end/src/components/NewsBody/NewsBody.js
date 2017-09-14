@@ -9,7 +9,7 @@ import styles from './NewsBody.css';
 function NewsBody({ detail }) {
   return (
     <Row>
-      <Col offset={4} span={16}>
+      <Col offset={2} span={16}>
         <div>
           <p className={styles.news_title}>{detail.title}</p>
           <p className={styles.news_date}>{detail.dateToString}</p>

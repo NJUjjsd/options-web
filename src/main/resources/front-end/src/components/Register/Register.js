@@ -2,18 +2,17 @@
  * Created by john on 2017/9/8.
  */
 import React from 'react';
-import { Form, Input, Button, Icon } from 'antd';
+import { Form, Input, Button, Icon, Modal, Spin } from 'antd';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import styles from './Register.less';
-import { Encrypt } from '../../utils/aes';
-
 
 const FormItem = Form.Item;
 
 class Register extends React.Component {
   state = {
     confirmDirty: false,
+    showModal: false,
   };
   handleConfirmBlur = (e) => {
     const value = e.target.value;
@@ -40,15 +39,26 @@ class Register extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const account = {
-          email: Encrypt(values.email),
-          userName: Encrypt(values.userName),
-          password: Encrypt(values.password),
+          email: values.email,
+          userName: values.userName,
+          password: values.password,
         };
         this.props.dispatch({
           type: 'users/signUp',
           payload: { account },
         });
+        this.setState({
+          showModal: true,
+        });
       }
+    });
+  };
+  handleOk = () => {
+    this.setState({
+      showModal: false,
+    });
+    this.props.dispatch({
+      type: 'users/clearSignUpResult',
     });
   };
   toLogin = () => {
@@ -58,6 +68,7 @@ class Register extends React.Component {
   };
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { loading, signUpResult } = this.props;
     return (
       <div>
         <div className={styles.beginLogin}>
@@ -105,11 +116,28 @@ class Register extends React.Component {
             )}
           </FormItem>
           <FormItem>
-            <Button type="primary" htmlType="submit" className={styles.registerFormButton}>
-              完成注册
+            <Button
+              type="primary"
+              htmlType="submit"
+              className={styles.registerFormButton}
+            >
+              注册
             </Button>
           </FormItem>
         </Form>
+        <Modal
+          visible={this.state.showModal}
+          style={{ top: 280 }}
+          footer={null}
+          onCancel={this.handleOk.bind(this)}
+          closable={!loading}
+        >
+          <Spin spinning={loading} tip="正在发送激活链接，请稍后...">
+            <div style={{ height: 50 }} />
+            <div style={{ fontSize: 16, textAlign: 'center' }}>{signUpResult.message}</div>
+            <div style={{ height: 50 }} />
+          </Spin>
+        </Modal>
       </div>
     );
   }
@@ -117,5 +145,13 @@ class Register extends React.Component {
 
 const RegisterForm = Form.create()(Register);
 
-export default connect()(RegisterForm);
+function mapStateToProps(state) {
+  const { signUpResult } = state.users;
+  return {
+    loading: state.loading.models.users,
+    signUpResult,
+  };
+}
+
+export default connect(mapStateToProps)(RegisterForm);
 

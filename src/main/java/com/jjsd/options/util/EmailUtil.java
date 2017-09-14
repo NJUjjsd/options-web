@@ -39,6 +39,7 @@ public class EmailUtil {
         String token = to+curTime;
         u.setToken(md5(token));
         token = u.getToken();
+        System.out.println(token);
         //过期时间
         u.setActivateTime(activateTime);
         //发送的邮箱内容

@@ -1,5 +1,8 @@
 package com.jjsd.options.entity.vo;
 
+import com.jjsd.options.entity.user.Cost;
+import com.jjsd.options.entity.user.Property;
+
 /**
  * Created by john on 2017/9/11.
  */
@@ -13,12 +16,12 @@ public class UserInfo {
 
      * 注册时间
      */
-    private String registerTime;
+//    private String registerTime;
 
     /**
      * 买入认沽成本
      */
-    private double buyPut;
+    private double buyPut ;
 
     /**
      * 买入认购成本
@@ -60,15 +63,31 @@ public class UserInfo {
      */
     private double total;
 
-    public UserInfo(String email, String userName,
-                    String registerTime, double buyPut,
+    //是否设置资产
+
+    private boolean isSetProperty;
+
+    //是否设置成本
+
+    private boolean isSetCost;
+
+    public boolean getIsSetProperty() {
+        return isSetProperty;
+    }
+
+    public boolean getIsSetCost() {
+        return isSetCost;
+    }
+
+    public UserInfo(){}
+
+    public UserInfo(String email, String userName, double buyPut,
                     double buySubscribe, double buyETF,
                     double sellPut, double sellSubscribe,
                     double sellETF, double riskRate,
-                    double capital, double total) {
+                    double capital, double total, boolean isSetProperty, boolean isSetCost) {
         this.email = email;
         this.userName = userName;
-        this.registerTime = registerTime;
         this.buyPut = buyPut;
         this.buySubscribe = buySubscribe;
         this.buyETF = buyETF;
@@ -78,6 +97,30 @@ public class UserInfo {
         this.riskRate = riskRate;
         this.capital = capital;
         this.total = total;
+        this.isSetProperty = isSetProperty;
+        this.isSetCost = isSetCost;
+    }
+
+    public UserInfo(String email, String userName, boolean isSetCost, boolean isSetProperty){
+        this.email = email;
+        this.userName = userName;
+        this.isSetCost = isSetCost;
+        this.isSetProperty = isSetProperty;
+    }
+
+    public void setProperty(Property property){
+        this.riskRate = property.getR();
+        this.capital = property.getB();
+        this.total = property.getTotal();
+    }
+
+    public void setCost(Cost cost){
+        this.buyPut = cost.getC1();
+        this.buySubscribe = cost.getC2();
+        this.buyETF = cost.getC3();
+        this.sellPut = cost.getC4();
+        this.sellSubscribe = cost.getC5();
+        this.sellETF = cost.getC6();
     }
 
     public String getEmail() {
@@ -88,9 +131,9 @@ public class UserInfo {
         return userName;
     }
 
-    public String getRegisterTime() {
-        return registerTime;
-    }
+//    public String getRegisterTime() {
+//        return registerTime;
+//    }
 
     public double getBuyPut() {
         return buyPut;

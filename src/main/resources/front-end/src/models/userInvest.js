@@ -43,23 +43,23 @@ export default {
     },
   },
   effects: {
-    *fetchInvestBasicInfo({ payload }, { call, put }) {
+    * fetchInvestBasicInfo({ payload }, { call, put }) {
       const email = '875928078@qq.com';
       const investBasicInfo = yield call(userInvestService.getInvestBasicInfo, email);
       yield put({ type: 'saveInvestBasicInfo', payload: investBasicInfo });
     },
-    *openNotification({ payload }, { call }) {
+    * openNotification({ payload }, { call }) {
       const path = 'http://localhost:8000';
       const email = '875928078@qq.com';
       yield call(userInvestService.getNotification, { path, email });
     },
-    *userEntrust({ payload: content }, { call }) {
+    * userEntrust({ payload: content }, { call }) {
       const email = '875928078@qq.com';
       Object.assign(content, { email });
       const userEntrustResult = yield call(userInvestService.userEntrust, content);
       console.log(userEntrustResult);
     },
-    *combinationEntrust({ payload: content }, { call }) {
+    * combinationEntrust({ payload: content }, { call }) {
       const email = '875928078@qq.com';
       Object.assign(content, { email });
       const combinationEntrustResult = yield call(userInvestService.combinationEntrust, content);

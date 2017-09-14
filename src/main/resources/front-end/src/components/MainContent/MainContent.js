@@ -2,13 +2,10 @@
  * Created by john on 2017/8/15.
  */
 import React from 'react';
-import { Layout, Menu, Icon, Breadcrumb, Input, message } from 'antd';
+import { Layout, Menu, Icon, Breadcrumb, Input } from 'antd';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
-import { Encrypt } from '../../utils/aes';
-import { defaultType, defaultStockCode,
-  defaultNewsPath, defaultMarketPath, defaultIsDescByReadNum,
-  defaultInvestPath, basicInfoPath } from '../../constant';
+import { defaultType, defaultIsDescByReadNum, basicInfoPath } from '../../constant';
 import styles from './MainContent.css';
 
 
@@ -38,22 +35,9 @@ class MainContent extends React.Component {
     }
     return singleStocks;
   };
-  defaultSelectedKeys = () => {
-    console.log('the path', this.props.location.query.path);
-    const arr = this.props.location.query.path.split('/');
-    const defaultSelectedKeys = [arr[arr.length - 1]];
-    return defaultSelectedKeys;
-  };
-  defaultOpenKeys = () => {
-    const arr = this.props.location.query.path.split('/');
-    const defaultOpenKeys = arr.splice(1, arr.length - 1);
-    return defaultOpenKeys;
-  };
 
   //  根据输入搜索新闻
   handleSearch = (value) => {
-    // console.log(Encrypt(value));
-    // console.log(Decrypt(Encrypt(value)));
     let keyword = value;
     if (keyword.length > 32) {
       keyword = `${keyword.substring(0, 32)}...`;
@@ -61,7 +45,7 @@ class MainContent extends React.Component {
     this.props.dispatch(routerRedux.push({
       pathname: '/news/searchResult',
       query: {
-        value: encodeURIComponent(encodeURIComponent(Encrypt(value))),
+        value,
         path: `/新闻/搜索结果/${keyword}`,
       },
     }));
@@ -116,39 +100,7 @@ class MainContent extends React.Component {
     }
     return searchStyle;
   };
-  toNews = () => {
-    if (this.props.location.pathname !== '/news') {
-      this.props.dispatch(routerRedux.push({
-        pathname: '/news',
-        query: {
-          code: defaultStockCode,
-          type: defaultType,
-          isDescByReadNum: defaultIsDescByReadNum,
-          path: defaultNewsPath,
-        },
-      }));
-    }
-  };
-  toMarket = () => {
-    if (this.props.location.pathname.substring(0, 7) !== '/market') {
-      this.props.dispatch(routerRedux.push({
-        pathname: '/market/ETF',
-        query: {
-          path: defaultMarketPath,
-        },
-      }));
-    }
-  };
-  toInvest = () => {
-    if (this.props.location.pathname.substring(0, 6) !== '/invest') {
-      this.props.dispatch(routerRedux.push({
-        pathname: '/invest/entrust',
-        query: {
-          path: defaultInvestPath,
-        },
-      }));
-    }
-  };
+
   toBasicInfo = () => {
     if (this.props.location.pathname !== '/users/basicInfo') {
       this.props.dispatch(routerRedux.push({
@@ -157,13 +109,14 @@ class MainContent extends React.Component {
           path: basicInfoPath,
         },
       }));
-      message.info('亲，修改信息记得保存哦');
     }
   };
   render() {
-    const defaultSelectedKeys = this.defaultSelectedKeys();
-    const defaultOpenKeys = this.defaultOpenKeys();
+    const arr = this.props.location.query.path.split('/');
+    const defaultSelectedKeys = [arr[arr.length - 1]];
+    const defaultOpenKeys = arr.splice(1, arr.length - 1);
     const singleStocks = this.singleStocks();
+    const basicInfoStyle = this.props.isLogin ? styles.showBasicInfo : styles.hideBasicInfo;
     return (
       <Layout className={styles.contentLayout}>
         <Sider
@@ -189,7 +142,7 @@ class MainContent extends React.Component {
                 <span>首页</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="个人信息">
+            <Menu.Item key="个人信息" className={basicInfoStyle}>
               <div onClick={this.toBasicInfo.bind(this)}>
                 <Icon type="user" />
                 <span>个人信息</span>
@@ -198,7 +151,7 @@ class MainContent extends React.Component {
             <SubMenu
               key="实时新闻"
               title={
-                <span onClick={this.toNews.bind(this)}>
+                <span>
                   <Icon type="link" />
                   <span>实时新闻</span>
                 </span>
@@ -221,7 +174,7 @@ class MainContent extends React.Component {
             <SubMenu
               key="最新行情"
               title={
-                <span onClick={this.toMarket.bind(this)}>
+                <span>
                   <Icon type="line-chart" />
                   <span>最新行情</span>
                 </span>
@@ -232,8 +185,9 @@ class MainContent extends React.Component {
             </SubMenu>
             <SubMenu
               key="开始投资"
+              className={basicInfoStyle}
               title={
-                <span onClick={this.toInvest.bind(this)}>
+                <span>
                   <Icon type="bank" />
                   <span>开始投资</span>
                 </span>
@@ -278,7 +232,8 @@ MainContent.prototypes = {
 
 function mapStateToProps(state) {
   const { stockCode } = state.news;
-  return { stockCode };
+  const { isLogin } = state.users;
+  return { stockCode, isLogin };
 }
 
 export default connect(mapStateToProps)(MainContent);

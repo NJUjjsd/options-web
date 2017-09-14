@@ -7,7 +7,7 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import styles from './Activatemail.css';
 
-function Activatemail({ dispatch, loading, status }) {
+function Activatemail({ dispatch, loading, result }) {
   function toLogin() {
     dispatch(routerRedux.replace({
       pathname: '/users/login',
@@ -23,17 +23,22 @@ function Activatemail({ dispatch, loading, status }) {
           style={{ marginTop: 200 }}
         >
           <div className={styles.content}>
-            <p style={{ fontSize: 48, fontWeight: 300 }}>{status}</p>
+            <p style={{ fontSize: 42, fontWeight: 300 }}>{result.message}</p>
             <div style={{ height: 20 }} />
             <a
               onClick={toLogin.bind(this)}
             >
-              <p
-                style={{ fontSize: 32, fontWeight: 300 }}
-              >
-                立即登录
-                <Icon type="arrow-right" style={{ paddingLeft: 15 }} />
-              </p>
+              {
+                result.result ?
+                  <p
+                    style={{ fontSize: 24, fontWeight: 300 }}
+                  >
+                    立即登录
+                    <Icon type="arrow-right" style={{ paddingLeft: 15 }} />
+                  </p>
+                  :
+                  <div />
+              }
             </a>
           </div>
         </Spin>
@@ -43,10 +48,10 @@ function Activatemail({ dispatch, loading, status }) {
 }
 
 function mapStateToProps(state) {
-  const { status } = state.email;
+  const { result } = state.email;
   return {
     loading: state.loading.models.email,
-    status,
+    result,
   };
 }
 

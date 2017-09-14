@@ -12,10 +12,16 @@
 .headerMenu {
   float: right;
   font-size: 15px;
-  background-color: #2A2D32;
   height: inherit;
-  padding-top: 10px;
+  border: none;
 }
+.headerDiv {
+  height: inherit;
+}
+.headerSpan {
+  height: inherit;
+}
+
 .header {
   background-color: #2A2D32;
   border-bottom-color: #2A2D32;

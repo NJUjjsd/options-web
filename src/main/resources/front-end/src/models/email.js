@@ -6,7 +6,7 @@ import * as userService from '../services/userService';
 export default {
   namespace: 'email',
   state: {
-    status: '',
+    result: {},
   },
 
   subscriptions: {
@@ -17,6 +17,7 @@ export default {
             token: query.token,
             email: query.email,
           };
+          console.log(account);
           dispatch({
             type: 'activatemail',
             payload: { account },
@@ -28,18 +29,18 @@ export default {
 
   effects: {
     * activatemail({ payload: { account } }, { call, put }) {
-      const status = yield call(userService.activatemail, account);
-      console.log(status);
+      const result = yield call(userService.activatemail, account);
+
       yield put({
         type: 'saveUser',
-        payload: { status },
+        payload: { result },
       });
     },
   },
 
   reducers: {
-    saveUser(state, { payload: { status } }) {
-      return { ...state, status };
+    saveUser(state, { payload: { result } }) {
+      return { ...state, result };
     },
   },
 };

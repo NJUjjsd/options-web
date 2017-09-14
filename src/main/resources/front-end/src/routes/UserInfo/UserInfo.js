@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Input, Button, Row, Col, Form, Slider, InputNumber, Modal } from 'antd';
+import { Input, Button, Row, Col, Form, Slider, InputNumber, Modal, Icon } from 'antd';
 import { routerRedux } from 'dva/router';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import { changePasswordPath } from '../../constant';
@@ -30,7 +30,11 @@ class UserInfo extends React.Component {
           content: '请检查您是否有未填写的项以及输入格式是否正确',
         });
       } else {
-        console.log('Received values of form: ', values);
+        const user = { ...this.props.user, ...values };
+        this.props.dispatch({
+          type: 'users/modifyUserInfo',
+          payload: { user },
+        });
       }
     });
   };
@@ -75,7 +79,9 @@ class UserInfo extends React.Component {
                   </FormItem>
                 </Col>
                 <Col span={12}>
-                  <div style={{ fontSize: 14, marginTop: 65 }}>创建于：{user.registerTime}</div>
+                  <div style={{ marginTop: 65, fontSize: 14 }}>
+                    修改<Icon type="edit" />信息记得拉到底部保存哦！
+                  </div>
                   <Button
                     className={styles.changePassword}
                     onClick={this.toChangePassword.bind(this)}
