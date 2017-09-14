@@ -6,37 +6,28 @@ import com.jjsd.options.dao.PropertyRepository;
 import com.jjsd.options.entity.user.Cost;
 import com.jjsd.options.entity.user.Option;
 import com.jjsd.options.entity.user.Property;
-import com.jjsd.options.entity.vo.ContactInfoVO;
-import com.jjsd.options.entity.vo.ModelResultVO;
-import com.jjsd.options.entity.vo.RecommendationVO;
+import com.jjsd.options.entity.vo.*;
 import com.jjsd.options.service.InvestService;
 import com.jjsd.options.service.MarketService;
 import com.jjsd.options.service.impl.investModel.AdviceModel;
 import com.jjsd.options.util.BasicInfoUtil;
 import com.jjsd.options.util.InvestMode;
+import com.jjsd.options.util.ResultState;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Service
 public class InvestServiceImpl implements InvestService {
-
     @Autowired
     private PropertyRepository propertyRepository;
-
     @Autowired
     private CostRepository costRepository;
-
     @Autowired
     private MarketService marketService;
-
     @Autowired
     private MarketDao marketDao;
-
-
 
     /**
      * 获取ETF的剩余天数
@@ -144,7 +135,25 @@ public class InvestServiceImpl implements InvestService {
 
             }
         }
-        
+
         return list;
     }
+
+    @Override
+    public InvestBasicInfoVO getInvestBasicInfo(String email) {
+        return null;
+    }
+
+    @Override
+    public ResultState userEntrust(UserEntrustVO userEntrustVO) {
+        return null;
+    }
+
+    @Override
+    public ResultState informationEntrust(InformationVO informationVO) {
+        return null;
+    }
+
+
+
 }

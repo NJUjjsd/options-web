@@ -6,35 +6,69 @@ import * as userInvestService from '../services/userInvestService';
 export default {
   namespace: 'userInvest',
   state: {
-    email: '664625646@qq.com',
+    /**
+     *  委托
+     */
+    email: '',
+    contractCodeAndName: {},
+    // 可用余额
+    balance: '',
+
+    /**
+     * 个人资产（持有）
+     */
     holding: [],
-    noRiskRate: '0.000',
-    principal: '0.00',
-    assets: '0.00',
+    noRiskRate: '',
+    // 本金
+    principal: '',
+    // 总资产
+    assets: '',
+    /**
+     * 套利提醒
+     */
     information: [],
+    /**
+     * 用户委托
+     */
+    orders: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/invest/entrust') {
-          dispatch({ type: 'fetchHolding', payload: query });
-          dispatch({ type: 'fetchInformation', payload: query });
+          dispatch({ type: 'fetchInvestBasicInfo', payload: query });
+          // dispatch({ type: 'openNotification', payload: query });
         }
       });
     },
   },
   effects: {
-    *fetchHolding({ payload }, { call, put }) {
+    *fetchInvestBasicInfo({ payload }, { call, put }) {
       const email = '875928078@qq.com';
-      const holdingData = yield call(userInvestService.getHoldingData, email);
-      yield put({ type: 'saveHolding', payload: holdingData });
+      const investBasicInfo = yield call(userInvestService.getInvestBasicInfo, email);
+      yield put({ type: 'saveInvestBasicInfo', payload: investBasicInfo });
     },
-    // *fetchInformation({ payload }, { call, put }) {},
+    *openNotification({ payload }, { call }) {
+      const path = 'http://localhost:8000';
+      const email = '875928078@qq.com';
+      yield call(userInvestService.getNotification, { path, email });
+    },
+    *userEntrust({ payload: content }, { call }) {
+      const email = '875928078@qq.com';
+      Object.assign(content, { email });
+      const userEntrustResult = yield call(userInvestService.userEntrust, content);
+      console.log(userEntrustResult);
+    },
+    *combinationEntrust({ payload: content }, { call }) {
+      const email = '875928078@qq.com';
+      Object.assign(content, { email });
+      const combinationEntrustResult = yield call(userInvestService.combinationEntrust, content);
+      console.log(combinationEntrustResult);
+    },
   },
   reducers: {
-    saveHolding(state, { payload: holding }) {
-      return { ...state, holding };
+    saveInvestBasicInfo(state, { payload: investBasicInfo }) {
+      return { ...state, ...investBasicInfo };
     },
-    // saveInformation() {},
   },
 };

@@ -39,6 +39,7 @@ class MainContent extends React.Component {
     return singleStocks;
   };
   defaultSelectedKeys = () => {
+    console.log('the path', this.props.location.query.path);
     const arr = this.props.location.query.path.split('/');
     const defaultSelectedKeys = [arr[arr.length - 1]];
     return defaultSelectedKeys;

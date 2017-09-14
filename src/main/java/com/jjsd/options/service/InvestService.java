@@ -1,8 +1,7 @@
 package com.jjsd.options.service;
 
-import com.jjsd.options.entity.vo.RecommendationVO;
-
-import java.util.List;
+import com.jjsd.options.entity.vo.*;
+import com.jjsd.options.util.ResultState;
 
 public interface InvestService {
 
@@ -11,6 +10,11 @@ public interface InvestService {
      * @param email
      * @return
      */
-    public List<RecommendationVO> getDecision(String email);
+    java.util.List<RecommendationVO> getDecision(String email);
 
+    InvestBasicInfoVO getInvestBasicInfo(String email);
+
+    ResultState userEntrust(UserEntrustVO userEntrustVO);
+
+    ResultState informationEntrust(InformationVO informationVO);
 }

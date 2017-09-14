@@ -22,6 +22,8 @@ export function getETFOptionData() {
       contactUpdateTime: promiseData.contactUpdateTime,
       contactInfo: promiseData.contactInfo,
     };
+    console.log('this is data to put in front-end');
+    console.log(ETFOptionData);
     return ETFOptionData;
   });
 }

@@ -10,7 +10,7 @@ import CacelTable from '../../components/CancelTable/CancelTable';
 function Cancel({ location }) {
   return (
     <MainLayout location={location}>
-      <Row style={{ marginTop: 50 }}>
+      <Row style={{ marginTop: 25 }}>
         <Col offset={4}>
           <Button style={{ fontSize: 14 }}>撤单</Button>
         </Col>
