@@ -224,6 +224,9 @@ public class ETFInfoUtil {
      * @return
      */
     public static ETFTradeInfo getTradeInfo(String id){
+        if(id.equals("510050")){
+            return getETFTrade();
+        }
         String tradeCode = BasicInfoUtil.getTradeCode(id);
         String info1Str = queryUrl(nowInfoUrl+id);
         ArrayList<String> info1 = dealListInfo(info1Str);

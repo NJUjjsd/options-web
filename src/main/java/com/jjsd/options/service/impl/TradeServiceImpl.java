@@ -16,7 +16,7 @@ public class TradeServiceImpl {
 
     /**
      * 处理单个订单的方法
-     * @return 处理的金额，如果不可交易则为0
+     * @return 处理的金额，如果不可交易则为0,正代表增加，负代表减少
      */
     public double dealOneTrade(Entrustment entrustment){
         String id = entrustment.getCode();
@@ -46,6 +46,9 @@ public class TradeServiceImpl {
                 resultMoney+=money*totalVolume;
                 break;
             }
+        }
+        if(isBuy){
+            resultMoney = -resultMoney;
         }
         return resultMoney;
 
