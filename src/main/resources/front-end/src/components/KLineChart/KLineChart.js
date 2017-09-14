@@ -284,6 +284,7 @@ function calculateMA(dayCount, data) {
 function mapStateToProps(state) {
   const props = state.market;
   const data = props.ETFKLineRawData;
+  console.log(data);
   return { data };
 }
 

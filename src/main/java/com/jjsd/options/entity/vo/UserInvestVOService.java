@@ -17,7 +17,7 @@ public class UserInvestVOService {
         String optionNum = entrust.get("optionNum");
         String price = entrust.get("price");
 
-        return new UserEntrustVO(email, code, optionName, isBuy, optionNum, price);
+        return new UserEntrustVO(email, code, optionName, isBuy, optionNum, price, "23333333333");
     }
     public static InformationVO getInformationEntrustVO(Map<String, String> information){
         String email = information.get("email");
@@ -55,7 +55,8 @@ public class UserInvestVOService {
                     eachCancel.get("optionName"),
                     Boolean.parseBoolean(eachCancel.get("isBuy")),
                     eachCancel.get("optionNum"),
-                    eachCancel.get("price")
+                    eachCancel.get("price"),
+                    "23333333333"
             );
             vos.add(vo);
         }

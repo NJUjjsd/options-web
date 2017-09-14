@@ -29,15 +29,12 @@ public class MarketController {
         ArrayList<KInfoSimple> data;
         if(tab.equals("weekly")){
             data = marketService.getWeekK();
-            System.out.println(data.size());
         } else if(tab.equals("monthly")){
             data = marketService.getMonthK();
-            System.out.println(data.size());
         } else {
             data = marketService.getDayK();
-            System.out.println(data.size());
         }
-        return JSON.toJSONString(data.size());
+        return JSON.toJSONString(data);
     }
 
     @GetMapping(value="/ETFOption")

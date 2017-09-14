@@ -5,24 +5,40 @@ package com.jjsd.options.entity.vo;
  */
 public class InformationVO {
     private String email;
+    // ETF代码
     private String code;
+    // ETF名称
     private String optionName;
+    // ETF价格（元／股）
     private String price;
+    // ETF数量 (手，即100股)
     private String optionNum;
+    // ETF交易类型
     private boolean isBuy;
 
+    // 看涨期权代码
     private String upCode;
+    // 看涨期权名称
     private String upOptionName;
+    // 看涨期权价格（元／份）
     private String upPrice;
+    // 看涨期权数量（张，即10000份）
     private String upOptionNum;
+    // 看涨期权交易类型
     private boolean upIsBuy;
 
+    // 看跌期权代码
     private String downCode;
+    // 看跌期权名称
     private String downOptionName;
+    // 看跌期权价格（元／份）
     private String downPrice;
+    // 看跌期权数量（张，即10000份）
     private String downOptionNum;
+    // 看跌期权交易类型
     private boolean downIsBuy;
 
+    // 组合的总利润
     private String totalProfit;
 
     public InformationVO(String email, String code, String optionName, String price, String optionNum, boolean isBuy, String upCode, String upOptionName, String upPrice, String upOptionNum, boolean upIsBuy, String downCode, String downOptionName, String downPrice, String downOptionNum, boolean downIsBuy, String totalProfit) {

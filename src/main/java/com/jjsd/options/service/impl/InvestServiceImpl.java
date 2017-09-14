@@ -4,26 +4,33 @@ import com.jjsd.options.dao.CostRepository;
 import com.jjsd.options.dao.MarketDao;
 import com.jjsd.options.dao.PropertyRepository;
 import com.jjsd.options.entity.user.Cost;
+import com.jjsd.options.entity.user.Entrustment;
 import com.jjsd.options.entity.user.Option;
 import com.jjsd.options.entity.user.Property;
 import com.jjsd.options.entity.vo.*;
 import com.jjsd.options.service.InvestService;
 import com.jjsd.options.service.MarketService;
+import com.jjsd.options.service.UserService;
 import com.jjsd.options.service.impl.investModel.AdviceModel;
 import com.jjsd.options.util.BasicInfoUtil;
 import com.jjsd.options.util.InvestMode;
+import com.jjsd.options.util.UserInvestUtil;
 import com.jjsd.options.util.ResultState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Service
 public class InvestServiceImpl implements InvestService {
     @Autowired
     private PropertyRepository propertyRepository;
     @Autowired
     private CostRepository costRepository;
+    @Autowired
+    private UserService userService;
     @Autowired
     private MarketService marketService;
     @Autowired
@@ -141,27 +148,100 @@ public class InvestServiceImpl implements InvestService {
 
     @Override
     public InvestBasicInfoVO getInvestBasicInfo(String email) {
-        return null;
+        Map<String, String> contractCodeAndName = UserInvestUtil.getContractCodeAndName();
+
+        // 个人资产
+        Property property = userService.loadPropertyByEmail(email);
+
+        // 可用余额
+        String balance = UserInvestUtil.getBalance(property);
+        // 目前持有
+        ArrayList<HoldingVO> holding = UserInvestUtil.getHolding(property);
+        // 最高无风险利率
+        String noRiskRate = property.getR()+"";
+        // 本金
+        String principal = property.getB()+"";
+        // 总资产
+        String assets = property.getTotal()+"";
+
+        return new InvestBasicInfoVO(
+                contractCodeAndName, balance, holding, noRiskRate, principal, assets);
     }
 
     @Override
     public ResultState userEntrust(UserEntrustVO userEntrustVO) {
-        return null;
+        Entrustment entrustment = new Entrustment();
+
+        entrustment.setBuy(userEntrustVO.getIsBuy());
+        entrustment.setCode(userEntrustVO.getCode());
+        entrustment.setOptionName(userEntrustVO.getOptionName());
+        entrustment.setPrice(Double.valueOf(userEntrustVO.getPrice()));
+        entrustment.setOptionNum(Integer.valueOf(userEntrustVO.getOptionNum()));
+
+        boolean result = userService.makeOrder(entrustment);
+        return result ? ResultState.SUCCEED : ResultState.FAIL;
     }
 
     @Override
     public ResultState informationEntrust(InformationVO informationVO) {
-        return null;
+        Entrustment entrustment_ETF = new Entrustment();
+
+        entrustment_ETF.setBuy(informationVO.getIsBuy());
+        entrustment_ETF.setCode(informationVO.getCode());
+        entrustment_ETF.setOptionName(informationVO.getOptionName());
+        entrustment_ETF.setPrice(Double.valueOf(informationVO.getPrice()));
+        entrustment_ETF.setOptionNum(Integer.valueOf(informationVO.getOptionNum()));
+
+        Entrustment entrustment_up = new Entrustment();
+        entrustment_up.setBuy(informationVO.getUpIsBuy());
+        entrustment_up.setCode(informationVO.getUpCode());
+        entrustment_up.setOptionName(informationVO.getUpOptionName());
+        entrustment_up.setPrice(Double.valueOf(informationVO.getUpPrice()));
+        entrustment_up.setOptionNum(Integer.valueOf(informationVO.getUpOptionNum()));
+
+        Entrustment entrustment_down = new Entrustment();
+        entrustment_down.setBuy(informationVO.getDownIsBuy());
+        entrustment_down.setCode(informationVO.getDownCode());
+        entrustment_down.setOptionName(informationVO.getDownOptionName());
+        entrustment_down.setPrice(Double.valueOf(informationVO.getDownPrice()));
+        entrustment_down.setOptionNum(Integer.valueOf(informationVO.getDownOptionNum()));
+
+        boolean result_ETF = userService.makeOrder(entrustment_ETF);
+        boolean result_up = userService.makeOrder(entrustment_up);
+        boolean result_down = userService.makeOrder(entrustment_down);
+
+        return result_ETF && result_up && result_down
+                ? ResultState.SUCCEED : ResultState.FAIL;
     }
 
     @Override
     public ArrayList<UserEntrustVO> getUserEntrust(String email) {
-        return null;
+        // 委托列表
+        List<Entrustment> entrustments = userService.getEntrustmentList(email);
+        ArrayList<UserEntrustVO> userEntrustVOs = new ArrayList<>(entrustments.size());
+        for (Entrustment e:entrustments) {
+            String code = e.getCode();
+            String name = e.getOptionName();
+            String price = e.getPrice()+"";
+            String num = e.getOptionNum()+"";
+            String id = e.getEntrustmentId()+"";
+            boolean isBuy = e.isBuy();
+            userEntrustVOs.add(
+                    new UserEntrustVO(email, code, name, isBuy, num, price, id)
+            );
+        }
+        return userEntrustVOs;
     }
 
     @Override
     public ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs) {
-        return null;
+        for (UserEntrustVO vo:userEntrustVOs) {
+           boolean res = userService.cancelOrder(Long.valueOf(vo.getId()));
+            if(!res){
+                return ResultState.FAIL;
+            }
+        }
+        return ResultState.SUCCEED;
     }
 
 

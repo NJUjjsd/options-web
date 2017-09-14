@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by a297 on 17/9/9.
  */
-@Service
+//@Service
 public class InvestServiceStub implements InvestService {
     private static int count = 0;
 
@@ -33,10 +33,10 @@ public class InvestServiceStub implements InvestService {
         String balance = "10000.99";
 
         ArrayList<HoldingVO> holding = new ArrayList<>(4);
-        HoldingVO vo0 = new HoldingVO("510050C1709M02250", email+"名字1", "100", "2.45", "+0.34", "+10000");
-        HoldingVO vo1 = new HoldingVO("510050P1709M02250", email+"名字2",  "200", "2.45", "+0.34", "+10000");
-        HoldingVO vo2 = new HoldingVO("510050C1709M02300", email+"名字3", "300", "2.45", "+0.34", "+10000");
-        HoldingVO vo3 = new HoldingVO("510050", "上证50ETF", "400", "2.45", "+0.34", "+10000");
+        HoldingVO vo0 = new HoldingVO("510050C1709M02250", email+"名字1", "100", "2.45", "+0.34", "+10000", true);
+        HoldingVO vo1 = new HoldingVO("510050P1709M02250", email+"名字2",  "200", "2.45", "+0.34", "+10000", false);
+        HoldingVO vo2 = new HoldingVO("510050C1709M02300", email+"名字3", "300", "2.45", "+0.34", "+10000", true);
+        HoldingVO vo3 = new HoldingVO("510050", "上证50ETF", "400", "2.45", "+0.34", "+10000", false);
         holding.add(vo0);
         holding.add(vo1);
         holding.add(vo2);
@@ -47,8 +47,7 @@ public class InvestServiceStub implements InvestService {
         String assets = "15000";
 
         InvestBasicInfoVO investBasicInfoVO = new InvestBasicInfoVO(
-                contractCodeAndName, balance, holding, noRiskRate, principal, assets, null
-        );
+                contractCodeAndName, balance, holding, noRiskRate, principal, assets);
         return investBasicInfoVO;
     }
 
@@ -71,11 +70,11 @@ public class InvestServiceStub implements InvestService {
     @Override
     public ArrayList<UserEntrustVO> getUserEntrust(String email) {
         count++;
-        UserEntrustVO vo0 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
-        UserEntrustVO vo1 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
-        UserEntrustVO vo2 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
-        UserEntrustVO vo3 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
-        UserEntrustVO vo4 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1");
+        UserEntrustVO vo0 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1", "");
+        UserEntrustVO vo1 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1", "");
+        UserEntrustVO vo2 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1", "");
+        UserEntrustVO vo3 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1", "");
+        UserEntrustVO vo4 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1", "");
 
         ArrayList<UserEntrustVO> vos = new ArrayList<>(5);
         vos.add(vo0);

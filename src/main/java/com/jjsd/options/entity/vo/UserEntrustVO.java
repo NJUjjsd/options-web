@@ -10,14 +10,17 @@ public class UserEntrustVO {
     private boolean isBuy;
     private String optionNum;
     private String price;
+    private String id;
 
-    public UserEntrustVO(String email, String code, String optionName, boolean isBuy, String optionNum, String price) {
+    public UserEntrustVO(String email, String code, String optionName, boolean isBuy, String optionNum, String price, String id) {
         this.email = email;
         this.code = code;
         this.optionName = optionName;
         this.isBuy = isBuy;
         this.optionNum = optionNum;
         this.price = price;
+        this.id = id;
+
     }
 
     public String getEmail() {
@@ -42,5 +45,9 @@ public class UserEntrustVO {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -10,7 +10,8 @@ import java.util.Map;
 public class InvestBasicInfoVO {
     // 用于 界面 交易代码 自动补全 和 交易名称 的显示
     private Map<String, String> contractCodeAndName;
-    // 可用余额
+    // 可用余额 (>=0，最好两位小数)
+    // (经本金计算得到，用于交易时判断钱够不够，不够的话界面有交互，拒绝用户发起买入操作)
     private String balance;
     // 目前持有的产品列表
     private ArrayList<HoldingVO> holding;
@@ -20,17 +21,14 @@ public class InvestBasicInfoVO {
     private String principal;
     // 总资产
     private String assets;
-    // 套利提醒（通知）
-    private ArrayList<InformationVO> information;
 
-    public InvestBasicInfoVO(Map<String, String> contractCodeAndName, String balance, ArrayList<HoldingVO> holding, String noRiskRate, String principal, String assets, ArrayList<InformationVO> information) {
+    public InvestBasicInfoVO(Map<String, String> contractCodeAndName, String balance, ArrayList<HoldingVO> holding, String noRiskRate, String principal, String assets) {
         this.contractCodeAndName = contractCodeAndName;
         this.balance = balance;
         this.holding = holding;
         this.noRiskRate = noRiskRate;
         this.principal = principal;
         this.assets = assets;
-        this.information = information;
     }
 
     public Map<String, String> getContractCodeAndName() {
@@ -55,9 +53,5 @@ public class InvestBasicInfoVO {
 
     public String getAssets() {
         return assets;
-    }
-
-    public ArrayList<InformationVO> getInformation() {
-        return information;
     }
 }

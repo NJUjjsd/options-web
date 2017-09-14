@@ -57,6 +57,9 @@ class CancelTable extends React.Component {
 
   render() {
     const columns = [{
+      title: '委托序号',
+      dataIndex: 'id',
+    }, {
       title: '代码',
       dataIndex: 'code',
     }, {

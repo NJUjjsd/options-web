@@ -1,7 +1,7 @@
 /**
  * Created by a297 on 17/9/9.
  */
-import { WebSocket } from 'ws';
+// import { WebSocket } from 'ws';
 import request from '../utils/request';
 
 export function getInvestBasicInfo(email) {

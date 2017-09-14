@@ -29,10 +29,7 @@ public class UserInvestController {
 
     @GetMapping(value = "/investBasicInfo")
     public @ResponseBody String getInvestBasicInfo(@RequestParam String email){
-        // TODO
-        count ++ ;
-        String e = count+"hhh";
-        InvestBasicInfoVO investBasicInfoVO = investService.getInvestBasicInfo(e);
+        InvestBasicInfoVO investBasicInfoVO = investService.getInvestBasicInfo(email);
         return JSON.toJSONString(investBasicInfoVO);
     }
     @PostMapping(value = "/entrust")

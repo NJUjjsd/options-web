@@ -29,12 +29,12 @@ export default {
   },
 
   effects: {
-    *fetchETFKLineRawData({ payload: { tab = 'monthly' } }, { call, put }) {
+    * fetchETFKLineRawData({ payload: { tab = 'monthly' } }, { call, put }) {
       const ETFKLineRawData = yield call(marketService.getETFKLineRawData, tab);
       yield put({ type: 'saveETFKLineRawData', payload: ETFKLineRawData });
       yield put({ type: 'saveETFKLineTab', payload: tab });
     },
-    *fetchETFOptionData({ payload }, { call, put }) {
+    * fetchETFOptionData({ payload }, { call, put }) {
       const
         { dueMonths, ETFUpdateTime, basicInfo,
           contactUpdateTime, contactInfo } =
@@ -50,7 +50,7 @@ export default {
         },
       });
     },
-    *changeSelectedMonthIndex({ payload: { selectedMonthIndex } }, { put }) {
+    * changeSelectedMonthIndex({ payload: { selectedMonthIndex } }, { put }) {
       yield put({
         type: 'saveSelectedMonthIndex', payload: { selectedMonthIndex },
       });
