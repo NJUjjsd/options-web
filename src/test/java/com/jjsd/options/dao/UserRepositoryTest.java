@@ -1,5 +1,6 @@
 package com.jjsd.options.dao;
 
+import com.jjsd.options.entity.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,10 @@ public class UserRepositoryTest {
 
     @Test
     public void findByEmail() throws Exception {
-        System.out.println(userRepository.findByEmail("1513592323@qq.com").isStatus());
+        User user=userRepository.findByEmail("1513592323@qq.com");
+        user.setSetCost(false);
+        user.setSetProperty(false);
+        userRepository.save(user);
 
 
     }

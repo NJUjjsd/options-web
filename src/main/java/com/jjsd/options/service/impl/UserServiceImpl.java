@@ -132,10 +132,15 @@ public class UserServiceImpl implements UserService{
         }
         //没填
         if (u.isSetProperty()==false){
+            try {
+                p=new Property();
+                p.setEmail(email);
+                p.setOptions(new ArrayList<>());
+            }catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
             u.setSetProperty(true);
-            p=new Property();
-            p.setEmail(email);
-            p.setOptions(new ArrayList<>());
         }
 
         p.setR(r);
