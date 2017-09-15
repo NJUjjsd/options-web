@@ -59,6 +59,11 @@ public class HistoryDataUtil extends ETFInfoUtil {
     private static void storeBasicInSql(ETFStoreBasic storeBasic) {
         SqlConnectUtil.getSqlConnect();
         String insertLine = "insert into ETFBasic values(" + "'" + storeBasic.getId() + "'" + "," + "'" + storeBasic.getTradeCode() + "'" + "," + "'" + storeBasic.getName() + "'" + "," + "'" + storeBasic.getDate() + "'" + ")";
+        try {
+            insertLine = new String(insertLine.getBytes("UTF-8"),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         System.out.println(insertLine);
         Connection connection = SqlConnectUtil.getSqlConnect();
         Statement statement = null;
@@ -103,8 +108,8 @@ public class HistoryDataUtil extends ETFInfoUtil {
         String name = info2.get(0);
         String TradeCode = null;
         try {
-
-            TradeCode = new String(info2.get(12).getBytes("ISO-8859-1"), "UTF-8");
+            name = new String(info2.get(0).getBytes("UTF-8"), "UTF-8");
+            TradeCode = new String(info2.get(12).getBytes("GBK"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

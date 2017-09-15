@@ -1,16 +1,22 @@
 package com.jjsd.options.util;
 
+import net.sf.json.JSONObject;
+import org.apache.xpath.SourceTree;
 import sun.applet.Main;
 
 import javax.sound.midi.Soundbank;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ${zrz} on 2017/9/8.
  */
 public class BasicInfoUtil {
     public static void main(String[] args) {
-        System.out.println(getEndDate("10001010"));
+        System.out.println(JSONObject.fromObject(getAllCode()));
+        System.out.println(11&1);
+
     }
 
     /**
@@ -101,4 +107,28 @@ public class BasicInfoUtil {
         return result;
 
     }
+
+    /**
+     * 得到所有的id和名字信息
+     * @return
+     */
+    public static Map<String,String> getAllCode(){
+        ResultSet set = null;
+        Connection connection = SqlConnectUtil.getSqlConnect();
+        PreparedStatement statement = null;
+        String sql = "select tradeCode,EName from ETFBasic";
+        Map<String,String> result = new HashMap<>();
+        try {
+            statement = connection.prepareStatement(sql);
+            set = statement.executeQuery();
+            while(set.next()){
+                result.put(set.getString(1),set.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
 }

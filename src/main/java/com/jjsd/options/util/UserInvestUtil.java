@@ -16,12 +16,8 @@ public class UserInvestUtil {
     public static Map<String, String > getContractCodeAndName(){
         // TODO 重写该方法, 用数据库真实数据
         // ETF 与 期权 都要
-        Map<String, String > contractCodeAndName = new HashMap<>();
-        contractCodeAndName.put("510050", "上证50ETF");
-        contractCodeAndName.put("510050C1709M02250", "名字1");
-        contractCodeAndName.put("510050P1709M02250", "名字2");
-        contractCodeAndName.put("510050C1709M02300", "名字3");
-        return contractCodeAndName;
+
+        return BasicInfoUtil.getAllCode();
     }
 
    public static String getBalance(Property property){
