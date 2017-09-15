@@ -5,7 +5,6 @@ import com.jjsd.options.entity.user.Property;
 import com.jjsd.options.entity.vo.HoldingVO;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class UserInvestUtil {
    public static String getBalance(Property property){
        // TODO 重写该方法，计算得出
 
-       return "";
+       return String.valueOf(property.getB());
    }
 
    public static ArrayList<HoldingVO> getHolding(Property property){
