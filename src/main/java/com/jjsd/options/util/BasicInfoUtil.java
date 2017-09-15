@@ -124,9 +124,11 @@ public class BasicInfoUtil {
             while(set.next()){
                 result.put(set.getString(1),set.getString(2));
             }
+            SqlConnectUtil.close(connection,statement,set);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         return result;
     }
 
