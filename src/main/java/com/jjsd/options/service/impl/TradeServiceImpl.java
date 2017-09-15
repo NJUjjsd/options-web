@@ -3,6 +3,7 @@ package com.jjsd.options.service.impl;
 import com.jjsd.options.dao.EntrustmentRepository;
 import com.jjsd.options.entity.market.ETFTradeInfo;
 import com.jjsd.options.entity.user.Entrustment;
+import com.jjsd.options.service.TradeService;
 import com.jjsd.options.service.UserService;
 import com.jjsd.options.util.DateDealUtil;
 import com.jjsd.options.util.ETFInfoUtil;
@@ -16,7 +17,10 @@ import java.util.Map;
  * Created by ${zrz} on 2017/9/12.
  */
 @Service
-public class TradeServiceImpl {
+public class TradeServiceImpl implements TradeService{
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private EntrustmentRepository entrustmentRepository;
@@ -65,12 +69,11 @@ public class TradeServiceImpl {
      * 处理全部委托
      */
     public void dealAllTrade(){
-        UserService service = new UserServiceImpl();
         ArrayList<Entrustment> allTrade = (ArrayList<Entrustment>) entrustmentRepository.findAll();  //待补全
         for(Entrustment entrustment:allTrade){
             double tradeMoney = dealOneTrade(entrustment);
             if(tradeMoney>0){
-                service.dealOrder(entrustment.getEntrustmentId(),tradeMoney);
+                userService.dealOrder(entrustment.getEntrustmentId(),tradeMoney);
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.jjsd.options.service.impl;
 
-import com.jjsd.options.entity.vo.*;
+import com.jjsd.options.entity.vo.HoldingVO;
+import com.jjsd.options.entity.vo.InvestBasicInfoVO;
+import com.jjsd.options.entity.vo.RecommendationVO;
+import com.jjsd.options.entity.vo.UserEntrustVO;
 import com.jjsd.options.service.InvestService;
 import com.jjsd.options.util.ResultState;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,8 +84,5 @@ public class InvestServiceStub implements InvestService {
         return ResultState.SUCCEED;
     }
 
-    @Override
-    public ArrayList<InformationVO> getInformationVOs(String email) {
-        return null;
-    }
+
 }

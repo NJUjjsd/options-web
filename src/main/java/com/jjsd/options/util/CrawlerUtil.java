@@ -2,6 +2,7 @@ package com.jjsd.options.util;
 
 import com.jjsd.options.dao.NewsRepository;
 import com.jjsd.options.entity.news.News;
+import com.jjsd.options.service.TradeService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -26,6 +28,9 @@ public class CrawlerUtil {
 
     @Autowired
     private NewsRepository newsRepository;
+
+    @Autowired
+    private TradeService tradeService;
 
     public static final Map<String, String> stockCode;
 
@@ -530,39 +535,30 @@ public class CrawlerUtil {
     /**
      * 定时任务
      */
-//    @Scheduled(cron="0 0/30 8-16 * * ?")
-//    private void update(){
-//        for (String key:CrawlerUtil.stockCode.keySet()){
-//
-//            if (key.equals("510050")){
-//                newsRepository.save(getROfEFromHexun());
-//                newsRepository.save(getNofEFromTencent());
-//
-//            }else {
-//                newsRepository.save(getRFromSina(key));
-//                newsRepository.save(getAFromSina(key));
-//                newsRepository.save(getNFromSina(key));
-//                newsRepository.save(getNFromIfeng(key));
-//
-//            }
-//
-//
-//        }
-//    }
+    @Scheduled(cron="0 0/30 1-2 * * ?")
+    private void update(){
+        for (String key:CrawlerUtil.stockCode.keySet()){
+
+            if (key.equals("510050")){
+                newsRepository.save(getROfEFromHexun());
+                newsRepository.save(getNofEFromTencent());
+
+            }else {
+                newsRepository.save(getRFromSina(key));
+                newsRepository.save(getAFromSina(key));
+                newsRepository.save(getNFromSina(key));
+                newsRepository.save(getNFromIfeng(key));
+
+            }
 
 
-//    @Scheduled(fixedDelay = 1000)
-//    public void printTime() {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        System.out.println("task one " + format.format(new Date()));
-//    }
-//
-//    @Scheduled(fixedDelay = 1000)
-//    public void printTimeSleep() throws InterruptedException {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        System.out.println("===================----> task two " + format.format(new Date()));
-//        Thread.sleep(5000);
-//    }
+        }
+    }
+
+    @Scheduled(cron="0 0/1 9-15 * * ?")
+    public void deal() {
+        tradeService.dealAllTrade();
+    }
 
 
 

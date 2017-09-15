@@ -234,7 +234,6 @@ public class InvestServiceImpl implements InvestService {
         return ResultState.SUCCEED;
     }
 
-    @Override
     public ArrayList<InformationVO> getInformationVOs(String email) {
 
         // 组合策略列表
