@@ -22,7 +22,6 @@ app.model(require('./models/market'));
 app.model(require('./models/userInvest'));
 app.model(require('./models/users'));
 app.model(require('./models/email'));
-app.model(require('./models/websocket'));
 
 // 4. Router
 app.router(require('./router'));

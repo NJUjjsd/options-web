@@ -28,6 +28,11 @@ export default {
      * 用户委托
      */
     userEntrust: [],
+
+    /**
+     * 通知
+     */
+    information: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -42,9 +47,16 @@ export default {
   },
   effects: {
     * fetchInvestBasicInfo({ payload }, { call, put }) {
+      console.log('this is fetch info in effects');
       const email = window.sessionStorage.getItem('email');
       const investBasicInfo = yield call(userInvestService.getInvestBasicInfo, email);
       yield put({ type: 'saveInvestBasicInfo', payload: investBasicInfo });
+    },
+    * fetchInformation({ payload }, { call, put }) {
+      console.log('定时器啦啦啦啦');
+      const email = window.sessionStorage.getItem('email');
+      const informaiton = yield call(userInvestService.getInformation, email);
+      yield put({ type: 'saveInformation', payload: informaiton });
     },
     * userEntrust({ payload: content }, { call }) {
       const email = window.sessionStorage.getItem('email');
@@ -66,6 +78,9 @@ export default {
   reducers: {
     saveInvestBasicInfo(state, { payload: investBasicInfo }) {
       return { ...state, ...investBasicInfo };
+    },
+    saveInformation(state, { payload: information }) {
+      return { ...state, information };
     },
     saveUserEntrust(state, { payload: userEntrust }) {
       console.log('reducers', userEntrust);

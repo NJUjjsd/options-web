@@ -219,7 +219,7 @@ class EntrustForm extends React.Component {
         modalVisible: false,
         modalContent: [],
       });
-    }, 3000);
+    }, 5000);
     this.props.dispatch({
       type: 'userInvest/fetchInvestBasicInfo',
       payload: '',

@@ -51,4 +51,10 @@ public class UserInvestController {
         return JSON.toJSONString(investService.cancelEntrust(vos));
     }
 
+    @GetMapping(value = "/getInformation")
+    public @ResponseBody String getInformation(@RequestParam String email){
+        ArrayList<InformationVO> vos = investService.getInformationVOs(email);
+        return JSONArray.toJSONString(vos);
+    }
+
 }

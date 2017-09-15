@@ -23,5 +23,7 @@ public interface InvestService {
 
     ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs);
 
+    ArrayList<InformationVO> getInformationVOs(String email);
+
 
 }

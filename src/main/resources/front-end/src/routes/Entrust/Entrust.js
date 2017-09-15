@@ -12,10 +12,18 @@ class Entrust extends React.Component {
 
   state = {
     index: 0,
-    notificationMessage: [],
+    information: [],
   };
+  componentWillMount() {
+    console.log('will mount');
+    setInterval(() => {
+      this.props.dispatch({
+        type: 'userInvest/fetchInformation',
+      });
+    }, 10000);
+  }
   componentWillReceiveProps(nextProps) {
-    const infoList = nextProps.notificationMessage;
+    const infoList = nextProps.information;
     const notifiList = [];
     if (infoList !== undefined && infoList.length > 0) {
       for (const info of infoList) {
@@ -45,13 +53,13 @@ class Entrust extends React.Component {
       }
       const i = this.state.index += 1;
       this.setState({
-        notificationMessage: notifiList,
+        information: notifiList,
         index: i,
       });
     }
   }
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.notificationMessage.length > 0) {
+    if (nextState.information.length > 0) {
       const columns = [{
         title: '代码',
         dataIndex: 'code',
@@ -80,10 +88,10 @@ class Entrust extends React.Component {
           return obj;
         },
       }];
-      const len = nextState.notificationMessage.length;
+      const len = nextState.information.length;
       const eachNotification = [
         <Table
-          dataSource={nextState.notificationMessage[len - 1]}
+          dataSource={nextState.information[len - 1]}
           columns={columns}
           bordered
           pagination={false}
@@ -153,15 +161,14 @@ function mapStateToProps(state) {
     noRiskRate,
     principal,
     assets,
+    information,
   } = state.userInvest;
-  const { notificationMessage } = state.websocket;
-
-  console.log('the information in page', notificationMessage);
+  console.log('the information in page', information);
   return {
     noRiskRate,
     principal,
     assets,
-    notificationMessage,
+    information,
   };
 }
 export default connect(mapStateToProps)(Entrust);

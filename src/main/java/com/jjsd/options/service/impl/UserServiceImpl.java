@@ -159,7 +159,11 @@ public class UserServiceImpl implements UserService{
     public boolean makeOrder(Entrustment order) {
         Property property=propertyRepository.findByEmail(order.getUserEmail());
         if (order==null||property==null){
-            throw new NullPointerException();
+//            throw new NullPointerException();
+            System.out.println(order);
+            System.out.println(property);
+
+            return false;
         }
 
         String code=order.getCode();

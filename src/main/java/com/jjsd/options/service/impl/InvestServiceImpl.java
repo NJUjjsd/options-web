@@ -1,5 +1,6 @@
 package com.jjsd.options.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.jjsd.options.dao.CostRepository;
 import com.jjsd.options.dao.MarketDao;
 import com.jjsd.options.dao.PropertyRepository;
@@ -139,14 +140,14 @@ public class InvestServiceImpl implements InvestService {
 
                 }
 
-                list.add(recommendationVO);
+                result.add(recommendationVO);
 
 
 
             }
         }
 
-        return list;
+        return result;
     }
 
     @Override
@@ -176,12 +177,25 @@ public class InvestServiceImpl implements InvestService {
 
     @Override
     public ResultState userEntrust(UserEntrustVO userEntrustVO) {
+
         Entrustment entrustment = new Entrustment();
 
+        System.out.println(userEntrustVO.getEmail());
+        entrustment.setUserEmail(userEntrustVO.getEmail());
+
+        System.out.println(userEntrustVO.getIsBuy());
         entrustment.setBuy(userEntrustVO.getIsBuy());
+
+        System.out.println(userEntrustVO.getCode());
         entrustment.setCode(userEntrustVO.getCode());
+
+        System.out.println(userEntrustVO.getOptionName());
         entrustment.setOptionName(userEntrustVO.getOptionName());
+
+        System.out.println(Double.valueOf(userEntrustVO.getPrice()));
         entrustment.setPrice(Double.valueOf(userEntrustVO.getPrice()));
+
+        System.out.println(Integer.valueOf(userEntrustVO.getOptionNum()));
         entrustment.setOptionNum(Integer.valueOf(userEntrustVO.getOptionNum()));
 
         boolean result = userService.makeOrder(entrustment);
@@ -210,6 +224,8 @@ public class InvestServiceImpl implements InvestService {
     @Override
     public ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs) {
         for (UserEntrustVO vo:userEntrustVOs) {
+            System.out.println("id");
+            System.out.println(vo.getId());
            boolean res = userService.cancelOrder(Long.valueOf(vo.getId()));
             if(!res){
                 return ResultState.FAIL;
@@ -228,34 +244,37 @@ public class InvestServiceImpl implements InvestService {
         // 代码－名称
         Map<String, String> contactAndName = UserInvestUtil.getContractCodeAndName();
 
-        for (RecommendationVO rec:recommendationVOs) {
-            // 根据代码拿到名称
-            String upCode = rec.getCallOptionCode();
-            String upOptionName = contactAndName.get(upCode);
-            String upPrice = rec.getX()+"";
-            boolean upIsBuy = true;
+            for (Iterator iter = recommendationVOs.iterator(); iter.hasNext();) {
+                RecommendationVO rec = (RecommendationVO)iter.next();
+                // 根据代码拿到名称
+                String upCode = rec.getCallOptionCode();
+                String upOptionName = contactAndName.get(upCode);
+                String upPrice = rec.getX()+"";
+                boolean upIsBuy = true;
 
-            String code = "510050";
-            String optionName = contactAndName.get(code);
-            String price = rec.getZ()+"";
-            boolean isBuy = !upIsBuy;
+                String code = "510050";
+                String optionName = contactAndName.get(code);
+                String price = rec.getZ()+"";
+                boolean isBuy = !upIsBuy;
 
-            String downCode = rec.getPutOptionCode();
-            String downOptionName = contactAndName.get(downCode);
-            String downPrice = rec.getY()+"";
-            boolean downIsBuy = !upIsBuy;
+                String downCode = rec.getPutOptionCode();
+                String downOptionName = contactAndName.get(downCode);
+                String downPrice = rec.getY()+"";
+                boolean downIsBuy = !upIsBuy;
 
-            String each = rec.getProfit()+"";
+                String each = rec.getProfit()+"";
 
-            InformationVO info = new InformationVO(
-                    email, code, optionName, price, isBuy,
-                    upCode, upOptionName, upPrice, upIsBuy,
-                    downCode, downOptionName, downPrice, downIsBuy,
-                    each);
-            informationVOs.add(info);
-        }
+                InformationVO info = new InformationVO(
+                        email, code, optionName, price, isBuy,
+                        upCode, upOptionName, upPrice, upIsBuy,
+                        downCode, downOptionName, downPrice, downIsBuy,
+                        each);
+                informationVOs.add(info);
+            }
 
         return informationVOs;
+
+//        return UserInvestVOService.generateInformation();
     }
 
 

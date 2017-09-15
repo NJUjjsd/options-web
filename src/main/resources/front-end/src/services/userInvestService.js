@@ -13,6 +13,15 @@ export function getInvestBasicInfo(email) {
   });
 }
 
+export function getInformation(email) {
+  const promise = request(`api/userInvest/getInformation?email=${email}`);
+  return promise.then((v) => {
+    const information = v.data;
+    console.log('information in front-end service', information);
+    return information;
+  });
+}
+
 export function userEntrust(entrust) {
   console.log('传给后端的委托信息', entrust);
   return request('api/userInvest/entrust', {

@@ -285,7 +285,8 @@ function mapStateToProps(state) {
   const props = state.market;
   const data = props.ETFKLineRawData;
   console.log(data);
-  return { data };
+  const { loading } = state.loading.models.market;
+  return { data, loading };
 }
 
 export default connect(mapStateToProps)(KLineChart);

@@ -16,8 +16,8 @@ public class UserInvestVOService {
         boolean isBuy = Boolean.getBoolean(entrust.get("isBuy"));
         String optionNum = entrust.get("optionNum");
         String price = entrust.get("price");
-
-        return new UserEntrustVO(email, code, optionName, isBuy, optionNum, price, "23333333333");
+        String id = entrust.get("id");
+        return new UserEntrustVO(email, code, optionName, isBuy, optionNum, price, id);
     }
 
     public static ArrayList<UserEntrustVO> getCancelEntrustVOs(JSONArray array) {
@@ -31,7 +31,7 @@ public class UserInvestVOService {
                     Boolean.parseBoolean(eachCancel.get("isBuy")),
                     eachCancel.get("optionNum"),
                     eachCancel.get("price"),
-                    "23333333333"
+                    eachCancel.get("id")
             );
             vos.add(vo);
         }
@@ -43,9 +43,9 @@ public class UserInvestVOService {
         vos.add(new InformationVO(
                 "875928078@qq.com",
                 "510050", "上证50ETF", "2.3", true,
-                "510050C1709M02250", "name1", "2.1",true,
-                "510050P1709M02250", "name2", "2.3",false,
-                "2.22"));
+                "510050C1709M02350", "50ETF购9月2350", "2.1",true,
+                "510050C1803M02500", "50ETF购3月2500", "2.1",false,
+                "6.5"));
         return vos;
     }
 }
