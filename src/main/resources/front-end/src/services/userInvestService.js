@@ -24,40 +24,6 @@ export function userEntrust(entrust) {
   });
 }
 
-export function combinationEntrust(combination) {
-  console.log('传给后端的套利委托', combination);
-  return request('api/userInvest/combinationEntrust', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(combination),
-  });
-}
-
-// export function getNotification({ email }) {
-//   console.log('getNotification');
-//
-//   const ws = new WebSocket('ws://localhost:8080/websocket');
-//   console.log(ws);
-//   ws.onopen = () => {
-//     console.log('hhhhhhhhhhh open');
-//   };
-//   ws.onmessage = (e) => {
-//     console.log('hhhhhhhhhhh onmessage:', e.data);
-//     return [];
-//   };
-//   ws.onerror = (e) => {
-//     console.log('hhhhhhhhhhh error', e.message);
-//   };
-//   ws.onclose = (e) => {
-//     console.log(e.code, e.reason);
-//   };
-//   ws.send(email);
-//
-//   return false;
-// }
-
 export function getUserEntrust(email) {
   console.log('getUserEntrust in service', email);
   const promise = request(`api/userInvest/getUserEntrust?email=${email}`);
@@ -69,7 +35,7 @@ export function getUserEntrust(email) {
 }
 
 export function cancelEntrust(cancelList) {
-  console.log('传给后端的取消委托信息', cancelList);
+  console.log('传给后端的撤单信息', cancelList);
   return request('api/userInvest/cancelEntrust', {
     method: 'POST',
     headers: {

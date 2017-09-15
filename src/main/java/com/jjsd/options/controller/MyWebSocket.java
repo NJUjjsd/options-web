@@ -1,6 +1,8 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.jjsd.options.entity.vo.InformationVO;
 import com.jjsd.options.entity.vo.UserInvestVOService;
 import com.jjsd.options.service.InvestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by zhujing on 2017/9/14.
@@ -53,10 +56,11 @@ public class MyWebSocket {
         System.out.println("客户端发来消息");
         System.out.println(message);
         while (true) {
-            Thread.sleep(10000);
+            Thread.sleep(30000);
             try {
-                session.getBasicRemote().sendText(JSON.toJSONString(UserInvestVOService.generateInformation()));
-//                session.getBasicRemote().sendText(JSON.toJSONString(investService.getDecision(message)));
+                session.getBasicRemote().sendText(JSONArray.toJSONString(UserInvestVOService.generateInformation()));
+//                ArrayList<InformationVO> informationVOs = investService.getInformationVOs(message);
+//                session.getBasicRemote().sendText(JSONArray.toJSONString(informationVOs));
             } catch (IOException e) {
                 e.printStackTrace();
             }

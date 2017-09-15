@@ -46,25 +46,11 @@ export default {
       const investBasicInfo = yield call(userInvestService.getInvestBasicInfo, email);
       yield put({ type: 'saveInvestBasicInfo', payload: investBasicInfo });
     },
-    // * openNotification({ payload }, { call, put }) {
-    //   console.log('openNotification in effects');
-    //   const email = window.sessionStorage.getItem('email');
-    //
-    //
-    //   const info = yield call(userInvestService.getNotification, { email });
-    //   yield put({ type: 'saveInformation', payload: info });
-    // },
     * userEntrust({ payload: content }, { call }) {
       const email = window.sessionStorage.getItem('email');
       Object.assign(content, { email });
       const userEntrustResult = yield call(userInvestService.userEntrust, content);
       console.log(userEntrustResult);
-    },
-    * combinationEntrust({ payload: content }, { call }) {
-      const email = window.sessionStorage.getItem('email');
-      Object.assign(content, { email });
-      const combinationEntrustResult = yield call(userInvestService.combinationEntrust, content);
-      console.log(combinationEntrustResult);
     },
     * fetchUserEntrust({ payload }, { call, put }) {
       console.log('user entrust in effects');
@@ -85,31 +71,5 @@ export default {
       console.log('reducers', userEntrust);
       return { ...state, userEntrust };
     },
-    // saveInformation(state, { payload: info }) {
-    //   console.log(info);
-    //   const information = [{
-    //     code: '510050',
-    //     optionName: '上证50ETF',
-    //     price: '2.3',
-    //     optionNum: '130000',
-    //     isBuy: true,
-    //
-    //     upCode: '510050C1709M02250',
-    //     upOptionName: 'name1',
-    //     upPrice: '2.1',
-    //     upOptionNum: '100',
-    //     upIsBuy: true,
-    //
-    //     downCode: '510050P1709M02250',
-    //     downOptionName: 'name2',
-    //     downPrice: '2.3',
-    //     downOptionNum: '130000',
-    //     downIsBuy: false,
-    //
-    //     totalProfit: '2333333',
-    //   }];
-    //   console.log('reducers');
-    //   return { ...state, information };
-    // },
   },
 };
