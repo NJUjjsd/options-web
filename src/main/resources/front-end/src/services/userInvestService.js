@@ -35,28 +35,28 @@ export function combinationEntrust(combination) {
   });
 }
 
-export function getNotification({ email }) {
-  console.log('getNotification');
-
-  const ws = new WebSocket('ws://localhost:8080/websocket');
-  console.log(ws);
-  ws.onopen = () => {
-    console.log('hhhhhhhhhhh open');
-  };
-  ws.onmessage = (e) => {
-    console.log('hhhhhhhhhhh onmessage:', e.data);
-    return [];
-  };
-  ws.onerror = (e) => {
-    console.log('hhhhhhhhhhh error', e.message);
-  };
-  ws.onclose = (e) => {
-    console.log(e.code, e.reason);
-  };
-  ws.send(email);
-
-  return false;
-}
+// export function getNotification({ email }) {
+//   console.log('getNotification');
+//
+//   const ws = new WebSocket('ws://localhost:8080/websocket');
+//   console.log(ws);
+//   ws.onopen = () => {
+//     console.log('hhhhhhhhhhh open');
+//   };
+//   ws.onmessage = (e) => {
+//     console.log('hhhhhhhhhhh onmessage:', e.data);
+//     return [];
+//   };
+//   ws.onerror = (e) => {
+//     console.log('hhhhhhhhhhh error', e.message);
+//   };
+//   ws.onclose = (e) => {
+//     console.log(e.code, e.reason);
+//   };
+//   ws.send(email);
+//
+//   return false;
+// }
 
 export function getUserEntrust(email) {
   console.log('getUserEntrust in service', email);

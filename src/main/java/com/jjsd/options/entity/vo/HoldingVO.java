@@ -16,17 +16,14 @@ public class HoldingVO {
     private String fluctuation;
     // 盈亏 (当前价－成本价)＊数量 （保留正负符号，最好两位小数）
     private String profitAndLoss;
-    // 交易类型
-    private boolean isBuy;
 
-    public HoldingVO(String code, String name, String numberToSell, String currentPrice, String fluctuation, String profitAndLoss, boolean isBuy) {
+    public HoldingVO(String code, String name, String numberToSell, String currentPrice, String fluctuation, String profitAndLoss) {
         this.code = code;
         this.name = name;
         this.numberToSell = numberToSell;
         this.currentPrice = currentPrice;
         this.fluctuation = fluctuation;
         this.profitAndLoss = profitAndLoss;
-        this.isBuy = isBuy;
     }
 
     public String getCode() {
@@ -51,9 +48,5 @@ public class HoldingVO {
 
     public String getProfitAndLoss() {
         return profitAndLoss;
-    }
-
-    public boolean getIsBuy() {
-        return isBuy;
     }
 }

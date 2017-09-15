@@ -33,10 +33,10 @@ public class InvestServiceStub implements InvestService {
         String balance = "10000.99";
 
         ArrayList<HoldingVO> holding = new ArrayList<>(4);
-        HoldingVO vo0 = new HoldingVO("510050C1709M02250", email+"名字1", "100", "2.45", "+0.34", "+10000", true);
-        HoldingVO vo1 = new HoldingVO("510050P1709M02250", email+"名字2",  "200", "2.45", "+0.34", "+10000", false);
-        HoldingVO vo2 = new HoldingVO("510050C1709M02300", email+"名字3", "300", "2.45", "+0.34", "+10000", true);
-        HoldingVO vo3 = new HoldingVO("510050", "上证50ETF", "400", "2.45", "+0.34", "+10000", false);
+        HoldingVO vo0 = new HoldingVO("510050C1709M02250", email+"名字1", "100", "2.45", "+0.34", "+10000");
+        HoldingVO vo1 = new HoldingVO("510050P1709M02250", email+"名字2",  "200", "2.45", "+0.34", "+10000");
+        HoldingVO vo2 = new HoldingVO("510050C1709M02300", email+"名字3", "300", "2.45", "+0.34", "+10000");
+        HoldingVO vo3 = new HoldingVO("510050", "上证50ETF", "400", "2.45", "+0.34", "+10000");
         holding.add(vo0);
         holding.add(vo1);
         holding.add(vo2);

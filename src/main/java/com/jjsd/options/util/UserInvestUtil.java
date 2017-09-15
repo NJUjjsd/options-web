@@ -36,10 +36,7 @@ public class UserInvestUtil {
            String price = eachOpt.getNewestPrice()+"";
            String fluctuation = eachOpt.getPriceChangePercent()+"";
            String lossAndProfit = eachOpt.getPriceDifference()+"";
-           // TODO Option加一个 "交易类型" 的属性:isBuy(boolean),然后get方法名是getIsBuy()，不是自动生成的那个。
-//           boolean isBuy = eachOpt.getIsBuy();
-           boolean isBuy = true;
-           HoldingVO holdingVO = new HoldingVO(code, name, num, price, fluctuation, lossAndProfit, isBuy);
+           HoldingVO holdingVO = new HoldingVO(code, name, num, price, fluctuation, lossAndProfit);
            holding.add(holdingVO);
        }
        return holding;
