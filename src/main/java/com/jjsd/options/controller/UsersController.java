@@ -115,6 +115,7 @@ public class UsersController {
         boolean result = userService.modify(email,prePassword,newPassword);
         int status = result?0:1;
         String message = result?"密码修改成功":"woops ~~>,<~~ 密码修改失败";
+        System.out.println(message);
         return JSONResult.fillResultString(status,message,result);
     }
 
@@ -168,11 +169,11 @@ public class UsersController {
         }
     }
 
-    @RequestMapping(value = "/activatemail", method = RequestMethod.POST)
-    public @ResponseBody String activatemail(@RequestBody Account account) throws IOException, MessagingException, NoSuchAlgorithmException {
+    @RequestMapping(value = "/activatemail", method = RequestMethod.GET)
+    public @ResponseBody String activatemail(String token,String email) throws IOException, MessagingException, NoSuchAlgorithmException {
         //获取激活参数
-        String email = account.getEmail();
-        String token = account.getToken();
+//        String email = account.getEmail();
+//        String token = account.getToken();
         System.out.println("========================");
         System.out.println(email+"   "+token);
         Long time = System.currentTimeMillis();
@@ -187,7 +188,8 @@ public class UsersController {
                     u = EmailUtil.activateMail(u);
                     //重新设置了有效时间和token激活码
                     userService.update(u);
-                    return JSONResult.fillResultString(3,"woops ~~>,<~~ 激活链接已过期",false);
+                    return "woops ~~>,<~~ 激活链接已过期";
+//                    return JSONResult.fillResultString(3,"woops ~~>,<~~ 激活链接已过期",false);
                 } else if (u.getActivateTime()>time){
                     //在时间内
                     u.setActivateTime(Long.parseLong("1"));
@@ -198,18 +200,22 @@ public class UsersController {
                         //重新设置token防止被禁用的用户利用激活
                         u.setToken(token.replace("1", "c"));
                         userService.update(u);
-                        return JSONResult.fillResultString(0,"恭喜您成功激活账号",true);
+                        return "恭喜您成功激活账号";
+//                        return JSONResult.fillResultString(0,"恭喜您成功激活账号",true);
                     } else {
                         System.out.println("++++++++++++++++++++++++++");
                         System.out.println(u.getToken());
-                        return JSONResult.fillResultString(1,"woops ~~>,<~~ 激活码验证不通过",false);
+                        return "woops ~~>,<~~ 激活码验证不通过";
+//                        return JSONResult.fillResultString(1,"woops ~~>,<~~ 激活码验证不通过",false);
                     }
                 }
 
             }
         } else if (u == null) {
-            return JSONResult.fillResultString(2,"woops ~~>,<~~ 无此用户",false);
+            return "woops ~~>,<~~ 无此用户";
+//            return JSONResult.fillResultString(2,"woops ~~>,<~~ 无此用户",false);
         }
-        return JSONResult.fillResultString(0,"恭喜您成功激活账号","恭喜您成功激活账号");
+        return "恭喜您成功激活账号";
+//        return JSONResult.fillResultString(0,"恭喜您成功激活账号","恭喜您成功激活账号");
     }
 }

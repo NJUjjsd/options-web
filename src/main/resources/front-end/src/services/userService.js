@@ -43,7 +43,7 @@ export function changePassword(pswObj) {
   const body = {
     email: Encrypt(pswObj.email),
     prePassword: Encrypt(pswObj.prePassword),
-    newPassword: Encrypt(pswObj.password),
+    newPassword: Encrypt(pswObj.newPassword),
   };
   console.log(body);
   const promise = request('/api/users/changePassword', {

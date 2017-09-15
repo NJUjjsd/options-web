@@ -76,6 +76,7 @@ export default {
 
     * changePassword({ payload: { values } }, { call }) {
       console.log('changePassword');
+      console.log(values);
       const pswObj = {
         email: window.sessionStorage.getItem('email'),
         prePassword: values.prePassword,
