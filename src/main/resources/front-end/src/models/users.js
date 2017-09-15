@@ -54,6 +54,12 @@ export default {
       const result = yield call(userService.modifyUserInfo, user);
       const message = result.message;
       if (result.status === 0) {
+        const flag = {
+          isSetCost: true,
+          isSetProperty: true,
+        };
+        const newUser = { ...user, ...flag };
+        console.log(newUser);
         yield put({
           type: 'saveUser',
           payload: { user },

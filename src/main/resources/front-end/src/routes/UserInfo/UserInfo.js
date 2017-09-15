@@ -31,6 +31,7 @@ class UserInfo extends React.Component {
         });
       } else {
         const user = { ...this.props.user, ...values };
+        console.log(user);
         this.props.dispatch({
           type: 'users/modifyUserInfo',
           payload: { user },
@@ -65,18 +66,11 @@ class UserInfo extends React.Component {
                       <Input prefix={<label htmlFor="userName">昵称：</label>} style={inputStyle} />,
                     )}
                   </FormItem>
-                  <FormItem>
-                    {getFieldDecorator('email', {
-                      rules: [{
-                        type: 'email', message: '邮箱格式不正确',
-                      }, {
-                        required: true, message: '邮箱不能为空',
-                      }],
-                      initialValue: user.email,
-                    })(
-                      <Input prefix={<label htmlFor="email">邮箱： </label>} style={inputStyle} />,
-                    )}
-                  </FormItem>
+                  <div
+                    style={{ marginLeft: 8, fontSize: 14, marginTop: 30 }}
+                  >
+                    邮箱：&nbsp;&nbsp;&nbsp;&nbsp;{user.email}
+                  </div>
                 </Col>
                 <Col span={12}>
                   <div style={{ marginTop: 65, fontSize: 14 }}>
@@ -177,7 +171,7 @@ class UserInfo extends React.Component {
                   <HoldingTable />
                   <div className={styles.inputPart} style={{ marginTop: 24 }}>
                     <Row>
-                      <Col span={4} className={styles.riskRate}>最高无风险利率：</Col>
+                      <Col span={5} className={styles.riskRate}>最高无风险利率：</Col>
                       <Col span={8}>
                         {getFieldDecorator('riskRate', {
                           rules: [{ required: true, message: '请输入最低风险利率' }],
@@ -193,7 +187,7 @@ class UserInfo extends React.Component {
                       </Col>
                     </Row>
                     <Row style={{ marginTop: 14 }}>
-                      <Col span={2}>本金: </Col>
+                      <Col span={3}>本金: </Col>
                       <Col span={5}>
                         <FormItem style={{ marginLeft: -18 }} >
                           {getFieldDecorator('capital', {
@@ -207,7 +201,7 @@ class UserInfo extends React.Component {
                       <Col span={1}>元</Col>
                     </Row>
                     <div>
-                      总资产：{user.total}
+                      总资产：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.total}
                       <span style={{ marginLeft: 20 }}>元</span>
                     </div>
                   </div>

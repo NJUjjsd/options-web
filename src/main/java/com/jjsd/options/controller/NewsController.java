@@ -31,12 +31,12 @@ public class NewsController {
     @GetMapping(value = "/search")
     public @ResponseBody String searchNews(@RequestParam int page,@RequestParam int pageSize,@RequestParam String keyword){
 
-        try {
-            System.out.println(java.net.URLDecoder.decode(keyword,"UTF-8"));
-            System.out.println(AesEncryptUtil.desEncrypt(java.net.URLDecoder.decode(keyword,"UTF-8")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            System.out.println(java.net.URLDecoder.decode(keyword,"UTF-8"));
+//            System.out.println(AesEncryptUtil.desEncrypt(java.net.URLDecoder.decode(keyword,"UTF-8")));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         Page<News> news = null;
         try {
             news = newsService.search(page,pageSize,keyword);

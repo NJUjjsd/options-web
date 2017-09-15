@@ -19,6 +19,7 @@ class Login extends React.Component {
           email: values.email,
           password: values.password,
         };
+        console.log(account);
         this.props.dispatch({
           type: 'users/login',
           payload: { account },
