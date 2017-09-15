@@ -1,6 +1,5 @@
 package com.jjsd.options.dao;
 
-import com.jjsd.options.entity.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +19,14 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CostRepository costRepository;
+
+    @Autowired
+    private PropertyRepository propertyRepository;
+
     @Test
     public void findByEmail() throws Exception {
-        User user=userRepository.findByEmail("1513592323@qq.com");
-        user.setSetCost(false);
-        user.setSetProperty(false);
-        userRepository.save(user);
-
 
     }
 
@@ -38,6 +38,8 @@ public class UserRepositoryTest {
     @Test
     public void go() throws Exception {
         userRepository.deleteAll();
+        costRepository.deleteAll();
+        propertyRepository.deleteAll();
     }
 
 
