@@ -1,2 +1,20 @@
 # options-web by nju-jjsd
-start !
+start ！
+
+EO 前端采用react+dva+antd进行开发，以下简单对本项目的前端开发进行说明：
+    1.下载node.js
+    2.npm i dva-cli@0.7 -g
+      dva -v检查版本是否是0.7.x
+    3.dva new front-end
+      cd font-end
+      创建应用并进入到这个应用之下
+      
+      以下是用到的库
+      ===========================
+      npm i antd --save
+      npm i babel-plugin-import --save-dev
+      npm install crypto-js
+      npm i dva-loading --save
+      
+   
+    参考：https://github.com/sorrycc/blog/issues/18#issue-196860620    
