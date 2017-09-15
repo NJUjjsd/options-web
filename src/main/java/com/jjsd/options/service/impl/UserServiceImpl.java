@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -109,10 +110,11 @@ public class UserServiceImpl implements UserService{
             throw new NullPointerException();
         }
         User u=userRepository.findByEmail(cost.getEmail());
-        Cost c=costRepository.findByEmail(cost.getEmail());
-        if(c==null||u==null){
-            return false;
+        if(u==null){
+            throw new NullPointerException();
         }
+
+        //没填
         if (u.isSetCost()==false){
             u.setSetCost(true);
         }
@@ -125,14 +127,19 @@ public class UserServiceImpl implements UserService{
     public boolean fillInProperty(String email,double r,double b) {
         User u=userRepository.findByEmail(email);
         Property p=propertyRepository.findByEmail(email);
-        if(p==null||u==null){
-            return false;
+        if(u==null){
+            throw new NullPointerException();
         }
-        p.setR(r);
-        p.setB(b);
+        //没填
         if (u.isSetProperty()==false){
             u.setSetProperty(true);
+            p=new Property();
+            p.setEmail(email);
+            p.setOptions(new ArrayList<>());
         }
+
+        p.setR(r);
+        p.setB(b);
         userRepository.save(u);
         propertyRepository.save(p);
         return true;

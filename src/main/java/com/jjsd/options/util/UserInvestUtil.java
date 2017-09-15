@@ -26,7 +26,8 @@ public class UserInvestUtil {
 
    public static String getBalance(Property property){
        // TODO 重写该方法，计算得出
-       return "23333.99";
+
+       return "";
    }
 
    public static ArrayList<HoldingVO> getHolding(Property property){

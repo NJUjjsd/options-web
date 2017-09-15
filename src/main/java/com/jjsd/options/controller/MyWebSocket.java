@@ -1,7 +1,6 @@
 package com.jjsd.options.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.jjsd.options.entity.vo.InformationVO;
 import com.jjsd.options.entity.vo.UserInvestVOService;
 import com.jjsd.options.service.InvestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Created by zhujing on 2017/9/14.
@@ -25,12 +23,6 @@ public class MyWebSocket {
     @Autowired
     private InvestService investService;
 
-    //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
-    private static int onlineCount = 0;
-
-    //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
-    private static CopyOnWriteArraySet<MyWebSocket> webSocketSet = new CopyOnWriteArraySet<MyWebSocket>();
-
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
@@ -39,8 +31,7 @@ public class MyWebSocket {
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        webSocketSet.add(this);     //加入set中
-        addOnlineCount();           //在线数加1
+
 
     }
 
@@ -49,8 +40,7 @@ public class MyWebSocket {
      */
     @OnClose
     public void onClose() {
-        webSocketSet.remove(this);  //从set中删除
-        subOnlineCount();           //在线数减1
+
 
     }
 
@@ -89,15 +79,4 @@ public class MyWebSocket {
 
      */
 
-    public static synchronized int getOnlineCount() {
-        return onlineCount;
-    }
-
-    public static synchronized void addOnlineCount() {
-        MyWebSocket.onlineCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        MyWebSocket.onlineCount--;
-    }
 }
