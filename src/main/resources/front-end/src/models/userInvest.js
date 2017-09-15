@@ -23,10 +23,7 @@ export default {
     principal: '',
     // 总资产
     assets: '',
-    /**
-     * 套利提醒
-     */
-    information: [],
+
     /**
      * 用户委托
      */
@@ -37,7 +34,6 @@ export default {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/invest/entrust') {
           dispatch({ type: 'fetchInvestBasicInfo', payload: query });
-          // dispatch({ type: 'openNotification', payload: query });
         } else if (pathname === '/invest/cancel') {
           dispatch({ type: 'fetchUserEntrust', payload: query });
         }
@@ -50,14 +46,14 @@ export default {
       const investBasicInfo = yield call(userInvestService.getInvestBasicInfo, email);
       yield put({ type: 'saveInvestBasicInfo', payload: investBasicInfo });
     },
-    * openNotification({ payload }, { call, put }) {
-      console.log('openNotification in effects');
-      const email = window.sessionStorage.getItem('email');
-
-
-      const info = yield call(userInvestService.getNotification, { email });
-      yield put({ type: 'saveInformation', payload: info });
-    },
+    // * openNotification({ payload }, { call, put }) {
+    //   console.log('openNotification in effects');
+    //   const email = window.sessionStorage.getItem('email');
+    //
+    //
+    //   const info = yield call(userInvestService.getNotification, { email });
+    //   yield put({ type: 'saveInformation', payload: info });
+    // },
     * userEntrust({ payload: content }, { call }) {
       const email = window.sessionStorage.getItem('email');
       Object.assign(content, { email });
@@ -89,31 +85,31 @@ export default {
       console.log('reducers', userEntrust);
       return { ...state, userEntrust };
     },
-    saveInformation(state, { payload: info }) {
-      console.log(info);
-      const information = [{
-        code: '510050',
-        optionName: '上证50ETF',
-        price: '2.3',
-        optionNum: '130000',
-        isBuy: true,
-
-        upCode: '510050C1709M02250',
-        upOptionName: 'name1',
-        upPrice: '2.1',
-        upOptionNum: '100',
-        upIsBuy: true,
-
-        downCode: '510050P1709M02250',
-        downOptionName: 'name2',
-        downPrice: '2.3',
-        downOptionNum: '130000',
-        downIsBuy: false,
-
-        totalProfit: '2333333',
-      }];
-      console.log('reducers');
-      return { ...state, information };
-    },
+    // saveInformation(state, { payload: info }) {
+    //   console.log(info);
+    //   const information = [{
+    //     code: '510050',
+    //     optionName: '上证50ETF',
+    //     price: '2.3',
+    //     optionNum: '130000',
+    //     isBuy: true,
+    //
+    //     upCode: '510050C1709M02250',
+    //     upOptionName: 'name1',
+    //     upPrice: '2.1',
+    //     upOptionNum: '100',
+    //     upIsBuy: true,
+    //
+    //     downCode: '510050P1709M02250',
+    //     downOptionName: 'name2',
+    //     downPrice: '2.3',
+    //     downOptionNum: '130000',
+    //     downIsBuy: false,
+    //
+    //     totalProfit: '2333333',
+    //   }];
+    //   console.log('reducers');
+    //   return { ...state, information };
+    // },
   },
 };

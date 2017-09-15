@@ -148,24 +148,50 @@ public class InvestServiceImpl implements InvestService {
 
     @Override
     public InvestBasicInfoVO getInvestBasicInfo(String email) {
-        Map<String, String> contractCodeAndName = UserInvestUtil.getContractCodeAndName();
+//        Map<String, String> contractCodeAndName = UserInvestUtil.getContractCodeAndName();
 
-        // 个人资产
-        Property property = userService.loadPropertyByEmail(email);
+        // 个人资产 TODO 拿到个人资产再说
+//        Property property = userService.loadPropertyByEmail(email);
 
-        // 可用余额
-        String balance = UserInvestUtil.getBalance(property);
-        // 目前持有
-        ArrayList<HoldingVO> holding = UserInvestUtil.getHolding(property);
-        // 最高无风险利率
-        String noRiskRate = property.getR()+"";
-        // 本金
-        String principal = property.getB()+"";
-        // 总资产
-        String assets = property.getTotal()+"";
+//        // 可用余额
+//        String balance = UserInvestUtil.getBalance(property);
+//        // 目前持有
+//        ArrayList<HoldingVO> holding = UserInvestUtil.getHolding(property);
+//        // 最高无风险利率
+//        String noRiskRate = property.getR()+"";
+//        // 本金
+//        String principal = property.getB()+"";
+//        // 总资产
+//        String assets = property.getTotal()+"";
 
-        return new InvestBasicInfoVO(
+//        return new InvestBasicInfoVO(
+//                contractCodeAndName, balance, holding, noRiskRate, principal, assets);
+
+        Map<String, String > contractCodeAndName = new HashMap<>();
+        contractCodeAndName.put("510050", "上证50ETF");
+        contractCodeAndName.put("510050C1709M02250", "名字1");
+        contractCodeAndName.put("510050P1709M02250", "名字2");
+        contractCodeAndName.put("510050C1709M02300", "名字3");
+
+        String balance = "10000.99";
+
+        ArrayList<HoldingVO> holding = new ArrayList<>(4);
+        HoldingVO vo0 = new HoldingVO("510050C1709M02250", email+"名字1", "100", "2.45", "+0.34", "+10000");
+        HoldingVO vo1 = new HoldingVO("510050P1709M02250", email+"名字2",  "200", "2.45", "+0.34", "+10000");
+        HoldingVO vo2 = new HoldingVO("510050C1709M02300", email+"名字3", "300", "2.45", "+0.34", "+10000");
+        HoldingVO vo3 = new HoldingVO("510050", "上证50ETF", "400", "2.45", "+0.34", "+10000");
+        holding.add(vo0);
+        holding.add(vo1);
+        holding.add(vo2);
+        holding.add(vo3);
+
+        String noRiskRate = "0.025";
+        String principal = "5000";
+        String assets = "15000";
+
+        InvestBasicInfoVO investBasicInfoVO = new InvestBasicInfoVO(
                 contractCodeAndName, balance, holding, noRiskRate, principal, assets);
+        return investBasicInfoVO;
     }
 
     @Override

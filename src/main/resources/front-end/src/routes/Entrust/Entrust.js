@@ -11,13 +11,16 @@ import Notification from '../../components/InformTable/Notification';
 
 class Entrust extends React.Component {
   render() {
-    const { information } = this.props;
+    const { notificationMessage } = this.props;
 
     const notifications = [];
-    for (let i = 0; i < information.length; i += 1) {
-      notifications.push(
-        <Notification index={i} content={information[i]} />,
-      );
+    if (notificationMessage !== undefined) {
+      for (let i = 0; i < notificationMessage.length; i += 1) {
+        notifications.push(
+          <Notification index={i} content={notificationMessage[i]} />,
+        );
+      }
+      console.log('render in entrust page', notifications);
     }
 
     return (
@@ -73,14 +76,14 @@ function mapStateToProps(state) {
     noRiskRate,
     principal,
     assets,
-    information,
   } = state.userInvest;
-  console.log('the information in page', information);
+  const { notificationMessage } = state.websocket;
+  console.log('the information in page', notificationMessage);
   return {
     noRiskRate,
     principal,
     assets,
-    information,
+    notificationMessage,
   };
 }
 export default connect(mapStateToProps)(Entrust);

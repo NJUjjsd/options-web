@@ -53,7 +53,7 @@ public class MyWebSocket {
         System.out.println("客户端发来消息");
         System.out.println(message);
         while (true) {
-            Thread.sleep(3000);
+            Thread.sleep(10000);
             try {
                 session.getBasicRemote().sendText(JSON.toJSONString(UserInvestVOService.generateInformation()));
 //                session.getBasicRemote().sendText(JSON.toJSONString(investService.getDecision(message)));
