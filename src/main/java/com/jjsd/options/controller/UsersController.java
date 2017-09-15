@@ -1,8 +1,8 @@
 package com.jjsd.options.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.jjsd.options.entity.user.*;
+import com.jjsd.options.entity.user.Cost;
+import com.jjsd.options.entity.user.Property;
+import com.jjsd.options.entity.user.User;
 import com.jjsd.options.entity.vo.Account;
 import com.jjsd.options.entity.vo.Password;
 import com.jjsd.options.entity.vo.UserInfo;
@@ -12,19 +12,14 @@ import com.jjsd.options.util.EmailUtil;
 import com.jjsd.options.util.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by john on 2017/9/10.
@@ -118,7 +113,6 @@ public class UsersController {
         System.out.println(message);
         return JSONResult.fillResultString(status,message,result);
     }
-
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
     public @ResponseBody String signUp(@RequestBody Account account){

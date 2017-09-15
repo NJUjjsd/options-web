@@ -24,4 +24,5 @@ public interface InvestService {
 
     ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs);
 
+
 }
