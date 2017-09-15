@@ -60,14 +60,6 @@ public class InvestServiceStub implements InvestService {
     }
 
     @Override
-    public ResultState informationEntrust(InformationVO informationVO) {
-        if (informationVO.getEmail().equals("875928078@qq.com")){
-            return ResultState.SUCCEED;
-        }
-        return ResultState.FAIL;
-    }
-
-    @Override
     public ArrayList<UserEntrustVO> getUserEntrust(String email) {
         count++;
         UserEntrustVO vo0 = new UserEntrustVO("875928078@qq.com", "510050", count+"上证50ETF", true, "233333", "2.1", "");
@@ -88,5 +80,10 @@ public class InvestServiceStub implements InvestService {
     @Override
     public ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs) {
         return ResultState.SUCCEED;
+    }
+
+    @Override
+    public ArrayList<InformationVO> getInformationVOs(String email) {
+        return null;
     }
 }

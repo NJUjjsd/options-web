@@ -1,5 +1,6 @@
 package com.jjsd.options.service;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Notification;
 import com.jjsd.options.entity.vo.*;
 import com.jjsd.options.util.ResultState;
 
@@ -18,10 +19,11 @@ public interface InvestService {
 
     ResultState userEntrust(UserEntrustVO userEntrustVO);
 
-    ResultState informationEntrust(InformationVO informationVO);
-
     ArrayList<UserEntrustVO> getUserEntrust(String email);
 
     ResultState cancelEntrust(ArrayList<UserEntrustVO> userEntrustVOs);
+
+    ArrayList<InformationVO> getInformationVOs(String email);
+
 
 }

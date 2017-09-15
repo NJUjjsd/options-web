@@ -38,12 +38,6 @@ public class UserInvestController {
         return JSON.toJSONString(investService.userEntrust(userEntrustVO).toString());
     }
 
-    @PostMapping(value = "/combinationEntrust")
-    public @ResponseBody String combinationEntrust(@RequestBody Map<String, String> combinationEntrust) {
-        InformationVO informationVO = UserInvestVOService.getInformationEntrustVO(combinationEntrust);
-        return JSON.toJSONString(investService.informationEntrust(informationVO));
-    }
-
     @GetMapping(value = "/getUserEntrust")
     public @ResponseBody String getUserEntrust(@RequestParam String email){
         ArrayList<UserEntrustVO> vos = investService.getUserEntrust(email);

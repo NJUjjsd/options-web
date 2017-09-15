@@ -3,32 +3,109 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col } from 'antd';
+import { Row, Col, notification, Table } from 'antd';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import EntrustForm from '../../components/EntrustForm/EntrustForm';
 import HoldingTable from '../../components/HoldingTable/HodingTable';
-import Notification from '../../components/InformTable/Notification';
 
 class Entrust extends React.Component {
-  render() {
-    const { notificationMessage } = this.props;
 
-    const notifications = [];
-    if (notificationMessage !== undefined) {
-      for (let i = 0; i < notificationMessage.length; i += 1) {
-        notifications.push(
-          <Notification index={i} content={notificationMessage[i]} />,
-        );
+  state = {
+    index: 0,
+    notificationMessage: [],
+  };
+  componentWillReceiveProps(nextProps) {
+    const infoList = nextProps.notificationMessage;
+    const notifiList = [];
+    if (infoList !== undefined && infoList.length > 0) {
+      for (const info of infoList) {
+        const data = [];
+        data[0] = {
+          code: info.code,
+          name: info.optionName,
+          type: info.isBuy ? '买入' : '卖出',
+          price: info.price,
+          profitPerPiece: info.profitPerPiece,
+        };
+        data[1] = {
+          code: info.upCode,
+          name: info.upOptionName,
+          type: info.upIsBuy ? '买入' : '卖出',
+          price: info.upPrice,
+          profitPerPiece: info.profitPerPiece,
+        };
+        data[2] = {
+          code: info.downCode,
+          name: info.downOptionName,
+          type: info.downIsBuy ? '买入' : '卖出',
+          price: info.downPrice,
+          profitPerPiece: info.profitPerPiece,
+        };
+        notifiList.push(data);
       }
-      console.log('render in entrust page', notifications);
+      const i = this.state.index += 1;
+      this.setState({
+        notificationMessage: notifiList,
+        index: i,
+      });
     }
-
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.notificationMessage.length > 0) {
+      const columns = [{
+        title: '代码',
+        dataIndex: 'code',
+      }, {
+        title: '名称',
+        dataIndex: 'name',
+      }, {
+        title: '类型',
+        dataIndex: 'type',
+      }, {
+        title: '价格',
+        dataIndex: 'price',
+      }, {
+        title: '每份获利',
+        dataIndex: 'profitPerPiece',
+        render(value, row, i) {
+          const obj = {
+            children: value,
+            props: {},
+          };
+          if (i === 0) {
+            obj.props.rowSpan = 3;
+          } else {
+            obj.props.rowSpan = 0;
+          }
+          return obj;
+        },
+      }];
+      const len = nextState.notificationMessage.length;
+      const eachNotification = [
+        <Table
+          dataSource={nextState.notificationMessage[len - 1]}
+          columns={columns}
+          bordered
+          pagination={false}
+          style={{ marginTop: 10, marginBottom: 20 }}
+          key="0"
+        />];
+      console.log('index', nextState.index);
+      const type = 'info';
+      notification[type]({
+        key: nextState.index,
+        message: '为您推荐最优套利组合',
+        description: eachNotification,
+        duration: 3,
+        top: 100,
+        style: { width: 520, marginLeft: -180, paddingTop: 30, paddingBottom: 20, backgroundColor: '#F3F3F3' },
+      });
+    }
+  }
+  render() {
     return (
       <MainLayout location={this.props.location}>
         <Row style={{ marginTop: 25 }}>
-          <Col offset={12} span={7}>
-            {notifications}
-          </Col>
           <Col offset={4} span={8}>
             <Row style={{ marginBottom: 30 }}>
               <h1 style={{ marginBottom: 20 }}>委托买入</h1>
@@ -78,6 +155,7 @@ function mapStateToProps(state) {
     assets,
   } = state.userInvest;
   const { notificationMessage } = state.websocket;
+
   console.log('the information in page', notificationMessage);
   return {
     noRiskRate,

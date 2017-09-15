@@ -11,8 +11,6 @@ public class InformationVO {
     private String optionName;
     // ETF价格（元／股）
     private String price;
-    // ETF数量 (手，即100股)
-    private String optionNum;
     // ETF交易类型
     private boolean isBuy;
 
@@ -22,8 +20,6 @@ public class InformationVO {
     private String upOptionName;
     // 看涨期权价格（元／份）
     private String upPrice;
-    // 看涨期权数量（张，即10000份）
-    private String upOptionNum;
     // 看涨期权交易类型
     private boolean upIsBuy;
 
@@ -33,32 +29,27 @@ public class InformationVO {
     private String downOptionName;
     // 看跌期权价格（元／份）
     private String downPrice;
-    // 看跌期权数量（张，即10000份）
-    private String downOptionNum;
     // 看跌期权交易类型
     private boolean downIsBuy;
 
-    // 组合的总利润
-    private String totalProfit;
+    // 组合的利润单价
+    private String profitPerPiece;
 
-    public InformationVO(String email, String code, String optionName, String price, String optionNum, boolean isBuy, String upCode, String upOptionName, String upPrice, String upOptionNum, boolean upIsBuy, String downCode, String downOptionName, String downPrice, String downOptionNum, boolean downIsBuy, String totalProfit) {
+    public InformationVO(String email, String code, String optionName, String price, boolean isBuy, String upCode, String upOptionName, String upPrice, boolean upIsBuy, String downCode, String downOptionName, String downPrice, boolean downIsBuy, String profitPerPiece) {
         this.email = email;
         this.code = code;
         this.optionName = optionName;
         this.price = price;
-        this.optionNum = optionNum;
         this.isBuy = isBuy;
         this.upCode = upCode;
         this.upOptionName = upOptionName;
         this.upPrice = upPrice;
-        this.upOptionNum = upOptionNum;
         this.upIsBuy = upIsBuy;
         this.downCode = downCode;
         this.downOptionName = downOptionName;
         this.downPrice = downPrice;
-        this.downOptionNum = downOptionNum;
         this.downIsBuy = downIsBuy;
-        this.totalProfit = totalProfit;
+        this.profitPerPiece = profitPerPiece;
     }
 
     public String getEmail() {
@@ -77,11 +68,7 @@ public class InformationVO {
         return price;
     }
 
-    public String getOptionNum() {
-        return optionNum;
-    }
-
-    public boolean getIsBuy() {
+    public boolean isBuy() {
         return isBuy;
     }
 
@@ -97,11 +84,7 @@ public class InformationVO {
         return upPrice;
     }
 
-    public String getUpOptionNum() {
-        return upOptionNum;
-    }
-
-    public boolean getUpIsBuy() {
+    public boolean isUpIsBuy() {
         return upIsBuy;
     }
 
@@ -117,15 +100,11 @@ public class InformationVO {
         return downPrice;
     }
 
-    public String getDownOptionNum() {
-        return downOptionNum;
-    }
-
-    public boolean getDownIsBuy() {
+    public boolean isDownIsBuy() {
         return downIsBuy;
     }
 
-    public String getTotalProfit() {
-        return totalProfit;
+    public String getProfitPerPiece() {
+        return profitPerPiece;
     }
 }

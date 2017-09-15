@@ -15,6 +15,7 @@ import com.jjsd.options.service.impl.investModel.AdviceModel;
 import com.jjsd.options.util.BasicInfoUtil;
 import com.jjsd.options.util.InvestMode;
 import com.jjsd.options.util.ResultState;
+import com.jjsd.options.util.UserInvestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -150,50 +151,27 @@ public class InvestServiceImpl implements InvestService {
 
     @Override
     public InvestBasicInfoVO getInvestBasicInfo(String email) {
-//        Map<String, String> contractCodeAndName = UserInvestUtil.getContractCodeAndName();
+        Map<String, String> contractCodeAndName = UserInvestUtil.getContractCodeAndName();
+        // 个人资产
+        Property property = userService.loadPropertyByEmail(email);
 
-        // 个人资产 TODO 拿到个人资产再说
-//        Property property = userService.loadPropertyByEmail(email);
+        if(property==null){
+            return new InvestBasicInfoVO(
+                    contractCodeAndName, 0+"", null, "0.00", "0.00", "0.00");
+        }
+        // 可用余额
+        String balance = UserInvestUtil.getBalance(property);
+        // 目前持有
+        ArrayList<HoldingVO> holding = UserInvestUtil.getHolding(property);
+        // 最高无风险利率
+        String noRiskRate = property.getR()+"";
+        // 本金
+        String principal =UserInvestUtil.getBalance(property);
+        // 总资产
+        String assets = property.getTotal()+"";
 
-//        // 可用余额
-//        String balance = UserInvestUtil.getBalance(property);
-//        // 目前持有
-//        ArrayList<HoldingVO> holding = UserInvestUtil.getHolding(property);
-//        // 最高无风险利率
-//        String noRiskRate = property.getR()+"";
-//        // 本金
-//        String principal = property.getB()+"";
-//        // 总资产
-//        String assets = property.getTotal()+"";
-
-//        return new InvestBasicInfoVO(
-//                contractCodeAndName, balance, holding, noRiskRate, principal, assets);
-
-        Map<String, String > contractCodeAndName = new HashMap<>();
-        contractCodeAndName.put("510050", "上证50ETF");
-        contractCodeAndName.put("510050C1709M02250", "名字1");
-        contractCodeAndName.put("510050P1709M02250", "名字2");
-        contractCodeAndName.put("510050C1709M02300", "名字3");
-
-        String balance = "10000.99";
-
-        ArrayList<HoldingVO> holding = new ArrayList<>(4);
-        HoldingVO vo0 = new HoldingVO("510050C1709M02250", email+"名字1", "100", "2.45", "+0.34", "+10000");
-        HoldingVO vo1 = new HoldingVO("510050P1709M02250", email+"名字2",  "200", "2.45", "+0.34", "+10000");
-        HoldingVO vo2 = new HoldingVO("510050C1709M02300", email+"名字3", "300", "2.45", "+0.34", "+10000");
-        HoldingVO vo3 = new HoldingVO("510050", "上证50ETF", "400", "2.45", "+0.34", "+10000");
-        holding.add(vo0);
-        holding.add(vo1);
-        holding.add(vo2);
-        holding.add(vo3);
-
-        String noRiskRate = "0.025";
-        String principal = "5000";
-        String assets = "15000";
-
-        InvestBasicInfoVO investBasicInfoVO = new InvestBasicInfoVO(
+        return new InvestBasicInfoVO(
                 contractCodeAndName, balance, holding, noRiskRate, principal, assets);
-        return investBasicInfoVO;
     }
 
     @Override
@@ -208,38 +186,6 @@ public class InvestServiceImpl implements InvestService {
 
         boolean result = userService.makeOrder(entrustment);
         return result ? ResultState.SUCCEED : ResultState.FAIL;
-    }
-
-    @Override
-    public ResultState informationEntrust(InformationVO informationVO) {
-        Entrustment entrustment_ETF = new Entrustment();
-
-        entrustment_ETF.setBuy(informationVO.getIsBuy());
-        entrustment_ETF.setCode(informationVO.getCode());
-        entrustment_ETF.setOptionName(informationVO.getOptionName());
-        entrustment_ETF.setPrice(Double.valueOf(informationVO.getPrice()));
-        entrustment_ETF.setOptionNum(Integer.valueOf(informationVO.getOptionNum()));
-
-        Entrustment entrustment_up = new Entrustment();
-        entrustment_up.setBuy(informationVO.getUpIsBuy());
-        entrustment_up.setCode(informationVO.getUpCode());
-        entrustment_up.setOptionName(informationVO.getUpOptionName());
-        entrustment_up.setPrice(Double.valueOf(informationVO.getUpPrice()));
-        entrustment_up.setOptionNum(Integer.valueOf(informationVO.getUpOptionNum()));
-
-        Entrustment entrustment_down = new Entrustment();
-        entrustment_down.setBuy(informationVO.getDownIsBuy());
-        entrustment_down.setCode(informationVO.getDownCode());
-        entrustment_down.setOptionName(informationVO.getDownOptionName());
-        entrustment_down.setPrice(Double.valueOf(informationVO.getDownPrice()));
-        entrustment_down.setOptionNum(Integer.valueOf(informationVO.getDownOptionNum()));
-
-        boolean result_ETF = userService.makeOrder(entrustment_ETF);
-        boolean result_up = userService.makeOrder(entrustment_up);
-        boolean result_down = userService.makeOrder(entrustment_down);
-
-        return result_ETF && result_up && result_down
-                ? ResultState.SUCCEED : ResultState.FAIL;
     }
 
     @Override
@@ -270,6 +216,46 @@ public class InvestServiceImpl implements InvestService {
             }
         }
         return ResultState.SUCCEED;
+    }
+
+    @Override
+    public ArrayList<InformationVO> getInformationVOs(String email) {
+
+        // 组合策略列表
+        List<RecommendationVO> recommendationVOs = this.getDecision(email);
+        // 返回的组合列表
+        ArrayList<InformationVO> informationVOs = new ArrayList<>();
+        // 代码－名称
+        Map<String, String> contactAndName = UserInvestUtil.getContractCodeAndName();
+
+        for (RecommendationVO rec:recommendationVOs) {
+            // 根据代码拿到名称
+            String upCode = rec.getCallOptionCode();
+            String upOptionName = contactAndName.get(upCode);
+            String upPrice = rec.getX()+"";
+            boolean upIsBuy = true;
+
+            String code = "510050";
+            String optionName = contactAndName.get(code);
+            String price = rec.getZ()+"";
+            boolean isBuy = !upIsBuy;
+
+            String downCode = rec.getPutOptionCode();
+            String downOptionName = contactAndName.get(downCode);
+            String downPrice = rec.getY()+"";
+            boolean downIsBuy = !upIsBuy;
+
+            String each = rec.getProfit()+"";
+
+            InformationVO info = new InformationVO(
+                    email, code, optionName, price, isBuy,
+                    upCode, upOptionName, upPrice, upIsBuy,
+                    downCode, downOptionName, downPrice, downIsBuy,
+                    each);
+            informationVOs.add(info);
+        }
+
+        return informationVOs;
     }
 
 
