@@ -14,7 +14,6 @@ import com.jjsd.options.service.UserService;
 import com.jjsd.options.service.impl.investModel.AdviceModel;
 import com.jjsd.options.util.BasicInfoUtil;
 import com.jjsd.options.util.InvestMode;
-import com.jjsd.options.util.UserInvestUtil;
 import com.jjsd.options.util.ResultState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,6 +101,9 @@ public class InvestServiceImpl implements InvestService {
                 Option option2=new Option();
                 option2.setCode(contactInfoVO.getUpTradingCode());
                 RecommendationVO recommendationVO=new RecommendationVO();
+                recommendationVO.setX(Double.parseDouble(contactInfoVO.getUpCurrentPrice()));
+                recommendationVO.setY(Double.parseDouble(contactInfoVO.getDownCurrentPrice()));
+                recommendationVO.setZ(Double.parseDouble(marketDao.getETFBasicInfo().getCurPrice()));
 
                 if((modelResultVO.getState().equals("BUY")&&!l.contains(option1))){
                     adviceModel=new AdviceModel(Double.parseDouble(contactInfoVO.getUpCurrentPrice()),Double.parseDouble(contactInfoVO.getDownCurrentPrice()),Double.parseDouble(marketDao.getETFBasicInfo().getCurPrice()),Double.parseDouble(contactInfoVO.getUpExercisePrice()),property.getR(),cost.getC1(),cost.getC2(),cost.getC3(),cost.getC4(),cost.getC5(),cost.getC6(),remainderDays, InvestMode.ONLY_BUY);

@@ -15,6 +15,17 @@ public class RecommendationVO {
 
     private boolean isCallBuy;
 
+    //涨
+    private double x;
+
+    //跌
+    private double y;
+
+    //etf
+    private double z;
+
+    private int a;
+
     private double profit;
 
     public boolean isOnlyBuy() {
@@ -55,5 +66,37 @@ public class RecommendationVO {
 
     public void setProfit(double profit) {
         this.profit = profit;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public void setZ(double z) {
+        this.z = z;
+    }
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
     }
 }
