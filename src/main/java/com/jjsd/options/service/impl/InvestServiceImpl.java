@@ -1,6 +1,5 @@
 package com.jjsd.options.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.jjsd.options.dao.CostRepository;
 import com.jjsd.options.dao.MarketDao;
 import com.jjsd.options.dao.PropertyRepository;

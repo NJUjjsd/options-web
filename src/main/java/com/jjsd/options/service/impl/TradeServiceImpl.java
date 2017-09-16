@@ -69,7 +69,11 @@ public class TradeServiceImpl implements TradeService{
      * 处理全部委托
      */
     public void dealAllTrade(){
-        ArrayList<Entrustment> allTrade = (ArrayList<Entrustment>) entrustmentRepository.findAll();  //待补全
+        if (entrustmentRepository.findAll().size()==0){
+            return;
+        }
+        ArrayList<Entrustment> allTrade = (ArrayList<Entrustment>) entrustmentRepository.findAll();
+        //待补全
         for(Entrustment entrustment:allTrade){
             double tradeMoney = dealOneTrade(entrustment);
             if(tradeMoney>0){

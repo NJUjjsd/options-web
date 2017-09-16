@@ -538,17 +538,20 @@ public class CrawlerUtil {
     @Scheduled(cron="0 0/30 1-2 * * ?")
     private void update(){
         for (String key:CrawlerUtil.stockCode.keySet()){
+            try {
+                if (key.equals("510050")) {
+                    newsRepository.save(getROfEFromHexun());
+                    newsRepository.save(getNofEFromTencent());
 
-            if (key.equals("510050")){
-                newsRepository.save(getROfEFromHexun());
-                newsRepository.save(getNofEFromTencent());
+                } else {
+                    newsRepository.save(getRFromSina(key));
+                    newsRepository.save(getAFromSina(key));
+                    newsRepository.save(getNFromSina(key));
+                    newsRepository.save(getNFromIfeng(key));
 
-            }else {
-                newsRepository.save(getRFromSina(key));
-                newsRepository.save(getAFromSina(key));
-                newsRepository.save(getNFromSina(key));
-                newsRepository.save(getNFromIfeng(key));
-
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
 
@@ -557,7 +560,12 @@ public class CrawlerUtil {
 
     @Scheduled(cron="0 0/1 9-15 * * ?")
     public void deal() {
-        tradeService.dealAllTrade();
+
+        try {
+            tradeService.dealAllTrade();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
