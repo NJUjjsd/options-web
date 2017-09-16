@@ -1,6 +1,4 @@
 # options-web by nju-jjsd
-start ！
-
 EO 前端采用react+dva+antd进行开发，以下简单对本项目的前端开发进行说明：
     
     1.下载node.js
@@ -19,6 +17,10 @@ EO 前端采用react+dva+antd进行开发，以下简单对本项目的前端开
       npm i dva-loading --save
       
    
-    参考：https://github.com/sorrycc/blog/issues/18#issue-196860620    
+    参考：https://github.com/sorrycc/blog/issues/18#issue-196860620   
     
-    演示地址：http://101.132.126.56:8888/
+    
+    
+    
+项目演示地址：http://101.132.126.56:8888/
+有问题请联系916110197@qq.com
